@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers - HISAB PRO V5</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.nav-brand{color:#fff;font-size:20px;font-weight:700;padding:16px 0}.nav-links{display:flex;gap:4px}.nav-link{color:#d1fae5;text-decoration:none;padding:18px 16px;display:block;font-weight:500;font-size:15px;transition:all.2s}.nav-link:hover{background:#15803d;color:#fff}.nav-link.active{background:#15803d;color:#fff}.nav-user{display:flex;align-items:center;gap:12px}#userEmail{color:#d1fae5;font-size:14px}.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}.menu-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}.container{max-width:900px;margin:0 auto;padding:20px 16px}.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}.card h3{margin-bottom:16px;font-size:18px}input{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:16px}input:focus{outline:none;border-color:#16a34a}
+
+    /* ✅ Text link style actions - sabse clean */
+  .action-link{background:none;border:none;padding:0;cursor:pointer;font-size:13px;font-weight:600;margin-right:12px;text-decoration:none;transition:all.15s}
+  .action-link:hover{text-decoration:underline}
+  .link-blue{color:#2563eb}.link-blue:hover{color:#1d4ed8}
+  .link-red{color:#dc2626}.link-red:hover{color:#b91c1c}
+  .btn-green{background:#16a34a;color:#fff;border:none;border-radius:6px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px}.btn-green:hover{background:#15803d}
+
+  .table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:16px}.table th{text-align:left;padding:12px;background:#f9fafb;font-weight:600;color:#374151;border-bottom:1px solid #e5e7eb}.table td{padding:12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}.badge{padding:3px 8px;border-radius:10px;font-size:12px;font-weight:600;display:inline-block}.badge-green{background:#d1fae5;color:#065f46}.badge-red{background:#fee2e2;color:#991b1b}
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}.modal.show{display:flex}.modal-box{background:#fff;padding:24px;border-radius:12px;max-width:400px;width:90%}@media (max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#16a34a;flex-direction:column}.nav-links.show{display:flex}.menu-toggle{display:block}#userEmail{display:none}.table{font-size:12px}.table td{padding:8px}}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="nav-brand">HISAB PRO V5</div>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="/dashboard.html" class="nav-link">Dashboard</a>
+        <a href="/invoice.html" class="nav-link">New Invoice</a>
+        <a href="/customers.html" class="nav-link active">Customers</a>
+        <a href="/reports.html" class="nav-link">Reports</a>
+      </div>
+      <div class="nav-user">
+        <span id="userEmail"></span>
+        <button class="btn-logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <h3>Search Customer Udhar</h3>
+      <input type="text" id="searchInput" placeholder="Customer name, udhar amount, ya date se search karo...">
+    </div>
+
+    <div class="card">
+      <h3>All Customers</h3>
+      <table class="table">
+        <thead>
+          <tr><th>Name</th><th>Phone</th><th>Total Udhar</th><th>Last Invoice Date</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="customersTable">
+          <tr><td colspan="5" style="text-align:center;color:#999">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal" id="collectModal">
+    <div class="modal-box">
+      <h3 style="margin-bottom:16px">Collect Udhar</h3>
+      <p style="margin-bottom:12px">Customer: <strong id="collectCustomerName"></strong></p>
+      <p style="margin-bottom:12px">Total Udhar: <strong id="collectTotalDue" style="color:#dc2626"></strong></p>
+      <label style="display:block;margin-bottom:6px;font-weight:600;font-size:14px">Amount Collecting</label>
+      <input type="number" id="collectAmount" placeholder="Enter amount" style="margin-bottom:16px">
+      <div style="display:flex;gap:8px">
+        <button class="btn-green" style="width:100%" onclick="confirmCollect()">Collect</button>
+        <button class="action-link link-red" style="width:100%;padding:10px 16px;font-size:14px;text-align:center;border:1px solid #dc2626;border-radius:6px" onclick="closeCollectModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) window.location.replace('/login.html')
+    if (session?.user?.email) document.getElementById('userEmail').innerText = session.user.email
+    document.getElementById('logoutBtn').onclick = async () => { await supabase.auth.signOut(); window.location.replace('/login.html') }
+    document.getElementById('menuToggle').onclick = () => { document.getElementById('navLinks').classList.toggle('show') }
+
+    let allCustomers = [], selectedCustomer = null
+
+    async function loadCustomers() {
+      const { data: customers } = await supabase.from('customers').select('id, name, phone').eq('user_id', session.user.id).order('name')
+      const customersWithUdar = await Promise.all(customers.map(async (c) => {
+        const { data: invoices } = await supabase.from('invoices').select('balance_due, date').eq('customer_id', c.id).eq('status', 'unpaid')
+        const totalUdar = invoices?.reduce((sum, inv) => sum + Number(inv.balance_due), 0) || 0
+        const lastDate = invoices?.[0]?.date || null
+        return {...c, totalUdar, lastDate }
+      }))
+      allCustomers = customersWithUdar
+      renderCustomers(allCustomers)
+    }
+
+    function renderCustomers(customers) {
+      const tbody = document.getElementById('customersTable')
+      tbody.innerHTML = customers.length? customers.map(c => `
+        <tr>
+          <td>${c.name}</td><td>${c.phone || '-'}</td>
+          <td>${c.totalUdar > 0? `<span class="badge badge-red">₹${c.totalUdar.toLocaleString('en-IN')}</span>` : `<span class="badge badge-green">Clear</span>`}</td>
+          <td>${c.lastDate? new Date(c.lastDate).toLocaleDateString('en-GB') : '-'}</td>
+          <td>
+            ${c.totalUdar > 0? `<button class="action-link link-blue" onclick="openCollectModal('${c.id}', '${c.name}', ${c.totalUdar})">Collect</button>` : ''}
+            <button class="action-link link-red" onclick="deleteCustomer('${c.id}')">Delete</button>
+          </td>
+        </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:#999">No customers found</td></tr>'
+    }
+
+    window.openCollectModal = (id, name, totalDue) => {
+      selectedCustomer = { id, name, totalDue }
+      document.getElementById('collectCustomerName').innerText = name
+      document.getElementById('collectTotalDue').innerText = `₹${totalDue.toLocaleString('en-IN')}`
+      document.getElementById('collectAmount').value = totalDue
+      document.getElementById('collectAmount').max = totalDue
+      document.getElementById('collectModal').classList.add('show')
+    }
+
+    window.closeCollectModal = () => { document.getElementById('collectModal').classList.remove('show'); selectedCustomer = null }
+
+    window.confirmCollect = async () => {
+      const amount = Number(document.getElementById('collectAmount').value)
+      if (!amount || amount <= 0) return alert('Amount daalo bhai')
+      if (amount > selectedCustomer.totalDue) return alert('Udhar se zyada collect nahi kar sakte')
+      try {
+        const { data: invoices } = await supabase.from('invoices').select('id, balance_due, amount_paid').eq('customer_id', selectedCustomer.id).eq('status', 'unpaid').order('date', { ascending: true })
+        let remainingAmount = amount
+        for (const inv of invoices) {
+          if (remainingAmount <= 0) break
+          const payAmount = Math.min(remainingAmount, Number(inv.balance_due))
+          const newPaid = Number(inv.amount_paid) + payAmount
+          const newBalance = Number(inv.balance_due) - payAmount
+          await supabase.from('invoices').update({ amount_paid: newPaid, balance_due: newBalance, status: newBalance <= 0? 'paid' : 'unpaid' }).eq('id', inv.id)
+          remainingAmount -= payAmount
+        }
+        alert(`₹${amount} collected successfully!`)
+        closeCollectModal()
+        loadCustomers()
+      } catch (error) { alert('Error: ' + error.message) }
+    }
+
+    window.deleteCustomer = async (id) => {
+      if (!confirm('Customer delete karna hai?')) return
+      await supabase.from('customers').delete().eq('id', id)
+      loadCustomers()
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const search = e.target.value.toLowerCase()
+      renderCustomers(allCustomers.filter(c => c.name.toLowerCase().includes(search) || String(c.totalUdar).includes(search)))
+    })
+    loadCustomers()
+  </script>
+</body>
+</html>

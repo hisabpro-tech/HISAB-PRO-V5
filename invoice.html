@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Invoice - HISAB PRO V5</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.nav-brand{color:#fff;font-size:20px;font-weight:700;padding:16px 0}.nav-links{display:flex;gap:4px}.nav-link{color:#d1fae5;text-decoration:none;padding:18px 16px;display:block;font-weight:500;font-size:15px;transition:all.2s}.nav-link:hover{background:#15803d;color:#fff}.nav-link.active{background:#15803d;color:#fff}.nav-user{display:flex;align-items:center;gap:12px}#userEmail{color:#d1fae5;font-size:14px}.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}.menu-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}.container{max-width:900px;margin:0 auto;padding:20px 16px}.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}.card h3{margin-bottom:16px;font-size:18px}label{display:block;margin-bottom:6px;font-weight:600;font-size:14px;color:#374151}input,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:16px}input:focus,select:focus{outline:none;border-color:#16a34a}input[readonly]{background:#f9fafb;cursor:not-allowed}.btn{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:12px 20px;cursor:pointer;font-weight:600;font-size:15px;width:100%}.btn:hover{background:#15803d}.btn-small{padding:8px 12px;font-size:14px;width:auto}.btn-red{background:#dc2626}.btn-red:hover{background:#b91c1c}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.grid-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:end}.table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:16px}.table th{text-align:left;padding:12px;background:#f9fafb;font-weight:600;color:#374151;border-bottom:1px solid #e5e7eb}.table td{padding:12px;border-bottom:1px solid #f3f4f6}.total-box{background:#f0fdf4;padding:16px;border-radius:8px;margin-bottom:16px;border:2px solid #d1fae5}.total-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:15px}.total-row.final{font-size:20px;font-weight:700;color:#16a34a;padding-top:8px;border-top:2px solid #d1fae5}@media (max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#16a34a;flex-direction:column}.nav-links.show{display:flex}.menu-toggle{display:block}#userEmail{display:none}.grid-2,.grid-3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="nav-brand">HISAB PRO V5</div>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="/dashboard.html" class="nav-link">Dashboard</a>
+        <a href="/invoice.html" class="nav-link active">New Invoice</a>
+        <a href="/customers.html" class="nav-link">Customers</a>
+        <a href="/reports.html" class="nav-link">Reports</a>
+      </div>
+      <div class="nav-user">
+        <span id="userEmail"></span>
+        <button class="btn-logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <h3>Customer Details</h3>
+      <div class="grid-2">
+        <div>
+          <label>Customer Name</label>
+          <input type="text" id="customerName" placeholder="Enter customer name" />
+        </div>
+        <div>
+          <label>Invoice Date</label>
+          <input type="date" id="invoiceDate" readonly />
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Add Items</h3>
+      <div class="grid-3">
+        <div>
+          <label>Item Name</label>
+          <input type="text" id="itemName" placeholder="Product name" />
+        </div>
+        <div>
+          <label>Qty</label>
+          <input type="number" id="itemQty" value="1" min="1" />
+        </div>
+        <div>
+          <label>Price</label>
+          <input type="number" id="itemPrice" placeholder="0" />
+        </div>
+      <button class="btn btn-small" onclick="addItem()">+ Add Item</button>
+    </div>
+
+    <div class="card">
+      <h3>Invoice Items</h3>
+      <table class="table">
+        <thead>
+          <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th><th>Action</th></tr>
+        </thead>
+        <tbody id="itemsTable">
+          <tr><td colspan="5" style="text-align:center;color:#999">No items added</td></tr>
+        </tbody>
+      </table>
+
+      <div class="total-box">
+        <div class="total-row final">
+          <span>Total Amount:</span>
+          <span id="totalAmount">₹0</span>
+        </div>
+      </div>
+
+      <label>Payment Mode</label>
+      <select id="paymentType">
+        <option value="cash">Cash - Full Payment</option>
+        <option value="udhar">Udhar - Partial Payment</option>
+      </select>
+
+      <label>Amount Paid</label>
+      <input type="number" id="amountPaid" placeholder="0" value="0" />
+
+      <div class="total-box">
+        <div class="total-row">
+          <span>Balance Due:</span>
+          <span id="balanceDue" style="color:#dc2626;font-weight:700">₹0</span>
+        </div>
+      </div>
+
+      <button class="btn" onclick="saveInvoice()">Save Invoice</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) window.location.replace('/login.html')
+    if (session?.user?.email) document.getElementById('userEmail').innerText = session.user.email
+    document.getElementById('logoutBtn').onclick = async () => { await supabase.auth.signOut(); window.location.replace('/login.html') }
+    document.getElementById('menuToggle').onclick = () => { document.getElementById('navLinks').classList.toggle('show') }
+
+    // Invoice date auto today + readonly
+    document.getElementById('invoiceDate').valueAsDate = new Date()
+
+    let items = []
+
+    window.addItem = () => {
+      const name = document.getElementById('itemName').value.trim()
+      const qty = Number(document.getElementById('itemQty').value) || 1
+      const price = Number(document.getElementById('itemPrice').value) || 0
+      if (!name || price <= 0) return alert('Item name aur price daalo bhai')
+      items.push({ name, qty, price })
+      renderItems()
+      document.getElementById('itemName').value = ''
+      document.getElementById('itemQty').value = '1'
+      document.getElementById('itemPrice').value = ''
+      document.getElementById('itemName').focus()
+    }
+
+    window.removeItem = (i) => { items.splice(i, 1); renderItems() }
+
+    function renderItems() {
+      const tbody = document.getElementById('itemsTable')
+      tbody.innerHTML = items.length? items.map((item, i) => `
+        <tr>
+          <td>${item.name}</td><td>${item.qty}</td><td>₹${item.price}</td><td>₹${item.qty * item.price}</td>
+          <td><button class="btn btn-small btn-red" onclick="removeItem(${i})">Delete</button></td>
+        </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:#999">No items added</td></tr>'
+      updateTotals()
+    }
+
+    function updateTotals() {
+      const total = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
+      document.getElementById('totalAmount').innerText = `₹${total}`
+      const paid = Number(document.getElementById('amountPaid').value) || 0
+      document.getElementById('balanceDue').innerText = `₹${total - paid}`
+    }
+
+    document.getElementById('amountPaid').addEventListener('input', updateTotals)
+    document.getElementById('paymentType').addEventListener('change', (e) => {
+      const total = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
+      document.getElementById('amountPaid').value = e.target.value === 'cash'? total : '0'
+      updateTotals()
+    })
+
+    window.saveInvoice = async () => {
+      const customerName = document.getElementById('customerName').value.trim()
+      const invoiceDate = document.getElementById('invoiceDate').value
+      const paymentType = document.getElementById('paymentType').value
+      const amountPaid = Number(document.getElementById('amountPaid').value) || 0
+
+      if (!customerName) return alert('Customer name daalo bhai')
+      if (items.length === 0) return alert('Koi item add karo')
+
+      const totalAmount = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
+      const balanceDue = totalAmount - amountPaid
+      if (paymentType === 'cash' && balanceDue > 0) return alert('Cash me poora paisa do ya Udhar select karo')
+
+      try {
+        // 1. Customer find karo ya create karo
+        let customerId
+        const { data: existingCustomer } = await supabase
+        .from('customers')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .eq('name', customerName)
+        .single()
+
+        if (existingCustomer) {
+          customerId = existingCustomer.id
+        } else {
+          const { data: newCustomer, error: customerError } = await supabase
+          .from('customers')
+          .insert({ user_id: session.user.id, name: customerName })
+          .select()
+          .single()
+          if (customerError) throw customerError
+          customerId = newCustomer.id
+        }
+
+        // 2. Invoice save karo
+        const { data: invoice, error: invoiceError } = await supabase.from('invoices').insert({
+          user_id: session.user.id, customer_id: customerId, date: invoiceDate,
+          total_amount: totalAmount, amount_paid: amountPaid, balance_due: balanceDue,
+          payment_type: paymentType, status: balanceDue > 0? 'unpaid' : 'paid'
+        }).select().single()
+        if (invoiceError) throw invoiceError
+
+        // 3. Items save karo
+        const itemsData = items.map(item => ({
+          invoice_id: invoice.id, item_name: item.name, qty: item.qty,
+          price: item.price, total: item.qty * item.price, user_id: session.user.id
+        }))
+        const { error: itemsError } = await supabase.from('invoice_items').insert(itemsData)
+        if (itemsError) throw itemsError
+
+        alert('Invoice saved! Invoice No: ' + invoice.id)
+
+        // Form reset - redirect hata diya
+        document.getElementById('customerName').value = ''
+        items = []
+        renderItems()
+        document.getElementById('paymentType').value = 'cash'
+        document.getElementById('amountPaid').value = '0'
+        updateTotals()
+        document.getElementById('customerName').focus()
+
+      } catch (error) {
+        console.log(error)
+        alert('Error: ' + error.message)
+      }
+    }
+  </script>
+</body>
+</html>
