@@ -58,6 +58,7 @@
           <label>Price</label>
           <input type="number" id="itemPrice" placeholder="0" />
         </div>
+      </div>
       <button class="btn btn-small" onclick="addItem()">+ Add Item</button>
     </div>
 
@@ -100,8 +101,8 @@
   </div>
 
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-    const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+    import { supabase } from './js/supabaseClient.js'
+
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) window.location.replace('/login.html')
     if (session?.user?.email) document.getElementById('userEmail').innerText = session.user.email
@@ -166,28 +167,26 @@
       if (paymentType === 'cash' && balanceDue > 0) return alert('Cash me poora paisa do ya Udhar select karo')
 
       try {
-        // 1. Customer find karo ya create karo
         let customerId
         const { data: existingCustomer } = await supabase
-        .from('customers')
-        .select('id')
-        .eq('user_id', session.user.id)
-        .eq('name', customerName)
-        .single()
+      .from('customers')
+      .select('id')
+      .eq('user_id', session.user.id)
+      .eq('name', customerName)
+      .single()
 
         if (existingCustomer) {
           customerId = existingCustomer.id
         } else {
           const { data: newCustomer, error: customerError } = await supabase
-          .from('customers')
-          .insert({ user_id: session.user.id, name: customerName })
-          .select()
-          .single()
+        .from('customers')
+        .insert({ user_id: session.user.id, name: customerName })
+        .select()
+        .single()
           if (customerError) throw customerError
           customerId = newCustomer.id
         }
 
-        // 2. Invoice save karo
         const { data: invoice, error: invoiceError } = await supabase.from('invoices').insert({
           user_id: session.user.id, customer_id: customerId, date: invoiceDate,
           total_amount: totalAmount, amount_paid: amountPaid, balance_due: balanceDue,
@@ -195,7 +194,6 @@
         }).select().single()
         if (invoiceError) throw invoiceError
 
-        // 3. Items save karo
         const itemsData = items.map(item => ({
           invoice_id: invoice.id, item_name: item.name, qty: item.qty,
           price: item.price, total: item.qty * item.price, user_id: session.user.id
@@ -205,7 +203,6 @@
 
         alert('Invoice saved! Invoice No: ' + invoice.id)
 
-        // Form reset - redirect hata diya
         document.getElementById('customerName').value = ''
         items = []
         renderItems()
