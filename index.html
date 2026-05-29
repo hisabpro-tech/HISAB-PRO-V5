@@ -1,11 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HISAB PRO V5</title>
-  </head>
-  <body>
-    <script type="module" src="/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - HISAB PRO V5</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}.login-card{background:#fff;padding:32px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);width:100%;max-width:400px}.login-card h1{color:#16a34a;text-align:center;margin-bottom:8px;font-size:28px}.login-card p{text-align:center;color:#666;margin-bottom:24px}.form-group{margin-bottom:16px}.form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:14px}.form-group input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:15px}.btn{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:14px;cursor:pointer;font-weight:700;font-size:16px;width:100%;margin-top:8px}.btn:hover{background:#15803d}.btn:disabled{background:#9ca3af;cursor:not-allowed}.toggle-link{text-align:center;margin-top:16px;color:#666;font-size:14px}.toggle-link span{color:#16a34a;cursor:pointer;font-weight:600}#msg{text-align:center;margin-top:12px;font-size:14px;min-height:20px}
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h1>HISAB PRO V5</h1>
+    <p id="formTitle">Login to your account</p>
+    
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="you@example.com">
+    </div>
+    
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••">
+    </div>
+    
+    <button class="btn" id="submitBtn">Login</button>
+    <p id="msg"></p>
+    
+    <div class="toggle-link">
+      <span id="toggleText">Don't have an account? Sign up</span>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    const supabase = createClient(
+      'https://kczpfgpfnkopdsdfkgde.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjenBmZ3BmbmtvcGRzZGZrZ2RlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MDQ1MTMsImV4cCI6MjA5NTI4MDUxM30.yz6SAi7LA2XfRcJN1ssCN0tCzkcP5pWKo8tN0OV_QAc'
+    )
+
+    // Already logged in hai to dashboard bhej do
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session) window.location.replace('/dashboard.html')
+
+    let isLogin = true
+    const emailInput = document.getElementById('email')
+    const passwordInput = document.getElementById('password')
+    const submitBtn = document.getElementById('submitBtn')
+    const toggleText = document.getElementById('toggleText')
+    const formTitle = document.getElementById('formTitle')
+    const msg = document.getElementById('msg')
+
+    toggleText.onclick = () => {
+      isLogin = !isLogin
+      submitBtn.innerText = isLogin ? 'Login' : 'Sign Up'
+      formTitle.innerText = isLogin ? 'Login to your account' : 'Create new account'
+      toggleText.innerText = isLogin ? "Don't have an account? Sign up" : 'Already have account? Login'
+      msg.innerText = ''
+    }
+
+    submitBtn.onclick = async () => {
+      const email = emailInput.value.trim()
+      const password = passwordInput.value.trim()
+      
+      if (!email || !password) {
+        msg.innerText = '❌ Email aur Password daalo'
+        msg.style.color = '#dc2626'
+        return
+      }
+
+      submitBtn.disabled = true
+      msg.innerText = 'Loading...'
+      msg.style.color = '#666'
+
+      try {
+        let result
+        if (isLogin) {
+          result = await supabase.auth.signInWithPassword({ email, password })
+        } else {
+          result = await supabase.auth.signUp({ email, password })
+        }
+
+        if (result.error) throw result.error
+
+        if (!isLogin) {
+          msg.innerText = '✅ Signup ho gaya! Ab Login karo'
+          msg.style.color = '#16a34a'
+          isLogin = true
+          submitBtn.innerText = 'Login'
+          formTitle.innerText = 'Login to your account'
+          toggleText.innerText = "Don't have an account? Sign up"
+        } else {
+          window.location.replace('/dashboard.html')
+        }
+      } catch (error) {
+        msg.innerText = '❌ ' + error.message
+        msg.style.color = '#dc2626'
+      } finally {
+        submitBtn.disabled = false
+      }
+    }
+  </script>
+</body>
 </html>
