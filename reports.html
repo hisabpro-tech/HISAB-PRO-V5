@@ -73,8 +73,9 @@
   </div>
 
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-    const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+    // 👇 Sirf ye 1 line badli - ab central file se import
+    import { supabase } from './js/supabaseClient.js'
+
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) window.location.replace('/login.html')
     if (session?.user?.email) document.getElementById('userEmail').innerText = session.user.email
@@ -87,12 +88,12 @@
       const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0]
 
       const { data: monthInvoices } = await supabase
-     .from('invoices')
-     .select('*, customers(name)')
-     .eq('user_id', session.user.id)
-     .gte('date', firstDay)
-     .lte('date', lastDay)
-     .order('date', { ascending: false })
+   .from('invoices')
+   .select('*, customers(name)')
+   .eq('user_id', session.user.id)
+   .gte('date', firstDay)
+   .lte('date', lastDay)
+   .order('date', { ascending: false })
 
       // ✅ FIXED LOGIC: Accounting formula use kiya
       const totalSale = monthInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
