@@ -62,8 +62,9 @@
     import { supabase } from './js/supabaseClient.js'
 
     let currentSession = null
+    let salesChartInstance = null // Chart instance store karne ke liye
 
-    // 1. Auth state change listener - sabse pehle
+    // 1. Auth state change listener
     supabase.auth.onAuthStateChange((event, session) => {
       console.log('Auth event:', event)
 
@@ -114,11 +115,11 @@
       const today = new Date().toISOString().split('T')[0]
 
       const { data: todayInvoices, error: err1 } = await supabase
-       .from('invoices')
-       .select('total_amount, amount_paid')
-       .eq('user_id', currentSession.user.id)
-       .gte('date', today)
-       .lt('date', today + 'T23:59:59')
+      .from('invoices')
+      .select('total_amount, amount_paid')
+      .eq('user_id', currentSession.user.id)
+      .gte('date', today)
+      .lt('date', today + 'T23:59:59')
 
       if (err1) console.error('Today invoices error:', err1)
 
@@ -129,10 +130,10 @@
       document.getElementById('todayCollection').innerText = `₹${todayCollection.toLocaleString('en-IN')}`
 
       const { data: udharInvoices, error: err2 } = await supabase
-       .from('invoices')
-       .select('balance_due')
-       .eq('user_id', currentSession.user.id)
-       .gt('balance_due', 0)
+      .from('invoices')
+      .select('balance_due')
+      .eq('user_id', currentSession.user.id)
+      .gt('balance_due', 0)
 
       if (err2) console.error('Udhar error:', err2)
 
@@ -145,6 +146,11 @@
     async function loadChart() {
       if (!currentSession) return
 
+      // Purana chart destroy kar do agar hai to
+      if (salesChartInstance) {
+        salesChartInstance.destroy()
+      }
+
       const labels = []
       const salesData = []
       const collectionData = []
@@ -156,11 +162,11 @@
         labels.push(date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }))
 
         const { data: dayInvoices } = await supabase
-         .from('invoices')
-         .select('total_amount, amount_paid')
-         .eq('user_id', currentSession.user.id)
-         .gte('date', dateStr)
-         .lt('date', dateStr + 'T23:59:59')
+        .from('invoices')
+        .select('total_amount, amount_paid')
+        .eq('user_id', currentSession.user.id)
+        .gte('date', dateStr)
+        .lt('date', dateStr + 'T23:59:59')
 
         const daySale = dayInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
         const dayCollection = dayInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
@@ -170,7 +176,7 @@
       }
 
       const ctx = document.getElementById('salesChart')
-      new Chart(ctx, {
+      salesChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: labels,
