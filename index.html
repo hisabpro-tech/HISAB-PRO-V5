@@ -32,12 +32,8 @@
   </div>
 
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-    const supabase = createClient(
-      'https://kczpfgpfnkopdsdfkgde.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjenBmZ3BmbmtvcGRzZGZrZ2RlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MDQ1MTMsImV4cCI6MjA5NTI4MDUxM30.yz6SAi7LA2XfRcJN1ssCN0tCzkcP5pWKo8tN0OV_QAc'
-    )
+    // 👇 Bas ye 1 line change hui hai - ab central file se import ho raha
+    import { supabase } from './js/supabaseClient.js'
 
     // Already logged in hai to dashboard bhej do
     const { data: { session } } = await supabase.auth.getSession()

@@ -59,17 +59,44 @@
   </div>
 
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    import { supabase } from './js/supabaseClient.js'
 
-    const supabase = createClient(
-      'https://kczpfgpfnkopdsdfkgde.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjenBmZ3BmbmtvcGRzZGZrZ2RlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MDQ1MTMsImV4cCI6MjA5NTI4MDUxM30.yz6SAi7LA2XfRcJN1ssCN0tCzkcP5pWKo8tN0OV_QAc'
-    )
+    let currentSession = null
 
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) window.location.replace('/login.html')
-    if (session?.user?.email) {
+    // 1. Auth state change listener - sabse pehle
+    supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth event:', event)
+
+      if (event === 'SIGNED_OUT') {
+        window.location.replace('/login.html')
+        return
+      }
+
+      if (event === 'TOKEN_REFRESHED') {
+        console.log('Token refresh ho gaya')
+        currentSession = session
+      }
+
+      if (event === 'SIGNED_IN' && session) {
+        currentSession = session
+        document.getElementById('userEmail').innerText = session.user.email
+        loadDashboard()
+      }
+    })
+
+    // 2. Page load pe session check
+    async function initApp() {
+      const { data: { session }, error } = await supabase.auth.getSession()
+
+      if (error ||!session) {
+        console.log('Session nahi mila, login pe bhej raha')
+        window.location.replace('/login.html')
+        return
+      }
+
+      currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
+      loadDashboard()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -82,14 +109,18 @@
     }
 
     async function loadDashboard() {
+      if (!currentSession) return
+
       const today = new Date().toISOString().split('T')[0]
 
-      const { data: todayInvoices } = await supabase
-   .from('invoices')
-   .select('total_amount, amount_paid')
-   .eq('user_id', session.user.id)
-   .gte('date', today)
-   .lt('date', today + 'T23:59:59')
+      const { data: todayInvoices, error: err1 } = await supabase
+       .from('invoices')
+       .select('total_amount, amount_paid')
+       .eq('user_id', currentSession.user.id)
+       .gte('date', today)
+       .lt('date', today + 'T23:59:59')
+
+      if (err1) console.error('Today invoices error:', err1)
 
       const todaySale = todayInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
       const todayCollection = todayInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
@@ -97,11 +128,13 @@
       document.getElementById('todaySale').innerText = `₹${todaySale.toLocaleString('en-IN')}`
       document.getElementById('todayCollection').innerText = `₹${todayCollection.toLocaleString('en-IN')}`
 
-      const { data: udharInvoices } = await supabase
-   .from('invoices')
-   .select('balance_due')
-   .eq('user_id', session.user.id)
-   .gt('balance_due', 0)
+      const { data: udharInvoices, error: err2 } = await supabase
+       .from('invoices')
+       .select('balance_due')
+       .eq('user_id', currentSession.user.id)
+       .gt('balance_due', 0)
+
+      if (err2) console.error('Udhar error:', err2)
 
       const totalUdhar = udharInvoices?.reduce((sum, inv) => sum + Number(inv.balance_due), 0) || 0
       document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
@@ -110,6 +143,8 @@
     }
 
     async function loadChart() {
+      if (!currentSession) return
+
       const labels = []
       const salesData = []
       const collectionData = []
@@ -121,11 +156,11 @@
         labels.push(date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }))
 
         const { data: dayInvoices } = await supabase
-     .from('invoices')
-     .select('total_amount, amount_paid')
-     .eq('user_id', session.user.id)
-     .gte('date', dateStr)
-     .lt('date', dateStr + 'T23:59:59')
+         .from('invoices')
+         .select('total_amount, amount_paid')
+         .eq('user_id', currentSession.user.id)
+         .gte('date', dateStr)
+         .lt('date', dateStr + 'T23:59:59')
 
         const daySale = dayInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
         const dayCollection = dayInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
@@ -167,7 +202,8 @@
       })
     }
 
-    loadDashboard()
+    // App start karo
+    initApp()
   </script>
 </body>
 </html>
