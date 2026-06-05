@@ -20,10 +20,6 @@
 .container{max-width:1200px;margin:0 auto;padding:20px 16px}
 .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:20px}
 .card h3{font-size:18px;margin-bottom:20px}
-.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}
-.form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:14px}
-.form-group input,.form-group select{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
-.form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
 .stat-card{background:#f9fafb;padding:20px;border-radius:8px;border-left:4px solid #16a34a}
 .stat-card h4{font-size:13px;color:#6b7280;margin-bottom:8px;font-weight:500}
@@ -47,7 +43,6 @@ tr:hover{background:#f9fafb}
 .nav-link{padding:12px 10px;font-size:13px}
 .btn-logout{padding:6px 10px;font-size:12px}
 .card{padding:16px}
-.filters{grid-template-columns:1fr}
 table{font-size:13px}
 th,td{padding:10px 8px}
 }
@@ -74,32 +69,8 @@ th,td{padding:10px 8px}
   <div class="container">
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-        <h3>Sales Reports</h3>
+        <h3>All Invoices</h3>
         <button class="btn-export" id="exportBtn">Export CSV</button>
-      </div>
-
-      <div class="filters">
-        <div class="form-group">
-          <label>From Date</label>
-          <input type="date" id="fromDate">
-        </div>
-        <div class="form-group">
-          <label>To Date</label>
-          <input type="date" id="toDate">
-        </div>
-        <div class="form-group">
-          <label>Payment Type</label>
-          <select id="paymentFilter">
-            <option value="all">All Payments</option>
-            <option value="Cash">Cash</option>
-            <option value="UPI">UPI</option>
-            <option value="Udhar">Udhar</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Search Customer</label>
-          <input type="text" id="searchCustomer" placeholder="Customer name">
-        </div>
       </div>
 
       <div class="stats-grid">
@@ -146,7 +117,6 @@ th,td{padding:10px 8px}
 
     let currentSession = null
     let allInvoices = []
-    let filteredInvoices = []
 
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
@@ -161,12 +131,6 @@ th,td{padding:10px 8px}
       if (!session) return window.location.replace('/login.html')
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
-
-      const today = new Date()
-      const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
-      document.getElementById('fromDate').value = firstDay.toISOString().split('T')[0]
-      document.getElementById('toDate').value = today.toISOString().split('T')[0]
-
       await loadReports()
     }
 
@@ -177,10 +141,10 @@ th,td{padding:10px 8px}
 
     async function loadReports() {
       const { data: invoices, error } = await supabase
-   .from('invoices')
-   .select('id, customer_name, date, total_amount, amount_paid, balance_due, payment_type')
-   .eq('user_id', currentSession.user.id)
-   .order('date', { ascending: false })
+ .from('invoices')
+ .select('id, customer_name, date, total_amount, amount_paid, balance_due, payment_type')
+ .eq('user_id', currentSession.user.id)
+ .order('date', { ascending: false })
 
       if (error) {
         console.error(error)
@@ -189,23 +153,6 @@ th,td{padding:10px 8px}
       }
 
       allInvoices = invoices || []
-      applyFilters()
-    }
-
-    function applyFilters() {
-      const fromDate = document.getElementById('fromDate').value
-      const toDate = document.getElementById('toDate').value
-      const paymentFilter = document.getElementById('paymentFilter').value
-      const searchText = document.getElementById('searchCustomer').value.toLowerCase()
-
-      filteredInvoices = allInvoices.filter(inv => {
-        const invDate = inv.date
-        const matchDate = (!fromDate || invDate >= fromDate) && (!toDate || invDate <= toDate)
-        const matchPayment = paymentFilter === 'all' || inv.payment_type === paymentFilter
-        const matchSearch =!searchText || inv.customer_name.toLowerCase().includes(searchText)
-        return matchDate && matchPayment && matchSearch
-      })
-
       renderTable()
       updateStats()
     }
@@ -213,47 +160,42 @@ th,td{padding:10px 8px}
     function renderTable() {
       const tbody = document.getElementById('reportsTableBody')
 
-      if (filteredInvoices.length === 0) {
+      if (allInvoices.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6" class="no-data">No invoices found</td></tr>'
         return
       }
 
-      tbody.innerHTML = filteredInvoices.map(inv => `
+      tbody.innerHTML = allInvoices.map(inv => `
         <tr>
           <td>${new Date(inv.date).toLocaleDateString('en-GB')}</td>
           <td>${inv.customer_name}</td>
-          <td>₹${inv.total_amount.toLocaleString('en-IN')}</td>
-          <td>₹${inv.amount_paid.toLocaleString('en-IN')}</td>
-          <td>₹${inv.balance_due.toLocaleString('en-IN')}</td>
+          <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
+          <td>₹${Number(inv.amount_paid).toLocaleString('en-IN')}</td>
+          <td>₹${Number(inv.balance_due).toLocaleString('en-IN')}</td>
           <td><span class="badge-${inv.payment_type.toLowerCase()}">${inv.payment_type}</span></td>
         </tr>
       `).join('')
     }
 
     function updateStats() {
-      const totalSales = filteredInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
-      const totalPaid = filteredInvoices.reduce((sum, inv) => sum + Number(inv.amount_paid), 0)
-      const totalDue = filteredInvoices.reduce((sum, inv) => sum + Number(inv.balance_due), 0)
+      const totalSales = allInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
+      const totalPaid = allInvoices.reduce((sum, inv) => sum + Number(inv.amount_paid), 0)
+      const totalDue = allInvoices.reduce((sum, inv) => sum + Number(inv.balance_due), 0)
 
       document.getElementById('totalSales').innerText = `₹${totalSales.toLocaleString('en-IN')}`
       document.getElementById('totalPaid').innerText = `₹${totalPaid.toLocaleString('en-IN')}`
       document.getElementById('totalDue').innerText = `₹${totalDue.toLocaleString('en-IN')}`
-      document.getElementById('totalInvoices').innerText = filteredInvoices.length
+      document.getElementById('totalInvoices').innerText = allInvoices.length
     }
 
-    document.getElementById('fromDate').onchange = applyFilters
-    document.getElementById('toDate').onchange = applyFilters
-    document.getElementById('paymentFilter').onchange = applyFilters
-    document.getElementById('searchCustomer').oninput = applyFilters
-
     document.getElementById('exportBtn').onclick = () => {
-      if (filteredInvoices.length === 0) {
+      if (allInvoices.length === 0) {
         alert('No data to export')
         return
       }
 
       const headers = ['Date', 'Customer', 'Total', 'Paid', 'Due', 'Payment Type']
-      const rows = filteredInvoices.map(inv => [
+      const rows = allInvoices.map(inv => [
         inv.date,
         inv.customer_name,
         inv.total_amount,
