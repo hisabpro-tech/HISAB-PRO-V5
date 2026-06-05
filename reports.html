@@ -1,351 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports - HISAB PRO V5</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-        body{background:#f5f7fa;color:#333}
-       .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-       .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-       .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-       .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-       .nav-links::-webkit-scrollbar{display:none}
-       .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-       .nav-link:hover{background:#15803d;color:#fff}
-       .nav-link.active{background:#15803d;color:#fff}
-       .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
-        #userEmail{color:#d1fae5;font-size:12px;display:none}
-       .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-       .menu-toggle{display:none}
-        @media (max-width:768px){
-         .nav-container{padding:0 8px}
-         .nav-brand{font-size:16px;padding:10px 0}
-         .nav-links{width:100%;order:3;padding-bottom:4px}
-         .nav-link{padding:12px 10px;font-size:13px}
-         .btn-logout{padding:6px 10px;font-size:12px}
-        }
-
-       .container{max-width:1200px;margin:20px auto;padding:0 16px}
-       .filter-buttons{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-       .filter-btn{padding:10px 20px;border:2px solid #e2e8f0;background:#fff;border-radius:8px;cursor:pointer;font-weight:600;transition:all.2s}
-       .filter-btn.active{background:#16a34a;color:#fff;border-color:#16a34a}
-       .filter-btn:hover{border-color:#16a34a}
-
-       .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
-       .stat-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.08);text-align:center}
-       .stat-label{color:#64748b;font-size:14px;margin-bottom:8px}
-       .stat-value{font-size:28px;font-weight:700}
-       .stat-value.green{color:#16a34a}
-       .stat-value.red{color:#dc2626}
-
-       .card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:20px}
-       .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-       .card-header h3{font-size:18px;display:flex;align-items:center;gap:8px}
-       .btn-pdf{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
-       .btn-pdf:hover{background:#15803d}
-
-        table{width:100%;border-collapse:collapse;font-size:14px}
-        th,td{padding:12px 8px;text-align:left;border-bottom:1px solid #f1f5f9}
-        th{background:#f8fafc;font-weight:600;color:#475569;font-size:13px}
-        tr:hover{background:#f8fafc}
-       .status-udhar{color:#dc2626;font-weight:600}
-       .status-paid{color:#16a34a;font-weight:600}
-
-       .empty-state{text-align:center;padding:40px 20px;color:#94a3b8}
-       .empty-state-icon{font-size:48px;margin-bottom:12px}
-
-        @media (max-width:768px){
-         .container{padding:0 12px}
-         .stat-value{font-size:24px}
-          table{font-size:12px}
-          th,td{padding:8px 4px}
-         .hide-mobile{display:none}
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports - HISAB PRO V5</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
+   .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+   .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+   .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+   .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+   .nav-links::-webkit-scrollbar{display:none}
+   .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+   .nav-link:hover{background:#15803d;color:#fff}
+   .nav-link.active{background:#15803d;color:#fff}
+   .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+    #userEmail{color:#d1fae5;font-size:12px;display:none}
+   .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+   .menu-toggle{display:none}
+    .container{max-width:1200px;margin:0 auto;padding:20px 16px}
+    .filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+    .filter-btn{padding:10px 16px;border:2px solid #16a34a;background:#fff;color:#16a34a;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;transition:all.2s}
+    .filter-btn.active{background:#16a34a;color:#fff}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
+    .stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:center}
+    .stat-label{font-size:14px;color:#666;margin-bottom:8px}
+    .stat-value{font-size:28px;font-weight:700;color:#1f2937}
+    .stat-value.green{color:#16a34a}
+    .stat-value.red{color:#dc2626}
+   .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
+   .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+   .card h3{font-size:18px;display:flex;align-items:center;gap:8px;margin:0}
+   .btn-pdf{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
+   .btn-pdf:hover{background:#15803d}
+   .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;margin-top:12px;min-width:600px}
+    th,td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb;font-size:14px}
+    th{background:#f9fafb;font-weight:600;position:sticky;top:0}
+    .empty-msg{text-align:center;padding:40px;color:#666}
+    .badge{padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600}
+    .badge-paid{background:#dcfce7;color:#16a34a}
+    .badge-udhar{background:#fee2e2;color:#dc2626}
+   @media (max-width:768px){
+     .nav-container{padding:0 8px}
+     .nav-brand{font-size:16px;padding:10px 0}
+     .nav-links{width:100%;order:3;padding-bottom:4px}
+     .nav-link{padding:12px 10px;font-size:13px}
+     .btn-logout{padding:6px 10px;font-size:12px}
+     .card{padding:16px}
+     th,td{padding:10px 6px;font-size:13px}
+     .stat-value{font-size:24px}
+   }
+  </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">HISAB PRO V5</div>
-            <div class="nav-links">
-                <a href="dashboard.html" class="nav-link">Dashboard</a>
-                <a href="invoice.html" class="nav-link">New Invoice</a>
-                <a href="customers.html" class="nav-link">Customers</a>
-                <a href="reports.html" class="nav-link active">Reports</a>
-            </div>
-            <div class="nav-user">
-                <span id="userEmail"></span>
-                <button class="btn-logout" id="logoutBtn">Logout</button>
-            </div>
-        </div>
-    </nav>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">HISAB PRO V5</div>
+      <div class="nav-links" id="navLinks">
+        <a href="/dashboard.html" class="nav-link">Dashboard</a>
+        <a href="/invoice.html" class="nav-link">New Invoice</a>
+        <a href="/customers.html" class="nav-link">Customers</a>
+        <a href="/reports.html" class="nav-link active">Reports</a>
+      </div>
+      <div class="nav-user">
+        <span id="userEmail"></span>
+        <button class="btn-logout" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </nav>
 
-    <div class="container">
-        <div class="filter-buttons">
-            <button class="filter-btn active" data-filter="all">All Time</button>
-            <button class="filter-btn" data-filter="month">This Month</button>
-            <button class="filter-btn" data-filter="week">This Week</button>
-            <button class="filter-btn" data-filter="today">Today</button>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Sale</div>
-                <div class="stat-value" id="totalSale">₹0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Total Collection</div>
-                <div class="stat-value green" id="totalCollection">₹0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Total Udhar</div>
-                <div class="stat-value red" id="totalUdhar">₹0</div>
-            </div>
-        </div>
-
-        <div class="card" id="udharCard">
-            <div class="card-header">
-                <h3>⚠️ Udhar Bills - Payment Pending</h3>
-                <button class="btn-pdf" id="downloadPdfBtn">📄 Download PDF</button>
-            </div>
-            <div id="udharTable"></div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h3>All Invoice Details</h3>
-            </div>
-            <div id="allInvoicesTable"></div>
-        </div>
+  <div class="container">
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All Time</button>
+      <button class="filter-btn" data-filter="month">This Month</button>
+      <button class="filter-btn" data-filter="week">This Week</button>
+      <button class="filter-btn" data-filter="today">Today</button>
     </div>
 
-<script>
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <div class="card">
+      <h3 id="reportTitle">All Time Report</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Sale</div>
+          <div class="stat-value" id="totalSale">₹0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Collection</div>
+          <div class="stat-value green" id="totalCollection">₹0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Udhar</div>
+          <div class="stat-value red" id="totalUdhar">₹0</div>
+        </div>
+      </div>
+    </div>
 
-let currentUser = null;
-let allInvoices = [];
-let currentFilter = 'all';
-let filteredUdharInvoices = [];
+    <div class="card">
+      <div class="card-header">
+        <h3>⚠️ Udhar Bills - Payment Pending</h3>
+        <button class="btn-pdf" id="downloadPdfBtn" style="display:none">📄 Download PDF</button>
+      </div>
+      <div class="table-wrap" id="udharTable"></div>
+    </div>
 
-async function init() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-        window.location.href = 'index.html';
-        return;
-    }
-    currentUser = session.user;
-    document.getElementById('userEmail').textContent = currentUser.email;
+    <div class="card">
+      <h3>All Invoice Details</h3>
+      <div class="table-wrap" id="allInvoicesTable"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase } from './js/supabaseClient.js'
+
+    let currentSession = null
+    let currentFilter = 'all'
+    let udharBillsData = []
+    let reportStats = { sale: 0, collection: 0, udhar: 0 }
 
     supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_OUT' ||!session) {
-            window.location.href = 'index.html';
-        } else if (event === 'TOKEN_REFRESHED') {
-            currentUser = session.user;
-            loadReports();
-        }
-    });
+      if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
+      if (session) {
+        currentSession = session
+        document.getElementById('userEmail').innerText = session.user.email
+        loadReports()
+      }
+    })
 
-    await loadReports();
-}
+    async function initApp() {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return window.location.replace('/login.html')
+      currentSession = session
+      document.getElementById('userEmail').innerText = session.user.email
+      loadReports()
+    }
 
-async function loadReports() {
-    const { data, error } = await supabase
+    document.getElementById('logoutBtn').onclick = async () => {
+      await supabase.auth.signOut()
+      window.location.replace('/login.html')
+    }
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
+        currentFilter = btn.dataset.filter
+        loadReports()
+      }
+    })
+
+    function getDateRange(filter) {
+      const today = new Date()
+      let start, end = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
+      let title = 'All Time Report'
+
+      if (filter === 'today') {
+        start = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+        title = 'Today\'s Report'
+      } else if (filter === 'week') {
+        const day = today.getDay()
+        start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - day)
+        title = 'This Week\'s Report'
+      } else if (filter === 'month') {
+        start = new Date(today.getFullYear(), today.getMonth(), 1)
+        title = 'This Month\'s Report'
+      }
+
+      return { start: start?.toISOString(), end: end.toISOString(), title }
+    }
+
+    async function loadReports() {
+      if (!currentSession) return
+
+      const { start, end, title } = getDateRange(currentFilter)
+      document.getElementById('reportTitle').innerText = title
+
+      let query = supabase
        .from('invoices')
-       .select('*')
-       .eq('user_id', currentUser.id)
-       .order('created_at', { ascending: false });
+       .select('*, customers(name)')
+       .eq('user_id', currentSession.user.id)
+       .order('date', { ascending: false })
 
-    if (error) {
-        console.error(error);
-        return;
+      if (start) {
+        query = query.gte('date', start).lte('date', end)
+      }
+
+      const { data: invoices, error } = await query
+
+      if (error) {
+        console.error('Error:', error)
+        return
+      }
+
+      const totalSale = invoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
+      const totalCollection = invoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
+      const totalUdhar = invoices?.reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0) || 0
+
+      reportStats = { sale: totalSale, collection: totalCollection, udhar: totalUdhar }
+
+      document.getElementById('totalSale').innerText = `₹${totalSale.toLocaleString('en-IN')}`
+      document.getElementById('totalCollection').innerText = `₹${totalCollection.toLocaleString('en-IN')}`
+      document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
+
+      udharBillsData = invoices?.filter(inv => inv.balance_due > 0) || []
+      renderUdharTable(udharBillsData)
+      renderAllInvoices(invoices || [])
     }
 
-    allInvoices = data || [];
-    filterData(currentFilter);
-}
+    function renderUdharTable(invoices) {
+      const div = document.getElementById('udharTable')
+      const downloadBtn = document.getElementById('downloadPdfBtn')
+      
+      if (invoices.length === 0) {
+        div.innerHTML = '<div class="empty-msg">🎉 Sab clear hai! Koi udhar bacha nahi</div>'
+        downloadBtn.style.display = 'none'
+        return
+      }
 
-function filterData(filter) {
-    currentFilter = filter;
-    const now = new Date();
-    let filtered = allInvoices;
-
-    if (filter === 'today') {
-        const today = now.toISOString().split('T')[0];
-        filtered = allInvoices.filter(inv => inv.created_at.startsWith(today));
-    } else if (filter === 'week') {
-        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-        filtered = allInvoices.filter(inv => new Date(inv.created_at) >= weekAgo);
-    } else if (filter === 'month') {
-        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-        filtered = allInvoices.filter(inv => new Date(inv.created_at) >= monthStart);
+      downloadBtn.style.display = 'flex'
+      let html = '<table><tr><th>Date</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th></tr>'
+      invoices.forEach(inv => {
+        html += `<tr>
+          <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
+          <td>${inv.customers?.name || 'N/A'}</td>
+          <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
+          <td>₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
+          <td style="color:#dc2626;font-weight:600">₹${Number(inv.balance_due).toLocaleString('en-IN')}</td>
+          <td><span class="badge badge-udhar">Udhar</span></td>
+        </tr>`
+      })
+      html += '</table>'
+      div.innerHTML = html
     }
 
-    const totalSale = filtered.reduce((sum, inv) => sum + (inv.total_amount || 0), 0);
-    const totalCollection = filtered.reduce((sum, inv) => sum + (inv.amount_paid || 0), 0);
-    const totalUdhar = filtered.reduce((sum, inv) => sum + (inv.balance_due || 0), 0);
+    function renderAllInvoices(invoices) {
+      const div = document.getElementById('allInvoicesTable')
+      if (invoices.length === 0) {
+        div.innerHTML = '<div class="empty-msg">No invoices found</div>'
+        return
+      }
 
-    document.getElementById('totalSale').textContent = `₹${totalSale.toLocaleString('en-IN')}`;
-    document.getElementById('totalCollection').textContent = `₹${totalCollection.toLocaleString('en-IN')}`;
-    document.getElementById('totalUdhar').textContent = `₹${totalUdhar.toLocaleString('en-IN')}`;
-
-    filteredUdharInvoices = filtered.filter(inv => inv.balance_due > 0);
-    renderUdharTable(filteredUdharInvoices);
-    renderAllInvoicesTable(filtered);
-}
-
-function renderUdharTable(invoices) {
-    const container = document.getElementById('udharTable');
-    const downloadBtn = document.getElementById('downloadPdfBtn');
-
-    if (invoices.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <div class="empty-state-icon">🎉</div>
-                <div>Sab clear hai! Koi udhar bacha nahi</div>
-            </div>
-        `;
-        downloadBtn.style.display = 'none';
-        return;
+      let html = '<table><tr><th>Date</th><th>Customer</th><th>Amount</th><th>Paid</th><th>Balance</th><th>Mode</th><th>Status</th></tr>'
+      invoices.forEach(inv => {
+        const status = inv.balance_due > 0 ? '<span class="badge badge-udhar">Udhar</span>' : '<span class="badge badge-paid">Paid</span>'
+        html += `<tr>
+          <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
+          <td>${inv.customers?.name || 'N/A'}</td>
+          <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
+          <td>₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
+          <td>₹${Number(inv.balance_due || 0).toLocaleString('en-IN')}</td>
+          <td>${inv.payment_mode || '-'}</td>
+          <td>${status}</td>
+        </tr>`
+      })
+      html += '</table>'
+      div.innerHTML = html
     }
 
-    downloadBtn.style.display = 'flex';
-    let html = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Customer</th>
-                    <th>Total</th>
-                    <th>Paid</th>
-                    <th>Balance</th>
-                    <th class="hide-mobile">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
+    // PDF Download Function
+    document.getElementById('downloadPdfBtn').onclick = () => {
+      const { jsPDF } = window.jspdf
+      const doc = new jsPDF()
 
-    invoices.forEach(inv => {
-        const date = new Date(inv.created_at).toLocaleDateString('en-GB');
-        html += `
-            <tr>
-                <td>${date}</td>
-                <td>${inv.customer_name}</td>
-                <td>₹${(inv.total_amount || 0).toLocaleString('en-IN')}</td>
-                <td>₹${(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
-                <td class="status-udhar">₹${(inv.balance_due || 0).toLocaleString('en-IN')}</td>
-                <td class="hide-mobile status-udhar">Udhar</td>
-            </tr>
-        `;
-    });
-
-    html += '</tbody></table>';
-    container.innerHTML = html;
-}
-
-function renderAllInvoicesTable(invoices) {
-    const container = document.getElementById('allInvoicesTable');
-
-    if (invoices.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <div class="empty-state-icon">📋</div>
-                <div>Koi invoice nahi mili</div>
-            </div>
-        `;
-        return;
-    }
-
-    let html = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Customer</th>
-                    <th>Amount</th>
-                    <th>Paid</th>
-                    <th>Balance</th>
-                    <th class="hide-mobile">Mode</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
-
-    invoices.forEach(inv => {
-        const date = new Date(inv.created_at).toLocaleDateString('en-GB');
-        const statusClass = inv.balance_due > 0? 'status-udhar' : 'status-paid';
-        const statusText = inv.balance_due > 0? 'Udhar' : 'Paid';
-        html += `
-            <tr>
-                <td>${date}</td>
-                <td>${inv.customer_name}</td>
-                <td>₹${(inv.total_amount || 0).toLocaleString('en-IN')}</td>
-                <td>₹${(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
-                <td class="${statusClass}">₹${(inv.balance_due || 0).toLocaleString('en-IN')}</td>
-                <td class="hide-mobile">${inv.payment_mode || '-'}</td>
-                <td class="${statusClass}">${statusText}</td>
-            </tr>
-        `;
-    });
-
-    html += '</tbody></table>';
-    container.innerHTML = html;
-}
-
-function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    const filterNames = {
+      const filterNames = {
         'all': 'All Time',
         'month': 'This Month',
         'week': 'This Week',
         'today': 'Today'
-    };
+      }
 
-    // Header
-    doc.setFontSize(18);
-    doc.setTextColor(22, 163, 74);
-    doc.text('HISAB PRO V5 - Udhar Report', 14, 20);
+      // Header
+      doc.setFontSize(18)
+      doc.setTextColor(22, 163, 74)
+      doc.text('HISAB PRO V5 - Udhar Report', 14, 20)
 
-    doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.text(`Filter: ${filterNames[currentFilter]}`, 14, 28);
-    doc.text(`Generated: ${new Date().toLocaleString('en-GB')}`, 14, 34);
-    doc.text(`User: ${currentUser.email}`, 14, 40);
+      doc.setFontSize(10)
+      doc.setTextColor(100)
+      doc.text(`Filter: ${filterNames[currentFilter]}`, 14, 28)
+      doc.text(`Generated: ${new Date().toLocaleString('en-GB')}`, 14, 34)
+      doc.text(`User: ${currentSession.user.email}`, 14, 40)
 
-    // Summary
-    const totalSale = document.getElementById('totalSale').textContent;
-    const totalCollection = document.getElementById('totalCollection').textContent;
-    const totalUdhar = document.getElementById('totalUdhar').textContent;
+      // Summary
+      doc.setFontSize(11)
+      doc.setTextColor(0)
+      doc.text(`Total Sale: ₹${reportStats.sale.toLocaleString('en-IN')}`, 14, 50)
+      doc.text(`Total Collection: ₹${reportStats.collection.toLocaleString('en-IN')}`, 80, 50)
+      doc.setTextColor(220, 38, 38)
+      doc.text(`Total Udhar: ₹${reportStats.udhar.toLocaleString('en-IN')}`, 146, 50)
 
-    doc.setFontSize(11);
-    doc.setTextColor(0);
-    doc.text(`Total Sale: ${totalSale}`, 14, 50);
-    doc.text(`Total Collection: ${totalCollection}`, 80, 50);
-    doc.setTextColor(220, 38, 38);
-    doc.text(`Total Udhar: ${totalUdhar}`, 146, 50);
+      // Table
+      const tableData = udharBillsData.map(inv => [
+        new Date(inv.date).toLocaleDateString('en-GB'),
+        inv.customers?.name || 'N/A',
+        `₹${Number(inv.total_amount).toLocaleString('en-IN')}`,
+        `₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}`,
+        `₹${Number(inv.balance_due).toLocaleString('en-IN')}`
+      ])
 
-    // Table
-    const tableData = filteredUdharInvoices.map(inv => {
-        const date = new Date(inv.created_at).toLocaleDateString('en-GB');
-        return [
-            date,
-            inv.customer_name,
-            `₹${(inv.total_amount || 0).toLocaleString('en-IN')}`,
-            `₹${(inv.amount_paid || 0).toLocaleString('en-IN')}`,
-            `₹${(inv.balance_due || 0).toLocaleString('en-IN')}`
-        ];
-    });
-
-    doc.autoTable({
+      doc.autoTable({
         startY: 58,
         head: [['Date', 'Customer', 'Total', 'Paid', 'Balance']],
         body: tableData,
@@ -353,29 +308,15 @@ function downloadPDF() {
         headStyles: { fillColor: [22, 163, 74], fontSize: 10 },
         bodyStyles: { fontSize: 9 },
         columnStyles: {
-            4: { textColor: [220, 38, 38], fontStyle: 'bold' }
+          4: { textColor: [220, 38, 38], fontStyle: 'bold' }
         }
-    });
+      })
 
-    const fileName = `Udhar_Report_${filterNames[currentFilter]}_${new Date().toISOString().split('T')[0]}.pdf`;
-    doc.save(fileName);
-}
+      const fileName = `Udhar_Report_${filterNames[currentFilter]}_${new Date().toISOString().split('T')[0]}.pdf`
+      doc.save(fileName)
+    }
 
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        filterData(btn.dataset.filter);
-    });
-});
-
-document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await supabase.auth.signOut();
-});
-
-document.getElementById('downloadPdfBtn').addEventListener('click', downloadPDF);
-
-init();
-</script>
+    initApp()
+  </script>
 </body>
 </html>
