@@ -6,56 +6,58 @@
   <title>Reports - HISAB PRO V5</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-   .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-   .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-   .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-   .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-   .nav-links::-webkit-scrollbar{display:none}
-   .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-   .nav-link:hover{background:#15803d;color:#fff}
-   .nav-link.active{background:#15803d;color:#fff}
-   .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
-    #userEmail{color:#d1fae5;font-size:12px;display:none}
-   .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-   .menu-toggle{display:none}
-    .container{max-width:1200px;margin:0 auto;padding:20px 16px}
-    .filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-    .filter-btn{padding:10px 16px;border:2px solid #16a34a;background:#fff;color:#16a34a;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;transition:all.2s}
-    .filter-btn.active{background:#16a34a;color:#fff}
-    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
-    .stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:center}
-    .stat-label{font-size:14px;color:#666;margin-bottom:8px}
-    .stat-value{font-size:28px;font-weight:700;color:#1f2937}
-    .stat-value.green{color:#16a34a}
-    .stat-value.red{color:#dc2626}
-   .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
-   .card h3{font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-   .table-wrap{overflow-x:auto}
-    table{width:100%;border-collapse:collapse;margin-top:12px;min-width:600px}
-    th,td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb;font-size:14px}
-    th{background:#f9fafb;font-weight:600;position:sticky;top:0}
-    .empty-msg{text-align:center;padding:40px;color:#666}
-    .badge{padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600}
-    .badge-paid{background:#dcfce7;color:#16a34a}
-    .badge-udhar{background:#fee2e2;color:#dc2626}
-    .info-box{background:#dbeafe;border-left:4px solid #3b82f6;padding:12px;border-radius:6px;margin-bottom:16px;font-size:14px;color:#1e40af}
-   @media (max-width:768px){
-     .nav-container{padding:0 8px}
-     .nav-brand{font-size:16px;padding:10px 0}
-     .nav-links{width:100%;order:3;padding-bottom:4px}
-     .nav-link{padding:12px 10px;font-size:13px}
-     .btn-logout{padding:6px 10px;font-size:12px}
-     .card{padding:16px}
-     th,td{padding:10px 6px;font-size:13px}
-     .stat-value{font-size:24px}
-   }
+.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+.nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+.nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+.nav-link:hover{background:#15803d;color:#fff}
+.nav-link.active{background:#15803d;color:#fff}
+.nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+#userEmail{color:#d1fae5;font-size:12px;display:none}
+.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+.container{max-width:1200px;margin:0 auto;padding:20px 16px}
+.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:20px}
+.card h3{font-size:18px;margin-bottom:20px}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}
+.form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:14px}
+.form-group input,.form-group select{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:#f9fafb;padding:20px;border-radius:8px;border-left:4px solid #16a34a}
+.stat-card h4{font-size:13px;color:#6b7280;margin-bottom:8px;font-weight:500}
+.stat-card.value{font-size:24px;font-weight:700;color:#111827}
+.table-wrapper{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:#f9fafb;padding:12px;text-align:left;font-weight:600;color:#374151;border-bottom:2px solid #e5e7eb;white-space:nowrap}
+td{padding:12px;border-bottom:1px solid #e5e7eb}
+tr:hover{background:#f9fafb}
+.badge-cash,.badge-upi,.badge-udhar{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600}
+.badge-cash{background:#d1fae5;color:#065f46}
+.badge-upi{background:#dbeafe;color:#1e40af}
+.badge-udhar{background:#fee2e2;color:#991b1b}
+.btn-export{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px}
+.btn-export:hover{background:#15803d}
+.no-data{text-align:center;padding:40px;color:#9ca3af}
+@media (max-width:768px){
+.nav-container{padding:0 8px}
+.nav-brand{font-size:16px;padding:10px 0}
+.nav-links{width:100%;order:3;padding-bottom:4px}
+.nav-link{padding:12px 10px;font-size:13px}
+.btn-logout{padding:6px 10px;font-size:12px}
+.card{padding:16px}
+.filters{grid-template-columns:1fr}
+table{font-size:13px}
+th,td{padding:10px 8px}
+}
   </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-brand">HISAB PRO V5</div>
-      <div class="nav-links" id="navLinks">
+      <div class="nav-links">
         <a href="/dashboard.html" class="nav-link">Dashboard</a>
         <a href="/invoice.html" class="nav-link">New Invoice</a>
         <a href="/customers.html" class="nav-link">Customers</a>
@@ -70,42 +72,72 @@
   </nav>
 
   <div class="container">
-    <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">All Time</button>
-      <button class="filter-btn" data-filter="month">This Month</button>
-      <button class="filter-btn" data-filter="week">This Week</button>
-      <button class="filter-btn" data-filter="today">Today</button>
-    </div>
-
     <div class="card">
-      <h3 id="reportTitle">All Time Report</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <h3>Sales Reports</h3>
+        <button class="btn-export" id="exportBtn">Export CSV</button>
+      </div>
+
+      <div class="filters">
+        <div class="form-group">
+          <label>From Date</label>
+          <input type="date" id="fromDate">
+        </div>
+        <div class="form-group">
+          <label>To Date</label>
+          <input type="date" id="toDate">
+        </div>
+        <div class="form-group">
+          <label>Payment Type</label>
+          <select id="paymentFilter">
+            <option value="all">All Payments</option>
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+            <option value="Udhar">Udhar</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Search Customer</label>
+          <input type="text" id="searchCustomer" placeholder="Customer name">
+        </div>
+      </div>
+
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-label">Total Sale</div>
-          <div class="stat-value" id="totalSale">₹0</div>
+          <h4>Total Sales</h4>
+          <div class="value" id="totalSales">₹0</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Total Collection</div>
-          <div class="stat-value green" id="totalCollection">₹0</div>
+          <h4>Total Paid</h4>
+          <div class="value" id="totalPaid">₹0</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Total Udhar</div>
-          <div class="stat-value red" id="totalUdhar">₹0</div>
+          <h4>Total Due</h4>
+          <div class="value" id="totalDue">₹0</div>
+        </div>
+        <div class="stat-card">
+          <h4>Total Invoices</h4>
+          <div class="value" id="totalInvoices">0</div>
         </div>
       </div>
-    </div>
 
-    <div class="card">
-      <h3>⚠️ Udhar Bills - Payment Pending</h3>
-      <div class="table-wrap" id="udharTable"></div>
-    </div>
-
-    <div class="card">
-      <h3>All Invoice Details</h3>
-      <div class="info-box">
-        📄 PDF download ke liye <strong>Downloads</strong> page par jao
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Paid</th>
+              <th>Due</th>
+              <th>Payment</th>
+            </tr>
+          </thead>
+          <tbody id="reportsTableBody">
+            <tr><td colspan="6" class="no-data">Loading...</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="table-wrap" id="allInvoicesTable"></div>
     </div>
   </div>
 
@@ -113,14 +145,14 @@
     import { supabase } from './js/supabaseClient.js'
 
     let currentSession = null
-    let currentFilter = 'all'
+    let allInvoices = []
+    let filteredInvoices = []
 
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
       if (session) {
         currentSession = session
         document.getElementById('userEmail').innerText = session.user.email
-        loadReports()
       }
     })
 
@@ -129,7 +161,13 @@
       if (!session) return window.location.replace('/login.html')
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
-      loadReports()
+
+      const today = new Date()
+      const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
+      document.getElementById('fromDate').value = firstDay.toISOString().split('T')[0]
+      document.getElementById('toDate').value = today.toISOString().split('T')[0]
+
+      await loadReports()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -137,117 +175,100 @@
       window.location.replace('/login.html')
     }
 
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.onclick = () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
-        btn.classList.add('active')
-        currentFilter = btn.dataset.filter
-        loadReports()
-      }
-    })
-
-    function getDateRange(filter) {
-      const today = new Date()
-      let start, end = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
-      let title = 'All Time Report'
-
-      if (filter === 'today') {
-        start = new Date(today.getFullYear(), today.getMonth(), today.getDate())
-        title = 'Today\'s Report'
-      } else if (filter === 'week') {
-        const day = today.getDay()
-        start = new Date(today.getFullYear(), today.getMonth(), today.getDate() - day)
-        title = 'This Week\'s Report'
-      } else if (filter === 'month') {
-        start = new Date(today.getFullYear(), today.getMonth(), 1)
-        title = 'This Month\'s Report'
-      }
-
-      return { start: start?.toISOString(), end: end.toISOString(), title }
-    }
-
     async function loadReports() {
-      if (!currentSession) return
-
-      const { start, end, title } = getDateRange(currentFilter)
-      document.getElementById('reportTitle').innerText = title
-
-      let query = supabase
-       .from('invoices')
-       .select('*, customers(name, phone)')
-       .eq('user_id', currentSession.user.id)
-       .order('date', { ascending: false })
-
-      if (start) {
-        query = query.gte('date', start).lte('date', end)
-      }
-
-      const { data: invoices, error } = await query
+      const { data: invoices, error } = await supabase
+   .from('invoices')
+   .select('id, customer_name, date, total_amount, amount_paid, balance_due, payment_type')
+   .eq('user_id', currentSession.user.id)
+   .order('date', { ascending: false })
 
       if (error) {
-        console.error('Error:', error)
+        console.error(error)
+        document.getElementById('reportsTableBody').innerHTML = '<tr><td colspan="6" class="no-data">Error loading data</td></tr>'
         return
       }
 
-      const allInvoicesData = invoices || []
-      const totalSale = allInvoicesData.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
-      const totalCollection = allInvoicesData.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
-      const totalUdhar = allInvoicesData.reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0) || 0
-
-      document.getElementById('totalSale').innerText = `₹${totalSale.toLocaleString('en-IN')}`
-      document.getElementById('totalCollection').innerText = `₹${totalCollection.toLocaleString('en-IN')}`
-      document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
-
-      const udharBillsData = allInvoicesData.filter(inv => inv.balance_due > 0)
-      renderUdharTable(udharBillsData)
-      renderAllInvoicesTable(allInvoicesData)
+      allInvoices = invoices || []
+      applyFilters()
     }
 
-    function renderUdharTable(invoices) {
-      const div = document.getElementById('udharTable')
-      
-      if (invoices.length === 0) {
-        div.innerHTML = '<div class="empty-msg">🎉 Sab clear hai! Koi udhar bacha nahi</div>'
-        return
-      }
+    function applyFilters() {
+      const fromDate = document.getElementById('fromDate').value
+      const toDate = document.getElementById('toDate').value
+      const paymentFilter = document.getElementById('paymentFilter').value
+      const searchText = document.getElementById('searchCustomer').value.toLowerCase()
 
-      let html = '<table><tr><th>Date</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th></tr>'
-      invoices.forEach(inv => {
-        html += `<tr>
-          <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
-          <td>${inv.customers?.name || inv.customer_name || 'N/A'}</td>
-          <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
-          <td>₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
-          <td style="color:#dc2626;font-weight:600">₹${Number(inv.balance_due).toLocaleString('en-IN')}</td>
-          <td><span class="badge badge-udhar">Udhar</span></td>
-        </tr>`
+      filteredInvoices = allInvoices.filter(inv => {
+        const invDate = inv.date
+        const matchDate = (!fromDate || invDate >= fromDate) && (!toDate || invDate <= toDate)
+        const matchPayment = paymentFilter === 'all' || inv.payment_type === paymentFilter
+        const matchSearch =!searchText || inv.customer_name.toLowerCase().includes(searchText)
+        return matchDate && matchPayment && matchSearch
       })
-      html += '</table>'
-      div.innerHTML = html
+
+      renderTable()
+      updateStats()
     }
 
-    function renderAllInvoicesTable(invoices) {
-      const div = document.getElementById('allInvoicesTable')
-      if (invoices.length === 0) {
-        div.innerHTML = '<div class="empty-msg">No invoices found</div>'
+    function renderTable() {
+      const tbody = document.getElementById('reportsTableBody')
+
+      if (filteredInvoices.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data">No invoices found</td></tr>'
         return
       }
 
-      let html = '<table><tr><th>Date</th><th>Customer</th><th>Amount</th><th>Paid</th><th>Balance</th><th>Mode</th><th>Status</th></tr>'
-      invoices.forEach(inv => {
-        const status = inv.balance_due > 0 ? '<span class="badge badge-udhar">Udhar</span>' : '<span class="badge badge-paid">Paid</span>'
-        html += `<tr>
-          <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
-          <td>${inv.customers?.name || inv.customer_name || 'N/A'}</td>
-          <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
-          <td>₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
-          <td>₹${Number(inv.balance_due || 0).toLocaleString('en-IN')}</td>
-          <td>${inv.payment_mode || '-'}</td>
-          <td>${status}</td>
-        </tr>`
-      })
-      html += '</table>'
-      div.innerHTML = html
+      tbody.innerHTML = filteredInvoices.map(inv => `
+        <tr>
+          <td>${new Date(inv.date).toLocaleDateString('en-GB')}</td>
+          <td>${inv.customer_name}</td>
+          <td>₹${inv.total_amount.toLocaleString('en-IN')}</td>
+          <td>₹${inv.amount_paid.toLocaleString('en-IN')}</td>
+          <td>₹${inv.balance_due.toLocaleString('en-IN')}</td>
+          <td><span class="badge-${inv.payment_type.toLowerCase()}">${inv.payment_type}</span></td>
+        </tr>
+      `).join('')
+    }
+
+    function updateStats() {
+      const totalSales = filteredInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
+      const totalPaid = filteredInvoices.reduce((sum, inv) => sum + Number(inv.amount_paid), 0)
+      const totalDue = filteredInvoices.reduce((sum, inv) => sum + Number(inv.balance_due), 0)
+
+      document.getElementById('totalSales').innerText = `₹${totalSales.toLocaleString('en-IN')}`
+      document.getElementById('totalPaid').innerText = `₹${totalPaid.toLocaleString('en-IN')}`
+      document.getElementById('totalDue').innerText = `₹${totalDue.toLocaleString('en-IN')}`
+      document.getElementById('totalInvoices').innerText = filteredInvoices.length
+    }
+
+    document.getElementById('fromDate').onchange = applyFilters
+    document.getElementById('toDate').onchange = applyFilters
+    document.getElementById('paymentFilter').onchange = applyFilters
+    document.getElementById('searchCustomer').oninput = applyFilters
+
+    document.getElementById('exportBtn').onclick = () => {
+      if (filteredInvoices.length === 0) {
+        alert('No data to export')
+        return
+      }
+
+      const headers = ['Date', 'Customer', 'Total', 'Paid', 'Due', 'Payment Type']
+      const rows = filteredInvoices.map(inv => [
+        inv.date,
+        inv.customer_name,
+        inv.total_amount,
+        inv.amount_paid,
+        inv.balance_due,
+        inv.payment_type
+      ])
+
+      const csv = [headers,...rows].map(row => row.join(',')).join('\n')
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `reports_${new Date().toISOString().split('T')[0]}.csv`
+      a.click()
     }
 
     initApp()
