@@ -6,51 +6,49 @@
   <title>New Invoice - HISAB PRO V5</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-  .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-  .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-  .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-  .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .nav-links::-webkit-scrollbar{display:none}
-  .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-  .nav-link:hover{background:#15803d;color:#fff}
-  .nav-link.active{background:#15803d;color:#fff}
-  .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+.nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+.nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+.nav-link:hover{background:#15803d;color:#fff}
+.nav-link.active{background:#15803d;color:#fff}
+.nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
-  .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-  .container{max-width:900px;margin:0 auto;padding:20px 16px}
-  .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-  .card h3{font-size:18px;margin-bottom:20px}
-  .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
-  .form-group{margin-bottom:0}
-  .form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:14px}
-  .form-group input,.form-group select{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
-  .form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
-  .form-group input[readonly]{background:#f9fafb;color:#666;cursor:not-allowed}
-  .section-label{font-weight:600;font-size:14px;margin:24px 0 12px 0;display:block}
-  .items-header{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:10px;margin-bottom:10px;font-weight:600;font-size:14px}
-  .item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:10px;margin-bottom:10px;align-items:center}
-  .item-row input{padding:10px;border:2px solid #e5e7eb;border-radius:6px;font-size:14px}
-  .btn-remove{background:#dc2626;color:#fff;border:none;border-radius:6px;width:36px;height:36px;cursor:pointer;font-size:18px}
-  .btn-add{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;margin-top:10px}
-  .totals{margin-top:24px;padding-top:20px;border-top:2px solid #e5e7eb}
-  .total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:16px}
-  .total-row.final{font-size:20px;font-weight:700;color:#16a34a;padding-top:12px;border-top:2px solid #e5e7eb}
-  .payment-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px}
-  .btn-save{width:100%;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:16px;cursor:pointer;font-weight:700;font-size:16px;margin-top:20px}
-  .btn-save:hover{background:#15803d}
-  .btn-save:disabled{background:#9ca3af;cursor:not-allowed}
+.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+.container{max-width:900px;margin:0 auto;padding:20px 16px}
+.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.card h3{font-size:18px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.form-group{margin-bottom:0}
+.form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:14px}
+.form-group input,.form-group select{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
+.form-group input[readonly]{background:#f9fafb;color:#666;cursor:not-allowed}
+.section-label{font-weight:600;font-size:14px;margin:24px 0 12px 0;display:block}
+.items-header{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:10px;margin-bottom:10px;font-weight:600;font-size:14px}
+.item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:10px;margin-bottom:10px;align-items:center}
+.item-row input{padding:10px;border:2px solid #e5e7eb;border-radius:6px;font-size:14px}
+.btn-remove{background:#dc2626;color:#fff;border:none;border-radius:6px;width:36px;height:36px;cursor:pointer;font-size:18px}
+.btn-add{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;margin-top:10px}
+.totals{margin-top:24px;padding-top:20px;border-top:2px solid #e5e7eb}
+.total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:16px}
+.total-row.final{font-size:20px;font-weight:700;color:#16a34a;padding-top:12px;border-top:2px solid #e5e7eb}
+.btn-save{width:100%;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:16px;cursor:pointer;font-weight:700;font-size:16px;margin-top:20px}
+.btn-save:hover{background:#15803d}
+.btn-save:disabled{background:#9ca3af;cursor:not-allowed}
     @media (max-width:768px){
-    .nav-container{padding:0 8px}
-    .nav-brand{font-size:16px;padding:10px 0}
-    .nav-links{width:100%;order:3;padding-bottom:4px}
-    .nav-link{padding:12px 10px;font-size:13px}
-    .btn-logout{padding:6px 10px;font-size:12px}
-    .card{padding:16px}
-    .form-grid{grid-template-columns:1fr;gap:0}
-    .form-group{margin-bottom:16px}
-    .payment-grid{grid-template-columns:1fr}
-    .items-header{display:none}
-    .item-row{grid-template-columns:1fr;gap:8px;padding:12px;background:#f9fafb;border-radius:8px;margin-bottom:12px}
+ .nav-container{padding:0 8px}
+ .nav-brand{font-size:16px;padding:10px 0}
+ .nav-links{width:100%;order:3;padding-bottom:4px}
+ .nav-link{padding:12px 10px;font-size:13px}
+ .btn-logout{padding:6px 10px;font-size:12px}
+ .card{padding:16px}
+ .form-grid{grid-template-columns:1fr;gap:0}
+ .form-group{margin-bottom:16px}
+ .items-header{display:none}
+ .item-row{grid-template-columns:1fr;gap:8px;padding:12px;background:#f9fafb;border-radius:8px;margin-bottom:12px}
     }
   </style>
 </head>
@@ -169,31 +167,45 @@
     function renderItems() {
       const container = document.getElementById('itemsContainer')
       container.innerHTML = items.map((item, idx) => `
-        <div class="item-row">
-          <input type="text" placeholder="Item name" value="${item.name}" data-idx="${idx}" data-field="name">
-          <input type="number" placeholder="1" value="${item.qty}" min="1" data-idx="${idx}" data-field="qty">
-          <input type="number" placeholder="0" value="${item.price}" min="0" data-idx="${idx}" data-field="price">
-          <input type="text" value="₹${(item.qty * item.price).toLocaleString('en-IN')}" readonly style="background:#f9fafb">
-          ${items.length > 1? `<button class="btn-remove" data-idx="${idx}">×</button>` : '<div></div>'}
+        <div class="item-row" data-idx="${idx}">
+          <input type="text" placeholder="Item name" value="${item.name}" class="item-name">
+          <input type="number" placeholder="1" value="${item.qty}" min="1" class="item-qty">
+          <input type="number" placeholder="0" value="${item.price}" min="0" class="item-price">
+          <input type="text" value="₹${(item.qty * item.price).toLocaleString('en-IN')}" readonly style="background:#f9fafb" class="item-total">
+          ${items.length > 1? `<button class="btn-remove">×</button>` : '<div></div>'}
         </div>
       `).join('')
 
-      container.querySelectorAll('input[data-field]').forEach(input => {
-        input.oninput = (e) => {
-          const idx = parseInt(e.target.dataset.idx)
-          const field = e.target.dataset.field
-          items[idx][field] = field === 'name'? e.target.value : Number(e.target.value)
-          renderItems()
+      // Event delegation - attach once, not on every keystroke
+      container.querySelectorAll('.item-row').forEach((row, idx) => {
+        const nameInput = row.querySelector('.item-name')
+        const qtyInput = row.querySelector('.item-qty')
+        const priceInput = row.querySelector('.item-price')
+        const totalInput = row.querySelector('.item-total')
+        const removeBtn = row.querySelector('.btn-remove')
+
+        nameInput.oninput = (e) => {
+          items[idx].name = e.target.value
+        }
+
+        qtyInput.oninput = (e) => {
+          items[idx].qty = Number(e.target.value) || 0
+          totalInput.value = `₹${(items[idx].qty * items[idx].price).toLocaleString('en-IN')}`
           calculateTotals()
         }
-      })
 
-      container.querySelectorAll('.btn-remove').forEach(btn => {
-        btn.onclick = (e) => {
-          const idx = parseInt(e.target.dataset.idx)
-          items.splice(idx, 1)
-          renderItems()
+        priceInput.oninput = (e) => {
+          items[idx].price = Number(e.target.value) || 0
+          totalInput.value = `₹${(items[idx].qty * items[idx].price).toLocaleString('en-IN')}`
           calculateTotals()
+        }
+
+        if (removeBtn) {
+          removeBtn.onclick = () => {
+            items.splice(idx, 1)
+            renderItems()
+            calculateTotals()
+          }
         }
       })
     }
@@ -245,32 +257,32 @@
 
         if (customerPhone) {
           const { data: existingCustomer } = await supabase
-          .from('customers')
-          .select('id')
-          .eq('user_id', currentSession.user.id)
-          .eq('phone', customerPhone)
-          .single()
+       .from('customers')
+       .select('id')
+       .eq('user_id', currentSession.user.id)
+       .eq('phone', customerPhone)
+       .single()
 
           if (existingCustomer) {
             customerId = existingCustomer.id
           } else {
             const { data: newCustomer } = await supabase
-            .from('customers')
-            .insert({
+         .from('customers')
+         .insert({
                 user_id: currentSession.user.id,
                 name: customerName,
                 phone: customerPhone
               })
-            .select()
-            .single()
+         .select()
+         .single()
             customerId = newCustomer.id
           }
         }
 
         const today = new Date().toISOString().split('T')[0]
         const { data: invoice, error: invoiceError } = await supabase
-        .from('invoices')
-        .insert({
+     .from('invoices')
+     .insert({
             user_id: currentSession.user.id,
             customer_id: customerId,
             customer_name: customerName,
@@ -280,8 +292,8 @@
             balance_due: balanceDue,
             payment_mode: document.getElementById('paymentMode').value
           })
-        .select()
-        .single()
+     .select()
+     .single()
 
         if (invoiceError) throw invoiceError
 
@@ -294,8 +306,8 @@
         }))
 
         const { error: itemsError } = await supabase
-        .from('invoice_items')
-        .insert(invoiceItems)
+     .from('invoice_items')
+     .insert(invoiceItems)
 
         if (itemsError) throw itemsError
 
