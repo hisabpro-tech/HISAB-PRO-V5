@@ -263,32 +263,32 @@
 
         if (customerPhone) {
           const { data: existingCustomer } = await supabase
-         .from('customers')
-         .select('id')
-         .eq('user_id', currentSession.user.id)
-         .eq('phone', customerPhone)
-         .single()
+        .from('customers')
+        .select('id')
+        .eq('user_id', currentSession.user.id)
+        .eq('phone', customerPhone)
+        .single()
 
           if (existingCustomer) {
             customerId = existingCustomer.id
           } else {
             const { data: newCustomer } = await supabase
-         .from('customers')
-         .insert({
+        .from('customers')
+        .insert({
                 user_id: currentSession.user.id,
                 name: customerName,
                 phone: customerPhone
               })
-         .select()
-         .single()
+        .select()
+        .single()
             customerId = newCustomer.id
           }
         }
 
         const today = new Date().toISOString().split('T')[0]
         const { data: invoice, error: invoiceError } = await supabase
-       .from('invoices')
-       .insert({
+      .from('invoices')
+      .insert({
             user_id: currentSession.user.id,
             customer_id: customerId,
             customer_name: customerName,
@@ -296,10 +296,10 @@
             total_amount: subtotal,
             amount_paid: amountPaid,
             balance_due: balanceDue,
-            payment_mode: document.getElementById('paymentMode').value
+            payment_type: document.getElementById('paymentMode').value
           })
-       .select()
-       .single()
+      .select()
+      .single()
 
         if (invoiceError) throw invoiceError
 
@@ -312,8 +312,8 @@
         }))
 
         const { error: itemsError } = await supabase
-       .from('invoice_items')
-       .insert(invoiceItems)
+      .from('invoice_items')
+      .insert(invoiceItems)
 
         if (itemsError) throw itemsError
 
