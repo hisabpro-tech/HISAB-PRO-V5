@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - HISAB PRO V5</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
    .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
@@ -17,7 +18,6 @@
    .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
    .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-   .menu-toggle{display:none}
     .container{max-width:1200px;margin:0 auto;padding:20px 16px}
     .welcome-card{background:linear-gradient(135deg,#16a34a 0%,#15803d 100%);color:#fff;padding:24px;border-radius:12px;margin-bottom:20px}
     .welcome-card h2{font-size:24px;margin-bottom:8px}
@@ -31,13 +31,7 @@
     .stat-value.blue{color:#0ea5e9}
     .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
     .card h3{font-size:18px;margin-bottom:16px}
-    .quick-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-    .action-btn{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:16px;cursor:pointer;font-weight:600;font-size:15px;text-align:center;text-decoration:none;display:block;transition:all.2s}
-    .action-btn:hover{background:#15803d;transform:translateY(-2px)}
-    .action-btn.blue{background:#0ea5e9}
-    .action-btn.blue:hover{background:#0284c7}
-    .action-btn.orange{background:#f59e0b}
-    .action-btn.orange:hover{background:#d97706}
+    .chart-container{position:relative;height:300px;margin-top:16px}
     .recent-list{display:flex;flex-direction:column;gap:10px}
     .recent-item{background:#f9fafb;padding:14px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
     .recent-item-info{flex:1}
@@ -56,6 +50,7 @@
      .card{padding:16px}
      .stat-value{font-size:28px}
      .recent-item{flex-direction:column;align-items:flex-start;gap:8px}
+     .chart-container{height:250px}
    }
   </style>
 </head>
@@ -103,12 +98,9 @@
     </div>
 
     <div class="card">
-      <h3>Quick Actions</h3>
-      <div class="quick-actions">
-        <a href="/invoice.html" class="action-btn">➕ New Invoice</a>
-        <a href="/customers.html" class="action-btn blue">👥 Add Customer</a>
-        <a href="/downloads.html" class="action-btn orange">📄 Download PDF</a>
-        <a href="/reports.html" class="action-btn">📊 View Reports</a>
+      <h3>📊 Last 7 Days Performance</h3>
+      <div class="chart-container">
+        <canvas id="salesChart"></canvas>
       </div>
     </div>
 
@@ -122,6 +114,7 @@
     import { supabase } from './js/supabaseClient.js'
 
     let currentSession = null
+    let salesChart = null
 
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
@@ -150,8 +143,14 @@
     async function loadDashboard() {
       if (!currentSession) return
 
-      // Load invoices
-      const { data: invoices } = await supabase
+      // Load all invoices for stats
+      const { data: allInvoices } = await supabase
+        .from('invoices')
+        .select('total_amount, amount_paid, balance_due, date')
+        .eq('user_id', currentSession.user.id)
+
+      // Load recent invoices
+      const { data: recentInvoices } = await supabase
         .from('invoices')
         .select('*, customers(name)')
         .eq('user_id', currentSession.user.id)
@@ -165,11 +164,6 @@
         .eq('user_id', currentSession.user.id)
 
       // Calculate stats
-      const { data: allInvoices } = await supabase
-        .from('invoices')
-        .select('total_amount, amount_paid, balance_due')
-        .eq('user_id', currentSession.user.id)
-
       const totalSale = allInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
       const totalCollection = allInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
       const totalUdhar = allInvoices?.reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0) || 0
@@ -179,7 +173,107 @@
       document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
       document.getElementById('totalCustomers').innerText = customerCount || 0
 
-      renderRecentInvoices(invoices || [])
+      renderRecentInvoices(recentInvoices || [])
+      renderChart(allInvoices || [])
+    }
+
+    function renderChart(invoices) {
+      const ctx = document.getElementById('salesChart')
+      
+      // Get last 7 days
+      const last7Days = []
+      const labels = []
+      const salesData = []
+      const collectionData = []
+      const udharData = []
+
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date()
+        date.setDate(date.getDate() - i)
+        date.setHours(0, 0, 0, 0)
+        last7Days.push(date)
+        labels.push(date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }))
+      }
+
+      // Calculate data for each day
+      last7Days.forEach(day => {
+        const dayInvoices = invoices.filter(inv => {
+          const invDate = new Date(inv.date)
+          invDate.setHours(0, 0, 0, 0)
+          return invDate.getTime() === day.getTime()
+        })
+
+        const daySale = dayInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
+        const dayCollection = dayInvoices.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0)
+        const dayUdhar = dayInvoices.reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0)
+
+        salesData.push(daySale)
+        collectionData.push(dayCollection)
+        udharData.push(dayUdhar)
+      })
+
+      // Destroy old chart if exists
+      if (salesChart) salesChart.destroy()
+
+      salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Sale',
+              data: salesData,
+              borderColor: '#16a34a',
+              backgroundColor: 'rgba(22, 163, 74, 0.1)',
+              tension: 0.4,
+              fill: true
+            },
+            {
+              label: 'Collection',
+              data: collectionData,
+              borderColor: '#0ea5e9',
+              backgroundColor: 'rgba(14, 165, 233, 0.1)',
+              tension: 0.4,
+              fill: true
+            },
+            {
+              label: 'Udhar',
+              data: udharData,
+              borderColor: '#dc2626',
+              backgroundColor: 'rgba(220, 38, 38, 0.1)',
+              tension: 0.4,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top'
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': ₹' + context.parsed.y.toLocaleString('en-IN')
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '₹' + value.toLocaleString('en-IN')
+                }
+              }
+            }
+          }
+        }
+      })
     }
 
     function renderRecentInvoices(invoices) {
