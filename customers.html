@@ -19,7 +19,7 @@
 .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
 .container{max-width:1200px;margin:0 auto;padding:20px 16px}
 .search-box{margin-bottom:20px}
-.search-box input{width:100%;padding:12px 16px 12px 40px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236b7280" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>') no-repeat 12px center}
+.search-box input{width:100%;padding:12px 16px 12px 40px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236b7280" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 0 0 1 11 0z"/></svg>') no-repeat 12px center}
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
 .stat-card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:center}
 .stat-card h4{font-size:13px;color:#6b7280;margin-bottom:8px;font-weight:500}
@@ -32,21 +32,22 @@
 .stat-card.udhar.value{color:#dc2626}
 .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .card h3{font-size:18px;margin-bottom:20px}
-.customer-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #e5e7eb}
+.customer-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #e5e7eb;gap:16px}
 .customer-row:last-child{border-bottom:none}
+.customer-info{min-width:140px}
 .customer-info h4{font-size:16px;margin-bottom:4px}
 .customer-info p{font-size:13px;color:#6b7280}
-.customer-stats{display:flex;gap:24px;align-items:center}
-.stat-item{text-align:right}
+.customer-stats{display:flex;gap:24px;align-items:center;flex:1;justify-content:flex-end}
+.stat-item{text-align:right;min-width:80px}
 .stat-item.label{font-size:12px;color:#6b7280;margin-bottom:2px}
 .stat-item.value{font-size:15px;font-weight:600}
 .badge-clear{color:#16a34a;font-weight:600}
 .badge-udhar{color:#dc2626;font-weight:600}
-.customer-actions{display:flex;gap:8px;margin-left:16px}
-.btn-collect{background:#16a34a;color:#fff;border:none;border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:13px}
+.customer-actions{display:flex;gap:8px}
+.btn-collect{background:#16a34a;color:#fff;border:none;border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap}
 .btn-collect:hover{background:#15803d}
 .btn-collect:disabled{background:#9ca3af;cursor:not-allowed}
-.btn-delete{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:13px}
+.btn-delete{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap}
 .btn-delete:hover{background:#b91c1c}
 .no-data{text-align:center;padding:40px;color:#9ca3af}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:16px}
@@ -65,9 +66,10 @@
 .nav-link{padding:12px 10px;font-size:13px}
 .btn-logout{padding:6px 10px;font-size:12px}
 .card{padding:16px}
-.customer-row{flex-direction:column;align-items:flex-start;gap:12px}
-.customer-stats{width:100%;justify-content:space-between}
-.customer-actions{width:100%;margin-left:0}
+.customer-row{flex-direction:column;align-items:stretch;gap:12px}
+.customer-stats{justify-content:space-between;width:100%}
+.stat-item{min-width:auto}
+.customer-actions{width:100%}
 .customer-actions button{flex:1}
 }
   </style>
@@ -191,18 +193,23 @@
       }
 
       const customerIds = customers.map(c => c.id)
-      const { data: invoices } = await supabase
+
+      let invoices = []
+      if (customerIds.length > 0) {
+        const { data: invoiceData } = await supabase
 .from('invoices')
 .select('customer_id, total_amount, balance_due')
 .eq('user_id', currentSession.user.id)
 .in('customer_id', customerIds)
+        invoices = invoiceData || []
+      }
 
       allCustomers = customers.map(customer => {
-        const customerInvoices = invoices?.filter(inv => inv.customer_id === customer.id) || []
+        const customerInvoices = invoices.filter(inv => inv.customer_id === customer.id)
         const totalBusiness = customerInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
         const totalDue = customerInvoices.reduce((sum, inv) => sum + Number(inv.balance_due), 0)
         return {
-       ...customer,
+      ...customer,
           invoiceCount: customerInvoices.length,
           totalBusiness,
           totalDue
@@ -244,6 +251,7 @@
                 ${customer.totalDue > 0? `₹${customer.totalDue.toLocaleString('en-IN')} Udhar` : 'Clear'}
               </div>
             </div>
+          </div>
           <div class="customer-actions">
             <button class="btn-collect" data-id="${customer.id}" data-name="${customer.name}" data-due="${customer.totalDue}" ${customer.totalDue <= 0? 'disabled' : ''}>
               Collect
@@ -319,12 +327,12 @@
           const newDue = Number(invoice.balance_due) - payAmount
 
           await supabase
-  .from('invoices')
-  .update({
+ .from('invoices')
+ .update({
               amount_paid: newPaid,
               balance_due: newDue
             })
-  .eq('id', invoice.id)
+ .eq('id', invoice.id)
 
           remainingAmount -= payAmount
         }
@@ -343,15 +351,19 @@
       if (!confirm(`Delete ${customerName}? This will also delete all invoices.`)) return
 
       try {
-        await supabase
+        const { data: invoiceList } = await supabase
+.from('invoices')
+.select('id')
+.eq('customer_id', customerId)
+.eq('user_id', currentSession.user.id)
+
+        if (invoiceList && invoiceList.length > 0) {
+          const invoiceIds = invoiceList.map(i => i.id)
+          await supabase
 .from('invoice_items')
 .delete()
-.in('invoice_id', (
-            await supabase
-    .from('invoices')
-    .select('id')
-    .eq('customer_id', customerId)
-          ).data?.map(i => i.id) || [])
+.in('invoice_id', invoiceIds)
+        }
 
         await supabase
 .from('invoices')
