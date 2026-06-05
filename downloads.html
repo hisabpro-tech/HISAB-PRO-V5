@@ -8,32 +8,31 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-   .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-   .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-   .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-   .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-   .nav-links::-webkit-scrollbar{display:none}
-   .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-   .nav-link:hover{background:#15803d;color:#fff}
-   .nav-link.active{background:#15803d;color:#fff}
-   .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+    .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+    .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+    .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+    .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+    .nav-link:hover{background:#15803d;color:#fff}
+    .nav-link.active{background:#15803d;color:#fff}
+    .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
-   .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-   .menu-toggle{display:none}
+    .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
     .container{max-width:1200px;margin:0 auto;padding:20px 16px}
     .filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
     .filter-btn{padding:10px 16px;border:2px solid #16a34a;background:#fff;color:#16a34a;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;transition:all.2s}
     .filter-btn.active{background:#16a34a;color:#fff}
-   .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
-   .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-   .card h3{font-size:18px;display:flex;align-items:center;gap:8px;margin:0}
-   .btn-pdf{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
-   .btn-pdf:hover{background:#15803d}
-   .btn-pdf-blue{background:#0ea5e9}
-   .btn-pdf-blue:hover{background:#0284c7}
-   .btn-small{padding:6px 10px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;background:#0ea5e9;color:#fff}
-   .btn-small:hover{background:#0284c7}
-   .table-wrap{overflow-x:auto}
+    .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
+    .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+    .card h3{font-size:18px;display:flex;align-items:center;gap:8px;margin:0}
+    .btn-pdf{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
+    .btn-pdf:hover{background:#15803d}
+    .btn-pdf-blue{background:#0ea5e9}
+    .btn-pdf-blue:hover{background:#0284c7}
+    .btn-small{padding:6px 10px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;background:#0ea5e9;color:#fff}
+    .btn-small:hover{background:#0284c7}
+    .table-wrap{overflow-x:auto}
     table{width:100%;border-collapse:collapse;margin-top:12px;min-width:700px}
     th,td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb;font-size:14px}
     th{background:#f9fafb;font-weight:600;position:sticky;top:0}
@@ -43,15 +42,15 @@
     .badge-udhar{background:#fee2e2;color:#dc2626}
     .search-box{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px;margin-bottom:16px}
     .search-box:focus{outline:none;border-color:#16a34a}
-   @media (max-width:768px){
-     .nav-container{padding:0 8px}
-     .nav-brand{font-size:16px;padding:10px 0}
-     .nav-links{width:100%;order:3;padding-bottom:4px}
-     .nav-link{padding:12px 10px;font-size:13px}
-     .btn-logout{padding:6px 10px;font-size:12px}
-     .card{padding:16px}
-     th,td{padding:10px 6px;font-size:13px}
-   }
+    @media (max-width:768px){
+      .nav-container{padding:0 8px}
+      .nav-brand{font-size:16px;padding:10px 0}
+      .nav-links{width:100%;order:3;padding-bottom:4px}
+      .nav-link{padding:12px 10px;font-size:13px}
+      .btn-logout{padding:6px 10px;font-size:12px}
+      .card{padding:16px}
+      th,td{padding:10px 6px;font-size:13px}
+    }
   </style>
 </head>
 <body>
@@ -191,7 +190,6 @@
       div.innerHTML = html
     }
 
-    // Single Invoice PDF
     window.downloadInvoicePDF = async (invoiceId) => {
       const invoice = allInvoices.find(inv => inv.id === invoiceId)
       if (!invoice) return
@@ -260,7 +258,6 @@
       doc.save(fileName)
     }
 
-    // Udhar Report
     document.getElementById('downloadUdharPdfBtn').onclick = () => {
       const udharInvoices = allInvoices.filter(inv => inv.balance_due > 0)
       if (udharInvoices.length === 0) {
@@ -306,7 +303,6 @@
       doc.save(`Udhar_Report_${new Date().toISOString().split('T')[0]}.pdf`)
     }
 
-    // Full Report
     document.getElementById('downloadFullReportBtn').onclick = () => {
       if (allInvoices.length === 0) {
         alert('Koi invoice nahi mili!')
