@@ -15,7 +15,7 @@
 .nav-link:hover{background:#15803d;color:#fff}
 .nav-link.active{background:#15803d;color:#fff}
 .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
-    #userEmail{color:#d1fae5;font-size:12px;display:none}
+#userEmail{color:#d1fae5;font-size:12px;display:none}
 .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
 .container{max-width:900px;margin:0 auto;padding:20px 16px}
 .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
@@ -38,18 +38,18 @@
 .btn-save{width:100%;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:16px;cursor:pointer;font-weight:700;font-size:16px;margin-top:20px}
 .btn-save:hover{background:#15803d}
 .btn-save:disabled{background:#9ca3af;cursor:not-allowed}
-    @media (max-width:768px){
- .nav-container{padding:0 8px}
- .nav-brand{font-size:16px;padding:10px 0}
- .nav-links{width:100%;order:3;padding-bottom:4px}
- .nav-link{padding:12px 10px;font-size:13px}
- .btn-logout{padding:6px 10px;font-size:12px}
- .card{padding:16px}
- .form-grid{grid-template-columns:1fr;gap:0}
- .form-group{margin-bottom:16px}
- .items-header{display:none}
- .item-row{grid-template-columns:1fr;gap:8px;padding:12px;background:#f9fafb;border-radius:8px;margin-bottom:12px}
-    }
+@media (max-width:768px){
+.nav-container{padding:0 8px}
+.nav-brand{font-size:16px;padding:10px 0}
+.nav-links{width:100%;order:3;padding-bottom:4px}
+.nav-link{padding:12px 10px;font-size:13px}
+.btn-logout{padding:6px 10px;font-size:12px}
+.card{padding:16px}
+.form-grid{grid-template-columns:1fr;gap:0}
+.form-group{margin-bottom:16px}
+.items-header{display:none}
+.item-row{grid-template-columns:1fr;gap:8px;padding:12px;background:#f9fafb;border-radius:8px;margin-bottom:12px}
+}
   </style>
 </head>
 <body>
@@ -176,7 +176,6 @@
         </div>
       `).join('')
 
-      // Event delegation - attach once, not on every keystroke
       container.querySelectorAll('.item-row').forEach((row, idx) => {
         const nameInput = row.querySelector('.item-name')
         const qtyInput = row.querySelector('.item-qty')
@@ -238,12 +237,19 @@
         return
       }
 
-      if (items.some(item =>!item.name || item.qty <= 0 || item.price < 0)) {
-        alert('Please fill all item details correctly!')
+      const validItems = items.filter(item => item.name.trim()!== '')
+
+      if (validItems.length === 0) {
+        alert('Please add at least one item!')
         return
       }
 
-      const subtotal = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
+      if (validItems.some(item => item.qty <= 0 || item.price < 0)) {
+        alert('Qty must be > 0 and Price must be >= 0')
+        return
+      }
+
+      const subtotal = validItems.reduce((sum, item) => sum + (item.qty * item.price), 0)
       const amountPaid = Number(document.getElementById('amountPaid').value) || 0
       const balanceDue = subtotal - amountPaid
 
@@ -257,11 +263,11 @@
 
         if (customerPhone) {
           const { data: existingCustomer } = await supabase
-       .from('customers')
-       .select('id')
-       .eq('user_id', currentSession.user.id)
-       .eq('phone', customerPhone)
-       .single()
+         .from('customers')
+         .select('id')
+         .eq('user_id', currentSession.user.id)
+         .eq('phone', customerPhone)
+         .single()
 
           if (existingCustomer) {
             customerId = existingCustomer.id
@@ -281,8 +287,8 @@
 
         const today = new Date().toISOString().split('T')[0]
         const { data: invoice, error: invoiceError } = await supabase
-     .from('invoices')
-     .insert({
+       .from('invoices')
+       .insert({
             user_id: currentSession.user.id,
             customer_id: customerId,
             customer_name: customerName,
@@ -292,12 +298,12 @@
             balance_due: balanceDue,
             payment_mode: document.getElementById('paymentMode').value
           })
-     .select()
-     .single()
+       .select()
+       .single()
 
         if (invoiceError) throw invoiceError
 
-        const invoiceItems = items.map(item => ({
+        const invoiceItems = validItems.map(item => ({
           invoice_id: invoice.id,
           item_name: item.name,
           quantity: item.qty,
@@ -306,8 +312,8 @@
         }))
 
         const { error: itemsError } = await supabase
-     .from('invoice_items')
-     .insert(invoiceItems)
+       .from('invoice_items')
+       .insert(invoiceItems)
 
         if (itemsError) throw itemsError
 
