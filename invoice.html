@@ -17,37 +17,35 @@
    .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
    .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-   .menu-toggle{display:none}
-    .container{max-width:1000px;margin:0 auto;padding:20px 16px}
-    .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
-    .card h3{margin-bottom:16px;font-size:18px}
-    .form-group{margin-bottom:16px}
-    .form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:14px}
-    .form-group input,.form-group select{width:100%;padding:10px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
-    .form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .items-table{width:100%;border-collapse:collapse;margin-top:12px}
-    .items-table th,.items-table td{padding:10px;text-align:left;border-bottom:1px solid #e5e7eb;font-size:14px}
-    .items-table th{background:#f9fafb;font-weight:600}
-    .items-table input{width:100%;padding:6px;border:1px solid #e5e7eb;border-radius:4px}
-    .btn-add{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;margin-top:12px}
-    .btn-delete{background:#dc2626;color:#fff;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px}
-    .summary{background:#f9fafb;padding:16px;border-radius:8px;margin-top:16px}
-    .summary-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:15px}
-    .summary-row.total{font-weight:700;font-size:18px;border-top:2px solid #e5e7eb;padding-top:8px;margin-top:8px}
-    .btn-submit{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:14px;width:100%;cursor:pointer;font-weight:600;font-size:16px;margin-top:16px}
-    .btn-submit:disabled{background:#94a3b8;cursor:not-allowed}
-    .info-box{background:#dbeafe;border-left:4px solid #3b82f6;padding:12px;border-radius:6px;margin-top:16px;font-size:14px;color:#1e40af}
+   .container{max-width:900px;margin:0 auto;padding:20px 16px}
+   .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+   .card h3{font-size:18px;margin-bottom:20px}
+   .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:20px}
+   .form-group{margin-bottom:16px}
+   .form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:14px}
+   .form-group input,.form-group select{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
+   .form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
+   .form-group input[readonly]{background:#f9fafb;color:#666;cursor:not-allowed}
+   .items-header{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:10px;margin-bottom:10px;font-weight:600;font-size:14px}
+   .item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:10px;margin-bottom:10px;align-items:center}
+   .item-row input{padding:10px;border:2px solid #e5e7eb;border-radius:6px;font-size:14px}
+   .btn-remove{background:#dc2626;color:#fff;border:none;border-radius:6px;width:36px;height:36px;cursor:pointer;font-size:18px}
+   .btn-add{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;margin-top:10px}
+   .totals{margin-top:24px;padding-top:20px;border-top:2px solid #e5e7eb}
+   .total-row{display:flex;justify-content:space-between;margin-bottom:12px;font-size:16px}
+   .total-row.final{font-size:20px;font-weight:700;color:#16a34a;padding-top:12px;border-top:2px solid #e5e7eb}
+   .btn-save{width:100%;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:16px;cursor:pointer;font-weight:700;font-size:16px;margin-top:20px}
+   .btn-save:hover{background:#15803d}
+   .btn-save:disabled{background:#9ca3af;cursor:not-allowed}
     @media (max-width:768px){
      .nav-container{padding:0 8px}
      .nav-brand{font-size:16px;padding:10px 0}
      .nav-links{width:100%;order:3;padding-bottom:4px}
      .nav-link{padding:12px 10px;font-size:13px}
      .btn-logout{padding:6px 10px;font-size:12px}
-     .row{grid-template-columns:1fr}
      .card{padding:16px}
-     .items-table{font-size:12px}
-     .items-table th,.items-table td{padding:6px 4px}
+     .items-header{display:none}
+     .item-row{grid-template-columns:1fr;gap:8px;padding:12px;background:#f9fafb;border-radius:8px;margin-bottom:12px}
     }
   </style>
 </head>
@@ -72,8 +70,8 @@
   <div class="container">
     <div class="card">
       <h3>Create New Invoice</h3>
-      
-      <div class="row">
+
+      <div class="form-grid">
         <div class="form-group">
           <label>Customer Name *</label>
           <input type="text" id="customerName" placeholder="Enter customer name" required>
@@ -82,59 +80,49 @@
           <label>Phone Number</label>
           <input type="tel" id="customerPhone" placeholder="Enter phone number">
         </div>
-      </div>
-
-      <div class="row">
         <div class="form-group">
           <label>Invoice Date *</label>
-          <input type="date" id="invoiceDate" required>
+          <input type="text" id="invoiceDate" readonly>
         </div>
         <div class="form-group">
           <label>Payment Mode</label>
           <select id="paymentMode">
             <option value="Cash">Cash</option>
             <option value="UPI">UPI</option>
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="Credit">Credit/Udhar</option>
+            <option value="Udhar">Udhar</option>
           </select>
         </div>
       </div>
 
-      <h3 style="margin-top:24px">Items</h3>
-      <table class="items-table">
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="itemsBody"></tbody>
-      </table>
-      <button class="btn-add" id="addItemBtn">+ Add Item</button>
+      <div class="form-group">
+        <label>Items</label>
+        <div class="items-header">
+          <div>Item Name</div>
+          <div>Qty</div>
+          <div>Price</div>
+          <div>Total</div>
+          <div></div>
+        </div>
+        <div id="itemsContainer"></div>
+        <button class="btn-add" id="addItemBtn">+ Add Item</button>
+      </div>
 
-      <div class="summary">
-        <div class="summary-row">
+      <div class="totals">
+        <div class="total-row">
           <span>Subtotal:</span>
           <span id="subtotal">₹0</span>
         </div>
-        <div class="summary-row">
+        <div class="total-row">
           <span>Amount Paid:</span>
-          <span><input type="number" id="amountPaid" value="0" style="width:120px;padding:4px;border:1px solid #e5e7eb;border-radius:4px;text-align:right"></span>
+          <input type="number" id="amountPaid" value="0" min="0" style="width:120px;padding:8px;border:2px solid #e5e7eb;border-radius:6px;text-align:right">
         </div>
-        <div class="summary-row total">
+        <div class="total-row final">
           <span>Balance Due:</span>
-          <span id="balanceDue" style="color:#dc2626">₹0</span>
+          <span id="balanceDue">₹0</span>
         </div>
       </div>
 
-      <button class="btn-submit" id="saveInvoiceBtn">Save Invoice</button>
-      
-      <div class="info-box">
-        📄 Invoice save hone ke baad PDF download karne ke liye <strong>Downloads</strong> page par jao
-      </div>
+      <button class="btn-save" id="saveInvoiceBtn">Save Invoice</button>
     </div>
   </div>
 
@@ -157,8 +145,13 @@
       if (!session) return window.location.replace('/login.html')
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
-      document.getElementById('invoiceDate').valueAsDate = new Date()
+
+      // Set today's date as read-only
+      const today = new Date()
+      document.getElementById('invoiceDate').value = today.toLocaleDateString('en-GB')
+
       renderItems()
+      calculateTotals()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -166,146 +159,153 @@
       window.location.replace('/login.html')
     }
 
-    function renderItems() {
-      const tbody = document.getElementById('itemsBody')
-      tbody.innerHTML = ''
-      items.forEach((item, idx) => {
-        const tr = document.createElement('tr')
-        tr.innerHTML = `
-          <td><input type="text" value="${item.name}" data-idx="${idx}" data-field="name" placeholder="Item name"></td>
-          <td><input type="number" value="${item.qty}" data-idx="${idx}" data-field="qty" min="1"></td>
-          <td><input type="number" value="${item.price}" data-idx="${idx}" data-field="price" min="0"></td>
-          <td>₹${(item.qty * item.price).toLocaleString('en-IN')}</td>
-          <td>${items.length > 1 ? `<button class="btn-delete" data-idx="${idx}">X</button>` : ''}</td>
-        `
-        tbody.appendChild(tr)
-      })
-      updateSummary()
-    }
-
-    document.getElementById('itemsBody').oninput = (e) => {
-      if (e.target.dataset.field) {
-        const idx = parseInt(e.target.dataset.idx)
-        const field = e.target.dataset.field
-        items[idx][field] = field === 'name' ? e.target.value : Number(e.target.value)
-        renderItems()
-      }
-    }
-
-    document.getElementById('itemsBody').onclick = (e) => {
-      if (e.target.classList.contains('btn-delete')) {
-        items.splice(parseInt(e.target.dataset.idx), 1)
-        renderItems()
-      }
-    }
-
     document.getElementById('addItemBtn').onclick = () => {
       items.push({ name: '', qty: 1, price: 0 })
       renderItems()
     }
 
-    document.getElementById('amountPaid').oninput = updateSummary
+    function renderItems() {
+      const container = document.getElementById('itemsContainer')
+      container.innerHTML = items.map((item, idx) => `
+        <div class="item-row">
+          <input type="text" placeholder="Item name" value="${item.name}" data-idx="${idx}" data-field="name">
+          <input type="number" placeholder="1" value="${item.qty}" min="1" data-idx="${idx}" data-field="qty">
+          <input type="number" placeholder="0" value="${item.price}" min="0" data-idx="${idx}" data-field="price">
+          <input type="text" value="₹${(item.qty * item.price).toLocaleString('en-IN')}" readonly style="background:#f9fafb">
+          ${items.length > 1? `<button class="btn-remove" data-idx="${idx}">×</button>` : '<div></div>'}
+        </div>
+      `).join('')
 
-    function updateSummary() {
+      container.querySelectorAll('input[data-field]').forEach(input => {
+        input.oninput = (e) => {
+          const idx = parseInt(e.target.dataset.idx)
+          const field = e.target.dataset.field
+          items[idx][field] = field === 'name'? e.target.value : Number(e.target.value)
+          renderItems()
+          calculateTotals()
+        }
+      })
+
+      container.querySelectorAll('.btn-remove').forEach(btn => {
+        btn.onclick = (e) => {
+          const idx = parseInt(e.target.dataset.idx)
+          items.splice(idx, 1)
+          renderItems()
+          calculateTotals()
+        }
+      })
+    }
+
+    function calculateTotals() {
       const subtotal = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
       const amountPaid = Number(document.getElementById('amountPaid').value) || 0
       const balanceDue = subtotal - amountPaid
 
       document.getElementById('subtotal').innerText = `₹${subtotal.toLocaleString('en-IN')}`
       document.getElementById('balanceDue').innerText = `₹${balanceDue.toLocaleString('en-IN')}`
-      document.getElementById('balanceDue').style.color = balanceDue > 0 ? '#dc2626' : '#16a34a'
+    }
+
+    document.getElementById('amountPaid').oninput = calculateTotals
+    document.getElementById('paymentMode').onchange = () => {
+      const mode = document.getElementById('paymentMode').value
+      const subtotal = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
+      if (mode === 'Udhar') {
+        document.getElementById('amountPaid').value = 0
+      } else {
+        document.getElementById('amountPaid').value = subtotal
+      }
+      calculateTotals()
     }
 
     document.getElementById('saveInvoiceBtn').onclick = async () => {
       const customerName = document.getElementById('customerName').value.trim()
-      const customerPhone = document.getElementById('customerPhone').value.trim()
-      const invoiceDate = document.getElementById('invoiceDate').value
-      const paymentMode = document.getElementById('paymentMode').value
-      const amountPaid = Number(document.getElementById('amountPaid').value) || 0
-
       if (!customerName) {
-        alert('Customer name is required')
+        alert('Customer name is required!')
         return
       }
 
-      if (items.some(item => !item.name || item.qty <= 0 || item.price < 0)) {
-        alert('Please fill all item details correctly')
+      if (items.some(item =>!item.name || item.qty <= 0 || item.price < 0)) {
+        alert('Please fill all item details correctly!')
         return
       }
 
-      const totalAmount = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
-      const balanceDue = totalAmount - amountPaid
+      const subtotal = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
+      const amountPaid = Number(document.getElementById('amountPaid').value) || 0
+      const balanceDue = subtotal - amountPaid
 
       const btn = document.getElementById('saveInvoiceBtn')
       btn.disabled = true
       btn.innerText = 'Saving...'
 
       try {
-        // 1. Create/get customer
-        let { data: customer } = await supabase
-          .from('customers')
-          .select('id')
-          .eq('name', customerName)
-          .eq('user_id', currentSession.user.id)
-          .single()
+        // 1. Insert or get customer
+        let customerId = null
+        const customerPhone = document.getElementById('customerPhone').value.trim()
 
-        if (!customer) {
-          const { data: newCustomer, error } = await supabase
-            .from('customers')
-            .insert({ name: customerName, phone: customerPhone, user_id: currentSession.user.id })
-            .select()
-            .single()
-          if (error) throw error
-          customer = newCustomer
+        if (customerPhone) {
+          const { data: existingCustomer } = await supabase
+           .from('customers')
+           .select('id')
+           .eq('user_id', currentSession.user.id)
+           .eq('phone', customerPhone)
+           .single()
+
+          if (existingCustomer) {
+            customerId = existingCustomer.id
+          } else {
+            const { data: newCustomer } = await supabase
+             .from('customers')
+             .insert({
+                user_id: currentSession.user.id,
+                name: customerName,
+                phone: customerPhone
+              })
+             .select()
+             .single()
+            customerId = newCustomer.id
+          }
         }
 
-        // 2. Create invoice
-        const { data: invoice, error: invError } = await supabase
-          .from('invoices')
-          .insert({
-            customer_id: customer.id,
+        // 2. Insert invoice with today's date
+        const today = new Date().toISOString().split('T')[0]
+        const { data: invoice, error: invoiceError } = await supabase
+         .from('invoices')
+         .insert({
+            user_id: currentSession.user.id,
+            customer_id: customerId,
             customer_name: customerName,
-            date: invoiceDate,
-            total_amount: totalAmount,
+            date: today,
+            total_amount: subtotal,
             amount_paid: amountPaid,
             balance_due: balanceDue,
-            payment_mode: paymentMode,
-            user_id: currentSession.user.id
+            payment_mode: document.getElementById('paymentMode').value
           })
-          .select()
-          .single()
+         .select()
+         .single()
 
-        if (invError) throw invError
+        if (invoiceError) throw invoiceError
 
-        // 3. Create invoice items
-        const itemsData = items.map(item => ({
+        // 3. Insert invoice items
+        const invoiceItems = items.map(item => ({
           invoice_id: invoice.id,
           item_name: item.name,
           quantity: item.qty,
           price: item.price,
-          total: item.qty * item.price,
-          user_id: currentSession.user.id
+          total: item.qty * item.price
         }))
 
         const { error: itemsError } = await supabase
-          .from('invoice_items')
-          .insert(itemsData)
+         .from('invoice_items')
+         .insert(invoiceItems)
 
         if (itemsError) throw itemsError
 
-        alert('Invoice saved successfully! Download PDF from Downloads page.')
-        
-        // Reset form
-        document.getElementById('customerName').value = ''
-        document.getElementById('customerPhone').value = ''
-        document.getElementById('amountPaid').value = 0
-        items = [{ name: '', qty: 1, price: 0 }]
-        renderItems()
+        alert('Invoice saved successfully!')
+        window.location.href = '/dashboard.html'
 
       } catch (error) {
         console.error('Error:', error)
         alert('Error saving invoice: ' + error.message)
-      } finally {
         btn.disabled = false
         btn.innerText = 'Save Invoice'
       }
