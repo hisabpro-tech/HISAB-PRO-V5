@@ -4,23 +4,71 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - HISAB PRO V5</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.nav-brand{color:#fff;font-size:20px;font-weight:700;padding:16px 0}.nav-links{display:flex;gap:4px}.nav-link{color:#d1fae5;text-decoration:none;padding:18px 16px;display:block;font-weight:500;font-size:15px;transition:all.2s}.nav-link:hover{background:#15803d;color:#fff}.nav-link.active{background:#15803d;color:#fff}.nav-user{display:flex;align-items:center;gap:12px}#userEmail{color:#d1fae5;font-size:14px}.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}.menu-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}.container{max-width:1200px;margin:0 auto;padding:20px 16px}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}.stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}.stat-label{font-size:14px;color:#666;margin-bottom:8px}.stat-value{font-size:28px;font-weight:700;color:#1f2937}.stat-value.green{color:#16a34a}.stat-value.red{color:#dc2626}.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}.card h3{margin-bottom:16px;font-size:18px}.btn{padding:12px 24px;background:#16a34a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:15px;text-decoration:none;display:inline-block}.btn:hover{background:#15803d}.chart-container{position:relative;height:300px}@media (max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#16a34a;flex-direction:column}.nav-links.show{display:flex}.menu-toggle{display:block}#userEmail{display:none}.card{padding:16px}.stat-value{font-size:24px}}
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
+   .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+   .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+   .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+   .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+   .nav-links::-webkit-scrollbar{display:none}
+   .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+   .nav-link:hover{background:#15803d;color:#fff}
+   .nav-link.active{background:#15803d;color:#fff}
+   .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+    #userEmail{color:#d1fae5;font-size:12px;display:none}
+   .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+   .menu-toggle{display:none}
+    .container{max-width:1200px;margin:0 auto;padding:20px 16px}
+    .welcome-card{background:linear-gradient(135deg,#16a34a 0%,#15803d 100%);color:#fff;padding:24px;border-radius:12px;margin-bottom:20px}
+    .welcome-card h2{font-size:24px;margin-bottom:8px}
+    .welcome-card p{opacity:0.9;font-size:14px}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
+    .stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .stat-label{font-size:14px;color:#666;margin-bottom:8px}
+    .stat-value{font-size:32px;font-weight:700;color:#1f2937}
+    .stat-value.green{color:#16a34a}
+    .stat-value.red{color:#dc2626}
+    .stat-value.blue{color:#0ea5e9}
+    .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
+    .card h3{font-size:18px;margin-bottom:16px}
+    .quick-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+    .action-btn{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:16px;cursor:pointer;font-weight:600;font-size:15px;text-align:center;text-decoration:none;display:block;transition:all.2s}
+    .action-btn:hover{background:#15803d;transform:translateY(-2px)}
+    .action-btn.blue{background:#0ea5e9}
+    .action-btn.blue:hover{background:#0284c7}
+    .action-btn.orange{background:#f59e0b}
+    .action-btn.orange:hover{background:#d97706}
+    .recent-list{display:flex;flex-direction:column;gap:10px}
+    .recent-item{background:#f9fafb;padding:14px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+    .recent-item-info{flex:1}
+    .recent-item-name{font-weight:600;margin-bottom:4px}
+    .recent-item-date{font-size:13px;color:#666}
+    .recent-item-amount{font-weight:700;color:#16a34a}
+    .empty-msg{text-align:center;padding:30px;color:#666}
+   @media (max-width:768px){
+     .nav-container{padding:0 8px}
+     .nav-brand{font-size:16px;padding:10px 0}
+     .nav-links{width:100%;order:3;padding-bottom:4px}
+     .nav-link{padding:12px 10px;font-size:13px}
+     .btn-logout{padding:6px 10px;font-size:12px}
+     .welcome-card{padding:20px}
+     .welcome-card h2{font-size:20px}
+     .card{padding:16px}
+     .stat-value{font-size:28px}
+     .recent-item{flex-direction:column;align-items:flex-start;gap:8px}
+   }
   </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="nav-container">
-      <div style="display:flex;align-items:center;gap:16px">
-        <button class="menu-toggle" id="menuToggle">☰</button>
-        <div class="nav-brand">HISAB PRO V5</div>
-      </div>
-      <div class="nav-links" id="navLinks">
+      <div class="nav-brand">HISAB PRO V5</div>
+      <div class="nav-links">
         <a href="/dashboard.html" class="nav-link active">Dashboard</a>
         <a href="/invoice.html" class="nav-link">New Invoice</a>
         <a href="/customers.html" class="nav-link">Customers</a>
         <a href="/reports.html" class="nav-link">Reports</a>
+        <a href="/downloads.html" class="nav-link">Downloads</a>
       </div>
       <div class="nav-user">
         <span id="userEmail"></span>
@@ -30,31 +78,43 @@
   </nav>
 
   <div class="container">
+    <div class="welcome-card">
+      <h2>Welcome Back! 👋</h2>
+      <p id="welcomeText">Your business dashboard</p>
+    </div>
+
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-label">Today's Sale</div>
-        <div class="stat-value" id="todaySale">₹0</div>
+        <div class="stat-label">Total Sale</div>
+        <div class="stat-value" id="totalSale">₹0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Today's Collection</div>
-        <div class="stat-value green" id="todayCollection">₹0</div>
+        <div class="stat-label">Total Collection</div>
+        <div class="stat-value green" id="totalCollection">₹0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Total Udhar Pending</div>
+        <div class="stat-label">Total Udhar</div>
         <div class="stat-value red" id="totalUdhar">₹0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Customers</div>
+        <div class="stat-value blue" id="totalCustomers">0</div>
       </div>
     </div>
 
     <div class="card">
       <h3>Quick Actions</h3>
-      <a href="/invoice.html" class="btn">+ New Invoice</a>
+      <div class="quick-actions">
+        <a href="/invoice.html" class="action-btn">➕ New Invoice</a>
+        <a href="/customers.html" class="action-btn blue">👥 Add Customer</a>
+        <a href="/downloads.html" class="action-btn orange">📄 Download PDF</a>
+        <a href="/reports.html" class="action-btn">📊 View Reports</a>
+      </div>
     </div>
 
     <div class="card">
-      <h3>Last 7 Days Performance</h3>
-      <div class="chart-container">
-        <canvas id="salesChart"></canvas>
-      </div>
+      <h3>Recent Invoices</h3>
+      <div class="recent-list" id="recentInvoices"></div>
     </div>
   </div>
 
@@ -62,15 +122,14 @@
     import { supabase } from './js/supabaseClient.js'
 
     let currentSession = null
-    let salesChart = null
 
-    // Session refresh fix - Reports wala issue yahan nahi aayega
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
       if (session) {
         currentSession = session
         document.getElementById('userEmail').innerText = session.user.email
-        loadDashboardData()
+        document.getElementById('welcomeText').innerText = `Logged in as ${session.user.email}`
+        loadDashboard()
       }
     })
 
@@ -79,7 +138,8 @@
       if (!session) return window.location.replace('/login.html')
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
-      loadDashboardData()
+      document.getElementById('welcomeText').innerText = `Logged in as ${session.user.email}`
+      loadDashboard()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -87,110 +147,57 @@
       window.location.replace('/login.html')
     }
 
-    document.getElementById('menuToggle').onclick = () => {
-      document.getElementById('navLinks').classList.toggle('show')
-    }
-
-    async function loadDashboardData() {
+    async function loadDashboard() {
       if (!currentSession) return
 
-      // Today's data
-      const today = new Date()
-      const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString()
-      const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString()
-
-      const { data: todayInvoices } = await supabase
+      // Load invoices
+      const { data: invoices } = await supabase
         .from('invoices')
-        .select('*')
+        .select('*, customers(name)')
         .eq('user_id', currentSession.user.id)
-        .gte('date', startOfDay)
-        .lte('date', endOfDay)
+        .order('created_at', { ascending: false })
+        .limit(5)
 
-      const todaySale = todayInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
-      const todayCollection = todayInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
+      // Load customers count
+      const { count: customerCount } = await supabase
+        .from('customers')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', currentSession.user.id)
 
-      document.getElementById('todaySale').innerText = `₹${todaySale.toLocaleString('en-IN')}`
-      document.getElementById('todayCollection').innerText = `₹${todayCollection.toLocaleString('en-IN')}`
-
-      // Total Udhar
+      // Calculate stats
       const { data: allInvoices } = await supabase
         .from('invoices')
-        .select('balance_due')
+        .select('total_amount, amount_paid, balance_due')
         .eq('user_id', currentSession.user.id)
-        .gt('balance_due', 0)
 
-      const totalUdhar = allInvoices?.reduce((sum, inv) => sum + Number(inv.balance_due), 0) || 0
+      const totalSale = allInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
+      const totalCollection = allInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
+      const totalUdhar = allInvoices?.reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0) || 0
+
+      document.getElementById('totalSale').innerText = `₹${totalSale.toLocaleString('en-IN')}`
+      document.getElementById('totalCollection').innerText = `₹${totalCollection.toLocaleString('en-IN')}`
       document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
+      document.getElementById('totalCustomers').innerText = customerCount || 0
 
-      // Last 7 days chart
-      loadChart()
+      renderRecentInvoices(invoices || [])
     }
 
-    async function loadChart() {
-      const last7Days = []
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date()
-        d.setDate(d.getDate() - i)
-        last7Days.push(d)
+    function renderRecentInvoices(invoices) {
+      const div = document.getElementById('recentInvoices')
+      if (invoices.length === 0) {
+        div.innerHTML = '<div class="empty-msg">No invoices yet. Create your first invoice!</div>'
+        return
       }
 
-      const labels = last7Days.map(d => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }))
-      const salesData = []
-      const collectionData = []
-
-      for (const day of last7Days) {
-        const start = new Date(day.getFullYear(), day.getMonth(), day.getDate()).toISOString()
-        const end = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 23, 59, 59).toISOString()
-
-        const { data } = await supabase
-          .from('invoices')
-          .select('total_amount, amount_paid')
-          .eq('user_id', currentSession.user.id)
-          .gte('date', start)
-          .lte('date', end)
-
-        const sale = data?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
-        const collection = data?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
-
-        salesData.push(sale)
-        collectionData.push(collection)
-      }
-
-      const ctx = document.getElementById('salesChart').getContext('2d')
-      if (salesChart) salesChart.destroy()
-
-      salesChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Sale',
-              data: salesData,
-              backgroundColor: '#3b82f6'
-            },
-            {
-              label: 'Collection',
-              data: collectionData,
-              backgroundColor: '#16a34a'
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return '₹' + value.toLocaleString('en-IN')
-                }
-              }
-            }
-          }
-        }
-      })
+      div.innerHTML = invoices.map(inv => `
+        <div class="recent-item">
+          <div class="recent-item-info">
+            <div class="recent-item-name">${inv.customers?.name || inv.customer_name || 'N/A'}</div>
+            <div class="recent-item-date">${new Date(inv.date).toLocaleDateString('en-IN')}</div>
+          </div>
+          <div class="recent-item-amount">₹${Number(inv.total_amount).toLocaleString('en-IN')}</div>
+        </div>
+      `).join('')
     }
 
     initApp()

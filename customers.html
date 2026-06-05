@@ -5,51 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customers - HISAB PRO V5</title>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.nav-brand{color:#fff;font-size:20px;font-weight:700;padding:16px 0}.nav-links{display:flex;gap:4px}.nav-link{color:#d1fae5;text-decoration:none;padding:18px 16px;display:block;font-weight:500;font-size:15px;transition:all.2s}.nav-link:hover{background:#15803d;color:#fff}.nav-link.active{background:#15803d;color:#fff}.nav-user{display:flex;align-items:center;gap:12px}#userEmail{color:#d1fae5;font-size:14px}.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}.menu-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}.container{max-width:900px;margin:0 auto;padding:20px 16px}.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}.card h3{margin-bottom:16px;font-size:18px}input{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:16px}input:focus{outline:none;border-color:#16a34a}
-
-   /* Mobile First: Card Layout */
-  .customer-list{display:flex;flex-direction:column;gap:12px}
-  .customer-card{background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px}
-  .customer-name{font-weight:600;font-size:16px;margin-bottom:8px;text-transform:capitalize}
-  .customer-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:14px;color:#64748b}
-  .customer-actions{display:flex;gap:8px;margin-top:12px}
-  .udhar-amount{font-weight:700;font-size:20px}
-  .udhar-red{color:#dc2626}
-  .udhar-green{color:#16a34a}
-    
-  .btn{background:#16a34a;color:#fff;border:none;border-radius:6px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;flex:1}.btn:hover{background:#15803d}
-  .btn-red{background:#dc2626}.btn-red:hover{background:#b91c1c}
-  .btn-blue{background:#2563eb}.btn-blue:hover{background:#1d4ed8}
-    
-  .badge{padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;display:inline-block}.badge-green{background:#d1fae5;color:#065f46}.badge-red{background:#fee2e2;color:#991b1b}
-    
-  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:16px}.modal.show{display:flex}.modal-box{background:#fff;padding:24px;border-radius:12px;max-width:400px;width:100%}
-    
-   /* Desktop: Table Layout */
-  .table-wrapper{display:none}
-   @media (min-width:769px){
-    .customer-list{display:none}
-    .table-wrapper{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .table{min-width:700px;width:100%;border-collapse:collapse;font-size:14px}
-    .table th{text-align:left;padding:12px;background:#f9fafb;font-weight:600;color:#374151;border-bottom:1px solid #e5e7eb;white-space:nowrap}.table td{padding:12px;border-bottom:1px solid #f3f4f6;white-space:nowrap}
-    .btn{flex:initial;width:auto}
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
+   .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+   .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+   .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+   .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+   .nav-links::-webkit-scrollbar{display:none}
+   .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+   .nav-link:hover{background:#15803d;color:#fff}
+   .nav-link.active{background:#15803d;color:#fff}
+   .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+    #userEmail{color:#d1fae5;font-size:12px;display:none}
+   .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+   .menu-toggle{display:none}
+    .container{max-width:1200px;margin:0 auto;padding:20px 16px}
+    .search-box{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px;margin-bottom:20px}
+    .search-box:focus{outline:none;border-color:#16a34a}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+    .stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:center}
+    .stat-label{font-size:14px;color:#666;margin-bottom:8px}
+    .stat-value{font-size:28px;font-weight:700;color:#1f2937}
+    .stat-value.blue{color:#0ea5e9}
+    .stat-value.red{color:#dc2626}
+    .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
+    .card h3{font-size:18px;margin-bottom:16px}
+    .customer-list{display:flex;flex-direction:column;gap:12px}
+    .customer-item{background:#f9fafb;padding:16px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;transition:all.2s}
+    .customer-item:hover{background:#f3f4f6}
+    .customer-info{flex:1}
+    .customer-name{font-weight:600;font-size:16px;margin-bottom:4px}
+    .customer-phone{font-size:14px;color:#666}
+    .customer-stats{display:flex;gap:16px;text-align:right}
+    .customer-stat{display:flex;flex-direction:column}
+    .customer-stat-label{font-size:12px;color:#666}
+    .customer-stat-value{font-weight:700;font-size:15px}
+    .empty-msg{text-align:center;padding:40px;color:#666}
+    .badge{padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600}
+    .badge-udhar{background:#fee2e2;color:#dc2626}
+    .badge-clear{background:#dcfce7;color:#16a34a}
+   @media (max-width:768px){
+     .nav-container{padding:0 8px}
+     .nav-brand{font-size:16px;padding:10px 0}
+     .nav-links{width:100%;order:3;padding-bottom:4px}
+     .nav-link{padding:12px 10px;font-size:13px}
+     .btn-logout{padding:6px 10px;font-size:12px}
+     .card{padding:16px}
+     .customer-item{flex-direction:column;align-items:flex-start;gap:12px}
+     .customer-stats{width:100%;justify-content:space-between}
    }
-    
-   @media (max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#16a34a;flex-direction:column}.nav-links.show{display:flex}.menu-toggle{display:block}#userEmail{display:none}.card{padding:16px}}
   </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="nav-container">
-      <div style="display:flex;align-items:center;gap:16px">
-        <button class="menu-toggle" id="menuToggle">☰</button>
-        <div class="nav-brand">HISAB PRO V5</div>
-      </div>
-      <div class="nav-links" id="navLinks">
+      <div class="nav-brand">HISAB PRO V5</div>
+      <div class="nav-links">
         <a href="/dashboard.html" class="nav-link">Dashboard</a>
         <a href="/invoice.html" class="nav-link">New Invoice</a>
         <a href="/customers.html" class="nav-link active">Customers</a>
         <a href="/reports.html" class="nav-link">Reports</a>
+        <a href="/downloads.html" class="nav-link">Downloads</a>
       </div>
       <div class="nav-user">
         <span id="userEmail"></span>
@@ -59,192 +74,155 @@
   </nav>
 
   <div class="container">
-    <div class="card">
-      <h3>Search Customer</h3>
-      <input type="text" id="searchInput" placeholder="Customer name se search karo...">
+    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search customers by name or phone...">
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Customers</div>
+        <div class="stat-value blue" id="totalCustomers">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Customers with Udhar</div>
+        <div class="stat-value red" id="customersWithUdhar">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Udhar</div>
+        <div class="stat-value red" id="totalUdhar">₹0</div>
+      </div>
     </div>
 
     <div class="card">
       <h3>All Customers</h3>
-      
-      <!-- Mobile: Card Layout -->
-      <div class="customer-list" id="customerList">
-        <div style="text-align:center;color:#999;padding:20px">Loading...</div>
-      </div>
-      
-      <!-- Desktop: Table Layout -->
-      <div class="table-wrapper">
-        <table class="table">
-          <thead>
-            <tr><th>Name</th><th>Phone</th><th>Total Udhar</th><th>Last Invoice</th><th>Actions</th></tr>
-          </thead>
-          <tbody id="customersTable">
-            <tr><td colspan="5" style="text-align:center;color:#999">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="collectModal">
-    <div class="modal-box">
-      <h3 style="margin-bottom:16px">Collect Udhar</h3>
-      <p style="margin-bottom:12px">Customer: <strong id="collectCustomerName"></strong></p>
-      <p style="margin-bottom:12px">Total Udhar: <strong id="collectTotalDue" style="color:#dc2626"></strong></p>
-      <label style="display:block;margin-bottom:6px;font-weight:600;font-size:14px">Amount Collecting</label>
-      <input type="number" id="collectAmount" placeholder="Enter amount" style="margin-bottom:16px">
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-blue" style="width:100%" onclick="confirmCollect()">Collect</button>
-        <button class="btn btn-red" style="width:100%" onclick="closeCollectModal()">Cancel</button>
-      </div>
+      <div class="customer-list" id="customerList"></div>
     </div>
   </div>
 
   <script type="module">
     import { supabase } from './js/supabaseClient.js'
 
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) window.location.replace('/login.html')
-    if (session?.user?.email) document.getElementById('userEmail').innerText = session.user.email
-    document.getElementById('logoutBtn').onclick = async () => { await supabase.auth.signOut(); window.location.replace('/login.html') }
-    document.getElementById('menuToggle').onclick = () => { document.getElementById('navLinks').classList.toggle('show') }
+    let currentSession = null
+    let allCustomers = []
+    let customerStats = {}
 
-    let allCustomers = [], selectedCustomer = null
-
-    async function loadCustomers() {
-      // ✅ FIX: Sirf unpaid invoices ka sum nikal
-      const { data: customers } = await supabase
-      .from('customers')
-      .select('id, name, phone')
-      .eq('user_id', session.user.id)
-      .order('name')
-
-      const customersWithUdar = await Promise.all(customers.map(async (c) => {
-        const { data: invoices } = await supabase
-        .from('invoices')
-        .select('balance_due, date')
-        .eq('customer_id', c.id)
-        .gt('balance_due', 0) // ✅ Sirf pending udhar
-        .order('date', { ascending: false })
-        
-        const totalUdar = invoices?.reduce((sum, inv) => sum + Number(inv.balance_due), 0) || 0
-        const lastDate = invoices?.[0]?.date || null
-        return {...c, totalUdar, lastDate }
-      }))
-      allCustomers = customersWithUdar
-      renderCustomers(allCustomers)
-    }
-
-    function renderCustomers(customers) {
-      // Mobile Cards
-      const listDiv = document.getElementById('customerList')
-      if (customers.length === 0) {
-        listDiv.innerHTML = '<div style="text-align:center;color:#999;padding:20px">No customers found</div>'
-      } else {
-        listDiv.innerHTML = customers.map(c => `
-          <div class="customer-card">
-            <div class="customer-name">${c.name}</div>
-            <div class="customer-row">
-              <span>Phone:</span>
-              <span>${c.phone || '-'}</span>
-            </div>
-            <div class="customer-row">
-              <span>Last Invoice:</span>
-              <span>${c.lastDate? new Date(c.lastDate).toLocaleDateString('en-GB') : '-'}</span>
-            </div>
-            <div class="customer-row">
-              <span>Total Udhar:</span>
-              <span class="udhar-amount ${c.totalUdar > 0? 'udhar-red' : 'udhar-green'}">
-                ${c.totalUdar > 0? `₹${c.totalUdar.toLocaleString('en-IN')}` : 'Clear'}
-              </span>
-            </div>
-            <div class="customer-actions">
-              ${c.totalUdar > 0? `<button class="btn btn-blue" onclick="openCollectModal('${c.id}', '${c.name}', ${c.totalUdar})">Collect</button>` : ''}
-              <button class="btn btn-red" onclick="deleteCustomer('${c.id}')">Delete</button>
-            </div>
-          </div>
-        `).join('')
-      }
-
-      // Desktop Table
-      const tbody = document.getElementById('customersTable')
-      tbody.innerHTML = customers.length? customers.map(c => `
-        <tr>
-          <td style="text-transform:capitalize">${c.name}</td>
-          <td>${c.phone || '-'}</td>
-          <td>${c.totalUdar > 0? `<span class="badge badge-red">₹${c.totalUdar.toLocaleString('en-IN')}</span>` : `<span class="badge badge-green">Clear</span>`}</td>
-          <td>${c.lastDate? new Date(c.lastDate).toLocaleDateString('en-GB') : '-'}</td>
-          <td>
-            ${c.totalUdar > 0? `<button class="btn btn-blue" onclick="openCollectModal('${c.id}', '${c.name}', ${c.totalUdar})" style="margin-right:8px">Collect</button>` : ''}
-            <button class="btn btn-red" onclick="deleteCustomer('${c.id}')">Delete</button>
-          </td>
-        </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:#999">No customers found</td></tr>'
-    }
-
-    window.openCollectModal = (id, name, totalDue) => {
-      selectedCustomer = { id, name, totalDue }
-      document.getElementById('collectCustomerName').innerText = name
-      document.getElementById('collectTotalDue').innerText = `₹${totalDue.toLocaleString('en-IN')}`
-      document.getElementById('collectAmount').value = totalDue
-      document.getElementById('collectAmount').max = totalDue
-      document.getElementById('collectModal').classList.add('show')
-    }
-
-    window.closeCollectModal = () => { 
-      document.getElementById('collectModal').classList.remove('show')
-      selectedCustomer = null 
-    }
-
-    window.confirmCollect = async () => {
-      const amount = Number(document.getElementById('collectAmount').value)
-      if (!amount || amount <= 0) return alert('Amount daalo bhai')
-      if (amount > selectedCustomer.totalDue) return alert('Udhar se zyada collect nahi kar sakte')
-      
-      try {
-        // Purane invoices me se FIFO basis pe paisa adjust karo
-        const { data: invoices } = await supabase
-        .from('invoices')
-        .select('id, balance_due, amount_paid')
-        .eq('customer_id', selectedCustomer.id)
-        .gt('balance_due', 0)
-        .order('date', { ascending: true })
-        
-        let remainingAmount = amount
-        for (const inv of invoices) {
-          if (remainingAmount <= 0) break
-          const payAmount = Math.min(remainingAmount, Number(inv.balance_due))
-          const newPaid = Number(inv.amount_paid) + payAmount
-          const newBalance = Number(inv.balance_due) - payAmount
-          
-          await supabase.from('invoices').update({ 
-            amount_paid: newPaid, 
-            balance_due: newBalance, 
-            status: newBalance <= 0? 'paid' : 'unpaid' 
-          }).eq('id', inv.id)
-          
-          remainingAmount -= payAmount
-        }
-        
-        alert(`₹${amount} collected successfully!`)
-        closeCollectModal()
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
+      if (session) {
+        currentSession = session
+        document.getElementById('userEmail').innerText = session.user.email
         loadCustomers()
-      } catch (error) { 
-        alert('Error: ' + error.message) 
       }
-    }
+    })
 
-    window.deleteCustomer = async (id) => {
-      if (!confirm('Customer delete karna hai? Unki saari invoices bhi delete ho jayengi.')) return
-      await supabase.from('customers').delete().eq('id', id)
+    async function initApp() {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return window.location.replace('/login.html')
+      currentSession = session
+      document.getElementById('userEmail').innerText = session.user.email
       loadCustomers()
     }
 
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const search = e.target.value.toLowerCase()
-      renderCustomers(allCustomers.filter(c => c.name.toLowerCase().includes(search)))
-    })
-    
-    loadCustomers()
+    document.getElementById('logoutBtn').onclick = async () => {
+      await supabase.auth.signOut()
+      window.location.replace('/login.html')
+    }
+
+    document.getElementById('searchBox').oninput = (e) => {
+      renderCustomers(e.target.value.toLowerCase())
+    }
+
+    async function loadCustomers() {
+      if (!currentSession) return
+
+      // Load customers
+      const { data: customers, error } = await supabase
+        .from('customers')
+        .select('*')
+        .eq('user_id', currentSession.user.id)
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Error:', error)
+        return
+      }
+
+      allCustomers = customers || []
+
+      // Load invoices to calculate stats
+      const { data: invoices } = await supabase
+        .from('invoices')
+        .select('customer_id, total_amount, amount_paid, balance_due')
+        .eq('user_id', currentSession.user.id)
+
+      // Calculate stats per customer
+      customerStats = {}
+      invoices?.forEach(inv => {
+        if (!customerStats[inv.customer_id]) {
+          customerStats[inv.customer_id] = { total: 0, paid: 0, udhar: 0, count: 0 }
+        }
+        customerStats[inv.customer_id].total += Number(inv.total_amount)
+        customerStats[inv.customer_id].paid += Number(inv.amount_paid || 0)
+        customerStats[inv.customer_id].udhar += Number(inv.balance_due || 0)
+        customerStats[inv.customer_id].count += 1
+      })
+
+      updateStats()
+      renderCustomers()
+    }
+
+    function updateStats() {
+      const totalCustomers = allCustomers.length
+      const customersWithUdhar = Object.values(customerStats).filter(s => s.udhar > 0).length
+      const totalUdhar = Object.values(customerStats).reduce((sum, s) => sum + s.udhar, 0)
+
+      document.getElementById('totalCustomers').innerText = totalCustomers
+      document.getElementById('customersWithUdhar').innerText = customersWithUdhar
+      document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
+    }
+
+    function renderCustomers(searchTerm = '') {
+      const div = document.getElementById('customerList')
+      const filtered = allCustomers.filter(c => 
+        c.name.toLowerCase().includes(searchTerm) || 
+        (c.phone && c.phone.includes(searchTerm))
+      )
+
+      if (filtered.length === 0) {
+        div.innerHTML = '<div class="empty-msg">No customers found</div>'
+        return
+      }
+
+      div.innerHTML = filtered.map(customer => {
+        const stats = customerStats[customer.id] || { total: 0, udhar: 0, count: 0 }
+        const badge = stats.udhar > 0 
+          ? `<span class="badge badge-udhar">₹${stats.udhar.toLocaleString('en-IN')} Udhar</span>`
+          : `<span class="badge badge-clear">Clear</span>`
+
+        return `
+          <div class="customer-item">
+            <div class="customer-info">
+              <div class="customer-name">${customer.name}</div>
+              <div class="customer-phone">${customer.phone || 'No phone'}</div>
+            </div>
+            <div class="customer-stats">
+              <div class="customer-stat">
+                <div class="customer-stat-label">Invoices</div>
+                <div class="customer-stat-value">${stats.count}</div>
+              </div>
+              <div class="customer-stat">
+                <div class="customer-stat-label">Total Business</div>
+                <div class="customer-stat-value">₹${stats.total.toLocaleString('en-IN')}</div>
+              </div>
+              <div class="customer-stat">
+                <div class="customer-stat-label">Status</div>
+                <div class="customer-stat-value">${badge}</div>
+              </div>
+            </div>
+          </div>
+        `
+      }).join('')
+    }
+
+    initApp()
   </script>
 </body>
 </html>

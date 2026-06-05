@@ -5,21 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Invoice - HISAB PRO V5</title>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.nav-brand{color:#fff;font-size:20px;font-weight:700;padding:16px 0}.nav-links{display:flex;gap:4px}.nav-link{color:#d1fae5;text-decoration:none;padding:18px 16px;display:block;font-weight:500;font-size:15px;transition:all.2s}.nav-link:hover{background:#15803d;color:#fff}.nav-link.active{background:#15803d;color:#fff}.nav-user{display:flex;align-items:center;gap:12px}#userEmail{color:#d1fae5;font-size:14px}.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}.menu-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}.container{max-width:900px;margin:0 auto;padding:20px 16px}.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}.card h3{margin-bottom:16px;font-size:18px}label{display:block;margin-bottom:6px;font-weight:600;font-size:14px;color:#374151}input,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:16px}input:focus,select:focus{outline:none;border-color:#16a34a}input[readonly]{background:#f9fafb;cursor:not-allowed}.btn{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:12px 20px;cursor:pointer;font-weight:600;font-size:15px;width:100%}.btn:hover{background:#15803d}.btn-small{padding:8px 12px;font-size:14px;width:auto}.btn-red{background:#dc2626}.btn-red:hover{background:#b91c1c}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.grid-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;align-items:end}.table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:16px}.table th{text-align:left;padding:12px;background:#f9fafb;font-weight:600;color:#374151;border-bottom:1px solid #e5e7eb}.table td{padding:12px;border-bottom:1px solid #f3f4f6}.total-box{background:#f0fdf4;padding:16px;border-radius:8px;margin-bottom:16px;border:2px solid #d1fae5}.total-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:15px}.total-row.final{font-size:20px;font-weight:700;color:#16a34a;padding-top:8px;border-top:2px solid #d1fae5}@media (max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#16a34a;flex-direction:column}.nav-links.show{display:flex}.menu-toggle{display:block}#userEmail{display:none}.grid-2,.grid-3{grid-template-columns:1fr}}
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
+   .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+   .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+   .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+   .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+   .nav-links::-webkit-scrollbar{display:none}
+   .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+   .nav-link:hover{background:#15803d;color:#fff}
+   .nav-link.active{background:#15803d;color:#fff}
+   .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+    #userEmail{color:#d1fae5;font-size:12px;display:none}
+   .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+   .menu-toggle{display:none}
+    .container{max-width:1000px;margin:0 auto;padding:20px 16px}
+    .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
+    .card h3{margin-bottom:16px;font-size:18px}
+    .form-group{margin-bottom:16px}
+    .form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:14px}
+    .form-group input,.form-group select{width:100%;padding:10px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
+    .form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .items-table{width:100%;border-collapse:collapse;margin-top:12px}
+    .items-table th,.items-table td{padding:10px;text-align:left;border-bottom:1px solid #e5e7eb;font-size:14px}
+    .items-table th{background:#f9fafb;font-weight:600}
+    .items-table input{width:100%;padding:6px;border:1px solid #e5e7eb;border-radius:4px}
+    .btn-add{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;margin-top:12px}
+    .btn-delete{background:#dc2626;color:#fff;border:none;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:12px}
+    .summary{background:#f9fafb;padding:16px;border-radius:8px;margin-top:16px}
+    .summary-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:15px}
+    .summary-row.total{font-weight:700;font-size:18px;border-top:2px solid #e5e7eb;padding-top:8px;margin-top:8px}
+    .btn-submit{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:14px;width:100%;cursor:pointer;font-weight:600;font-size:16px;margin-top:16px}
+    .btn-submit:disabled{background:#94a3b8;cursor:not-allowed}
+    .info-box{background:#dbeafe;border-left:4px solid #3b82f6;padding:12px;border-radius:6px;margin-top:16px;font-size:14px;color:#1e40af}
+    @media (max-width:768px){
+     .nav-container{padding:0 8px}
+     .nav-brand{font-size:16px;padding:10px 0}
+     .nav-links{width:100%;order:3;padding-bottom:4px}
+     .nav-link{padding:12px 10px;font-size:13px}
+     .btn-logout{padding:6px 10px;font-size:12px}
+     .row{grid-template-columns:1fr}
+     .card{padding:16px}
+     .items-table{font-size:12px}
+     .items-table th,.items-table td{padding:6px 4px}
+    }
   </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="nav-container">
-      <div style="display:flex;align-items:center;gap:16px">
-        <button class="menu-toggle" id="menuToggle">☰</button>
-        <div class="nav-brand">HISAB PRO V5</div>
-      </div>
-      <div class="nav-links" id="navLinks">
+      <div class="nav-brand">HISAB PRO V5</div>
+      <div class="nav-links">
         <a href="/dashboard.html" class="nav-link">Dashboard</a>
         <a href="/invoice.html" class="nav-link active">New Invoice</a>
         <a href="/customers.html" class="nav-link">Customers</a>
         <a href="/reports.html" class="nav-link">Reports</a>
+        <a href="/downloads.html" class="nav-link">Downloads</a>
       </div>
       <div class="nav-user">
         <span id="userEmail"></span>
@@ -30,192 +71,247 @@
 
   <div class="container">
     <div class="card">
-      <h3>Customer Details</h3>
-      <div class="grid-2">
-        <div>
-          <label>Customer Name</label>
-          <input type="text" id="customerName" placeholder="Enter customer name" />
+      <h3>Create New Invoice</h3>
+      
+      <div class="row">
+        <div class="form-group">
+          <label>Customer Name *</label>
+          <input type="text" id="customerName" placeholder="Enter customer name" required>
         </div>
-        <div>
-          <label>Invoice Date</label>
-          <input type="date" id="invoiceDate" readonly />
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Add Items</h3>
-      <div class="grid-3">
-        <div>
-          <label>Item Name</label>
-          <input type="text" id="itemName" placeholder="Product name" />
-        </div>
-        <div>
-          <label>Qty</label>
-          <input type="number" id="itemQty" value="1" min="1" />
-        </div>
-        <div>
-          <label>Price</label>
-          <input type="number" id="itemPrice" placeholder="0" />
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="customerPhone" placeholder="Enter phone number">
         </div>
       </div>
-      <button class="btn btn-small" onclick="addItem()">+ Add Item</button>
-    </div>
 
-    <div class="card">
-      <h3>Invoice Items</h3>
-      <table class="table">
+      <div class="row">
+        <div class="form-group">
+          <label>Invoice Date *</label>
+          <input type="date" id="invoiceDate" required>
+        </div>
+        <div class="form-group">
+          <label>Payment Mode</label>
+          <select id="paymentMode">
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="Credit">Credit/Udhar</option>
+          </select>
+        </div>
+      </div>
+
+      <h3 style="margin-top:24px">Items</h3>
+      <table class="items-table">
         <thead>
-          <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th><th>Action</th></tr>
+          <tr>
+            <th>Item Name</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th></th>
+          </tr>
         </thead>
-        <tbody id="itemsTable">
-          <tr><td colspan="5" style="text-align:center;color:#999">No items added</td></tr>
-        </tbody>
+        <tbody id="itemsBody"></tbody>
       </table>
+      <button class="btn-add" id="addItemBtn">+ Add Item</button>
 
-      <div class="total-box">
-        <div class="total-row final">
-          <span>Total Amount:</span>
-          <span id="totalAmount">₹0</span>
+      <div class="summary">
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span id="subtotal">₹0</span>
         </div>
-      </div>
-
-      <label>Payment Mode</label>
-      <select id="paymentType">
-        <option value="cash">Cash - Full Payment</option>
-        <option value="udhar">Udhar - Partial Payment</option>
-      </select>
-
-      <label>Amount Paid</label>
-      <input type="number" id="amountPaid" placeholder="0" value="0" />
-
-      <div class="total-box">
-        <div class="total-row">
+        <div class="summary-row">
+          <span>Amount Paid:</span>
+          <span><input type="number" id="amountPaid" value="0" style="width:120px;padding:4px;border:1px solid #e5e7eb;border-radius:4px;text-align:right"></span>
+        </div>
+        <div class="summary-row total">
           <span>Balance Due:</span>
-          <span id="balanceDue" style="color:#dc2626;font-weight:700">₹0</span>
+          <span id="balanceDue" style="color:#dc2626">₹0</span>
         </div>
       </div>
 
-      <button class="btn" onclick="saveInvoice()">Save Invoice</button>
+      <button class="btn-submit" id="saveInvoiceBtn">Save Invoice</button>
+      
+      <div class="info-box">
+        📄 Invoice save hone ke baad PDF download karne ke liye <strong>Downloads</strong> page par jao
+      </div>
     </div>
   </div>
 
   <script type="module">
     import { supabase } from './js/supabaseClient.js'
 
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) window.location.replace('/login.html')
-    if (session?.user?.email) document.getElementById('userEmail').innerText = session.user.email
-    document.getElementById('logoutBtn').onclick = async () => { await supabase.auth.signOut(); window.location.replace('/login.html') }
-    document.getElementById('menuToggle').onclick = () => { document.getElementById('navLinks').classList.toggle('show') }
+    let currentSession = null
+    let items = [{ name: '', qty: 1, price: 0 }]
 
-    // Invoice date auto today + readonly
-    document.getElementById('invoiceDate').valueAsDate = new Date()
-
-    let items = []
-
-    window.addItem = () => {
-      const name = document.getElementById('itemName').value.trim()
-      const qty = Number(document.getElementById('itemQty').value) || 1
-      const price = Number(document.getElementById('itemPrice').value) || 0
-      if (!name || price <= 0) return alert('Item name aur price daalo bhai')
-      items.push({ name, qty, price })
-      renderItems()
-      document.getElementById('itemName').value = ''
-      document.getElementById('itemQty').value = '1'
-      document.getElementById('itemPrice').value = ''
-      document.getElementById('itemName').focus()
-    }
-
-    window.removeItem = (i) => { items.splice(i, 1); renderItems() }
-
-    function renderItems() {
-      const tbody = document.getElementById('itemsTable')
-      tbody.innerHTML = items.length? items.map((item, i) => `
-        <tr>
-          <td>${item.name}</td><td>${item.qty}</td><td>₹${item.price}</td><td>₹${item.qty * item.price}</td>
-          <td><button class="btn btn-small btn-red" onclick="removeItem(${i})">Delete</button></td>
-        </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:#999">No items added</td></tr>'
-      updateTotals()
-    }
-
-    function updateTotals() {
-      const total = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
-      document.getElementById('totalAmount').innerText = `₹${total}`
-      const paid = Number(document.getElementById('amountPaid').value) || 0
-      document.getElementById('balanceDue').innerText = `₹${total - paid}`
-    }
-
-    document.getElementById('amountPaid').addEventListener('input', updateTotals)
-    document.getElementById('paymentType').addEventListener('change', (e) => {
-      const total = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
-      document.getElementById('amountPaid').value = e.target.value === 'cash'? total : '0'
-      updateTotals()
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
+      if (session) {
+        currentSession = session
+        document.getElementById('userEmail').innerText = session.user.email
+      }
     })
 
-    window.saveInvoice = async () => {
+    async function initApp() {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return window.location.replace('/login.html')
+      currentSession = session
+      document.getElementById('userEmail').innerText = session.user.email
+      document.getElementById('invoiceDate').valueAsDate = new Date()
+      renderItems()
+    }
+
+    document.getElementById('logoutBtn').onclick = async () => {
+      await supabase.auth.signOut()
+      window.location.replace('/login.html')
+    }
+
+    function renderItems() {
+      const tbody = document.getElementById('itemsBody')
+      tbody.innerHTML = ''
+      items.forEach((item, idx) => {
+        const tr = document.createElement('tr')
+        tr.innerHTML = `
+          <td><input type="text" value="${item.name}" data-idx="${idx}" data-field="name" placeholder="Item name"></td>
+          <td><input type="number" value="${item.qty}" data-idx="${idx}" data-field="qty" min="1"></td>
+          <td><input type="number" value="${item.price}" data-idx="${idx}" data-field="price" min="0"></td>
+          <td>₹${(item.qty * item.price).toLocaleString('en-IN')}</td>
+          <td>${items.length > 1 ? `<button class="btn-delete" data-idx="${idx}">X</button>` : ''}</td>
+        `
+        tbody.appendChild(tr)
+      })
+      updateSummary()
+    }
+
+    document.getElementById('itemsBody').oninput = (e) => {
+      if (e.target.dataset.field) {
+        const idx = parseInt(e.target.dataset.idx)
+        const field = e.target.dataset.field
+        items[idx][field] = field === 'name' ? e.target.value : Number(e.target.value)
+        renderItems()
+      }
+    }
+
+    document.getElementById('itemsBody').onclick = (e) => {
+      if (e.target.classList.contains('btn-delete')) {
+        items.splice(parseInt(e.target.dataset.idx), 1)
+        renderItems()
+      }
+    }
+
+    document.getElementById('addItemBtn').onclick = () => {
+      items.push({ name: '', qty: 1, price: 0 })
+      renderItems()
+    }
+
+    document.getElementById('amountPaid').oninput = updateSummary
+
+    function updateSummary() {
+      const subtotal = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
+      const amountPaid = Number(document.getElementById('amountPaid').value) || 0
+      const balanceDue = subtotal - amountPaid
+
+      document.getElementById('subtotal').innerText = `₹${subtotal.toLocaleString('en-IN')}`
+      document.getElementById('balanceDue').innerText = `₹${balanceDue.toLocaleString('en-IN')}`
+      document.getElementById('balanceDue').style.color = balanceDue > 0 ? '#dc2626' : '#16a34a'
+    }
+
+    document.getElementById('saveInvoiceBtn').onclick = async () => {
       const customerName = document.getElementById('customerName').value.trim()
+      const customerPhone = document.getElementById('customerPhone').value.trim()
       const invoiceDate = document.getElementById('invoiceDate').value
-      const paymentType = document.getElementById('paymentType').value
+      const paymentMode = document.getElementById('paymentMode').value
       const amountPaid = Number(document.getElementById('amountPaid').value) || 0
 
-      if (!customerName) return alert('Customer name daalo bhai')
-      if (items.length === 0) return alert('Koi item add karo')
+      if (!customerName) {
+        alert('Customer name is required')
+        return
+      }
+
+      if (items.some(item => !item.name || item.qty <= 0 || item.price < 0)) {
+        alert('Please fill all item details correctly')
+        return
+      }
 
       const totalAmount = items.reduce((sum, item) => sum + (item.qty * item.price), 0)
       const balanceDue = totalAmount - amountPaid
-      if (paymentType === 'cash' && balanceDue > 0) return alert('Cash me poora paisa do ya Udhar select karo')
+
+      const btn = document.getElementById('saveInvoiceBtn')
+      btn.disabled = true
+      btn.innerText = 'Saving...'
 
       try {
-        let customerId
-        const { data: existingCustomer } = await supabase
-      .from('customers')
-      .select('id')
-      .eq('user_id', session.user.id)
-      .eq('name', customerName)
-      .single()
+        // 1. Create/get customer
+        let { data: customer } = await supabase
+          .from('customers')
+          .select('id')
+          .eq('name', customerName)
+          .eq('user_id', currentSession.user.id)
+          .single()
 
-        if (existingCustomer) {
-          customerId = existingCustomer.id
-        } else {
-          const { data: newCustomer, error: customerError } = await supabase
-        .from('customers')
-        .insert({ user_id: session.user.id, name: customerName })
-        .select()
-        .single()
-          if (customerError) throw customerError
-          customerId = newCustomer.id
+        if (!customer) {
+          const { data: newCustomer, error } = await supabase
+            .from('customers')
+            .insert({ name: customerName, phone: customerPhone, user_id: currentSession.user.id })
+            .select()
+            .single()
+          if (error) throw error
+          customer = newCustomer
         }
 
-        const { data: invoice, error: invoiceError } = await supabase.from('invoices').insert({
-          user_id: session.user.id, customer_id: customerId, date: invoiceDate,
-          total_amount: totalAmount, amount_paid: amountPaid, balance_due: balanceDue,
-          payment_type: paymentType, status: balanceDue > 0? 'unpaid' : 'paid'
-        }).select().single()
-        if (invoiceError) throw invoiceError
+        // 2. Create invoice
+        const { data: invoice, error: invError } = await supabase
+          .from('invoices')
+          .insert({
+            customer_id: customer.id,
+            customer_name: customerName,
+            date: invoiceDate,
+            total_amount: totalAmount,
+            amount_paid: amountPaid,
+            balance_due: balanceDue,
+            payment_mode: paymentMode,
+            user_id: currentSession.user.id
+          })
+          .select()
+          .single()
 
+        if (invError) throw invError
+
+        // 3. Create invoice items
         const itemsData = items.map(item => ({
-          invoice_id: invoice.id, item_name: item.name, qty: item.qty,
-          price: item.price, total: item.qty * item.price, user_id: session.user.id
+          invoice_id: invoice.id,
+          item_name: item.name,
+          quantity: item.qty,
+          price: item.price,
+          total: item.qty * item.price,
+          user_id: currentSession.user.id
         }))
-        const { error: itemsError } = await supabase.from('invoice_items').insert(itemsData)
+
+        const { error: itemsError } = await supabase
+          .from('invoice_items')
+          .insert(itemsData)
+
         if (itemsError) throw itemsError
 
-        alert('Invoice saved! Invoice No: ' + invoice.id)
-
+        alert('Invoice saved successfully! Download PDF from Downloads page.')
+        
+        // Reset form
         document.getElementById('customerName').value = ''
-        items = []
+        document.getElementById('customerPhone').value = ''
+        document.getElementById('amountPaid').value = 0
+        items = [{ name: '', qty: 1, price: 0 }]
         renderItems()
-        document.getElementById('paymentType').value = 'cash'
-        document.getElementById('amountPaid').value = '0'
-        updateTotals()
-        document.getElementById('customerName').focus()
 
       } catch (error) {
-        console.log(error)
-        alert('Error: ' + error.message)
+        console.error('Error:', error)
+        alert('Error saving invoice: ' + error.message)
+      } finally {
+        btn.disabled = false
+        btn.innerText = 'Save Invoice'
       }
     }
+
+    initApp()
   </script>
 </body>
 </html>
