@@ -6,7 +6,7 @@
   <title>Dashboard - HISAB PRO V5</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.nav-brand{color:#fff;font-size:20px;font-weight:700;padding:16px 0}.nav-links{display:flex;gap:4px}.nav-link{color:#d1fae5;text-decoration:none;padding:18px 16px;display:block;font-weight:500;font-size:15px;transition:all.2s}.nav-link:hover{background:#15803d;color:#fff}.nav-link.active{background:#15803d;color:#fff}.nav-user{display:flex;align-items:center;gap:12px}#userEmail{color:#d1fae5;font-size:14px}.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}.menu-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}.container{max-width:1200px;margin:0 auto;padding:20px 16px}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}.stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}.stat-label{font-size:14px;color:#666;margin-bottom:8px}.stat-value{font-size:28px;font-weight:700;color:#1f2937}.stat-value.green{color:#16a34a}.stat-value.red{color:#dc2626}.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}.card h3{margin-bottom:16px;font-size:18px}.btn{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;text-decoration:none;display:inline-block}.btn:hover{background:#15803d}.chart-container{position:relative;height:300px;margin-top:16px}@media (max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#16a34a;flex-direction:column}.nav-links.show{display:flex}.menu-toggle{display:block}#userEmail{display:none}.chart-container{height:250px}}
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.nav-brand{color:#fff;font-size:20px;font-weight:700;padding:16px 0}.nav-links{display:flex;gap:4px}.nav-link{color:#d1fae5;text-decoration:none;padding:18px 16px;display:block;font-weight:500;font-size:15px;transition:all.2s}.nav-link:hover{background:#15803d;color:#fff}.nav-link.active{background:#15803d;color:#fff}.nav-user{display:flex;align-items:center;gap:12px}#userEmail{color:#d1fae5;font-size:14px}.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}.menu-toggle{display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer}.container{max-width:1200px;margin:0 auto;padding:20px 16px}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}.stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}.stat-label{font-size:14px;color:#666;margin-bottom:8px}.stat-value{font-size:28px;font-weight:700;color:#1f2937}.stat-value.green{color:#16a34a}.stat-value.red{color:#dc2626}.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}.card h3{margin-bottom:16px;font-size:18px}.btn{padding:12px 24px;background:#16a34a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:15px;text-decoration:none;display:inline-block}.btn:hover{background:#15803d}.chart-container{position:relative;height:300px}@media (max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:#16a34a;flex-direction:column}.nav-links.show{display:flex}.menu-toggle{display:block}#userEmail{display:none}.card{padding:16px}.stat-value{font-size:24px}}
   </style>
 </head>
 <body>
@@ -62,42 +62,24 @@
     import { supabase } from './js/supabaseClient.js'
 
     let currentSession = null
-    let salesChartInstance = null // Chart instance store karne ke liye
+    let salesChart = null
 
-    // 1. Auth state change listener
+    // Session refresh fix - Reports wala issue yahan nahi aayega
     supabase.auth.onAuthStateChange((event, session) => {
-      console.log('Auth event:', event)
-
-      if (event === 'SIGNED_OUT') {
-        window.location.replace('/login.html')
-        return
-      }
-
-      if (event === 'TOKEN_REFRESHED') {
-        console.log('Token refresh ho gaya')
-        currentSession = session
-      }
-
-      if (event === 'SIGNED_IN' && session) {
+      if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
+      if (session) {
         currentSession = session
         document.getElementById('userEmail').innerText = session.user.email
-        loadDashboard()
+        loadDashboardData()
       }
     })
 
-    // 2. Page load pe session check
     async function initApp() {
-      const { data: { session }, error } = await supabase.auth.getSession()
-
-      if (error ||!session) {
-        console.log('Session nahi mila, login pe bhej raha')
-        window.location.replace('/login.html')
-        return
-      }
-
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return window.location.replace('/login.html')
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
-      loadDashboard()
+      loadDashboardData()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -109,19 +91,20 @@
       document.getElementById('navLinks').classList.toggle('show')
     }
 
-    async function loadDashboard() {
+    async function loadDashboardData() {
       if (!currentSession) return
 
-      const today = new Date().toISOString().split('T')[0]
+      // Today's data
+      const today = new Date()
+      const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString()
+      const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString()
 
-      const { data: todayInvoices, error: err1 } = await supabase
-      .from('invoices')
-      .select('total_amount, amount_paid')
-      .eq('user_id', currentSession.user.id)
-      .gte('date', today)
-      .lt('date', today + 'T23:59:59')
-
-      if (err1) console.error('Today invoices error:', err1)
+      const { data: todayInvoices } = await supabase
+        .from('invoices')
+        .select('*')
+        .eq('user_id', currentSession.user.id)
+        .gte('date', startOfDay)
+        .lte('date', endOfDay)
 
       const todaySale = todayInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
       const todayCollection = todayInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
@@ -129,54 +112,54 @@
       document.getElementById('todaySale').innerText = `₹${todaySale.toLocaleString('en-IN')}`
       document.getElementById('todayCollection').innerText = `₹${todayCollection.toLocaleString('en-IN')}`
 
-      const { data: udharInvoices, error: err2 } = await supabase
-      .from('invoices')
-      .select('balance_due')
-      .eq('user_id', currentSession.user.id)
-      .gt('balance_due', 0)
+      // Total Udhar
+      const { data: allInvoices } = await supabase
+        .from('invoices')
+        .select('balance_due')
+        .eq('user_id', currentSession.user.id)
+        .gt('balance_due', 0)
 
-      if (err2) console.error('Udhar error:', err2)
-
-      const totalUdhar = udharInvoices?.reduce((sum, inv) => sum + Number(inv.balance_due), 0) || 0
+      const totalUdhar = allInvoices?.reduce((sum, inv) => sum + Number(inv.balance_due), 0) || 0
       document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
 
+      // Last 7 days chart
       loadChart()
     }
 
     async function loadChart() {
-      if (!currentSession) return
-
-      // Purana chart destroy kar do agar hai to
-      if (salesChartInstance) {
-        salesChartInstance.destroy()
+      const last7Days = []
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date()
+        d.setDate(d.getDate() - i)
+        last7Days.push(d)
       }
 
-      const labels = []
+      const labels = last7Days.map(d => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }))
       const salesData = []
       const collectionData = []
 
-      for (let i = 6; i >= 0; i--) {
-        const date = new Date()
-        date.setDate(date.getDate() - i)
-        const dateStr = date.toISOString().split('T')[0]
-        labels.push(date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }))
+      for (const day of last7Days) {
+        const start = new Date(day.getFullYear(), day.getMonth(), day.getDate()).toISOString()
+        const end = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 23, 59, 59).toISOString()
 
-        const { data: dayInvoices } = await supabase
-        .from('invoices')
-        .select('total_amount, amount_paid')
-        .eq('user_id', currentSession.user.id)
-        .gte('date', dateStr)
-        .lt('date', dateStr + 'T23:59:59')
+        const { data } = await supabase
+          .from('invoices')
+          .select('total_amount, amount_paid')
+          .eq('user_id', currentSession.user.id)
+          .gte('date', start)
+          .lte('date', end)
 
-        const daySale = dayInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
-        const dayCollection = dayInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
+        const sale = data?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
+        const collection = data?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
 
-        salesData.push(daySale)
-        collectionData.push(dayCollection)
+        salesData.push(sale)
+        collectionData.push(collection)
       }
 
-      const ctx = document.getElementById('salesChart')
-      salesChartInstance = new Chart(ctx, {
+      const ctx = document.getElementById('salesChart').getContext('2d')
+      if (salesChart) salesChart.destroy()
+
+      salesChart = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: labels,
@@ -184,31 +167,32 @@
             {
               label: 'Sale',
               data: salesData,
-              backgroundColor: '#3b82f6',
-              borderRadius: 6
+              backgroundColor: '#3b82f6'
             },
             {
               label: 'Collection',
               data: collectionData,
-              backgroundColor: '#16a34a',
-              borderRadius: 6
+              backgroundColor: '#16a34a'
             }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'top' }
-          },
           scales: {
-            y: { beginAtZero: true, ticks: { callback: (value) => '₹' + value.toLocaleString('en-IN') } }
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '₹' + value.toLocaleString('en-IN')
+                }
+              }
+            }
           }
         }
       })
     }
 
-    // App start karo
     initApp()
   </script>
 </body>
