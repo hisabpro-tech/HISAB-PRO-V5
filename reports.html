@@ -33,10 +33,15 @@
    .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
    .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
    .card h3{font-size:18px;display:flex;align-items:center;gap:8px;margin:0}
+   .header-actions{display:flex;gap:8px;flex-wrap:wrap}
    .btn-pdf{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
    .btn-pdf:hover{background:#15803d}
+   .btn-pdf-blue{background:#0ea5e9}
+   .btn-pdf-blue:hover{background:#0284c7}
+   .btn-small{padding:6px 10px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;background:#0ea5e9;color:#fff}
+   .btn-small:hover{background:#0284c7}
    .table-wrap{overflow-x:auto}
-    table{width:100%;border-collapse:collapse;margin-top:12px;min-width:600px}
+    table{width:100%;border-collapse:collapse;margin-top:12px;min-width:700px}
     th,td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb;font-size:14px}
     th{background:#f9fafb;font-weight:600;position:sticky;top:0}
     .empty-msg{text-align:center;padding:40px;color:#666}
@@ -52,6 +57,8 @@
      .card{padding:16px}
      th,td{padding:10px 6px;font-size:13px}
      .stat-value{font-size:24px}
+     .header-actions{width:100%}
+     .btn-pdf{flex:1;justify-content:center}
    }
   </style>
 </head>
@@ -101,13 +108,18 @@
     <div class="card">
       <div class="card-header">
         <h3>⚠️ Udhar Bills - Payment Pending</h3>
-        <button class="btn-pdf" id="downloadPdfBtn" style="display:none">📄 Download PDF</button>
+        <button class="btn-pdf" id="downloadUdharPdfBtn" style="display:none">📄 Download Udhar PDF</button>
       </div>
       <div class="table-wrap" id="udharTable"></div>
     </div>
 
     <div class="card">
-      <h3>All Invoice Details</h3>
+      <div class="card-header">
+        <h3>All Invoice Details</h3>
+        <div class="header-actions">
+          <button class="btn-pdf btn-pdf-blue" id="downloadFullReportBtn">📄 Download Full Report</button>
+        </div>
+      </div>
       <div class="table-wrap" id="allInvoicesTable"></div>
     </div>
   </div>
@@ -118,6 +130,7 @@
     let currentSession = null
     let currentFilter = 'all'
     let udharBillsData = []
+    let allInvoicesData = []
     let reportStats = { sale: 0, collection: 0, udhar: 0 }
 
     supabase.auth.onAuthStateChange((event, session) => {
@@ -142,7 +155,6 @@
       window.location.replace('/login.html')
     }
 
-    // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
@@ -180,7 +192,7 @@
 
       let query = supabase
        .from('invoices')
-       .select('*, customers(name)')
+       .select('*, customers(name, phone)')
        .eq('user_id', currentSession.user.id)
        .order('date', { ascending: false })
 
@@ -195,9 +207,10 @@
         return
       }
 
-      const totalSale = invoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
-      const totalCollection = invoices?.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
-      const totalUdhar = invoices?.reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0) || 0
+      allInvoicesData = invoices || []
+      const totalSale = allInvoicesData.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
+      const totalCollection = allInvoicesData.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0) || 0
+      const totalUdhar = allInvoicesData.reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0) || 0
 
       reportStats = { sale: totalSale, collection: totalCollection, udhar: totalUdhar }
 
@@ -205,14 +218,14 @@
       document.getElementById('totalCollection').innerText = `₹${totalCollection.toLocaleString('en-IN')}`
       document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
 
-      udharBillsData = invoices?.filter(inv => inv.balance_due > 0) || []
+      udharBillsData = allInvoicesData.filter(inv => inv.balance_due > 0)
       renderUdharTable(udharBillsData)
-      renderAllInvoices(invoices || [])
+      renderAllInvoicesTable(allInvoicesData)
     }
 
     function renderUdharTable(invoices) {
       const div = document.getElementById('udharTable')
-      const downloadBtn = document.getElementById('downloadPdfBtn')
+      const downloadBtn = document.getElementById('downloadUdharPdfBtn')
       
       if (invoices.length === 0) {
         div.innerHTML = '<div class="empty-msg">🎉 Sab clear hai! Koi udhar bacha nahi</div>'
@@ -225,7 +238,7 @@
       invoices.forEach(inv => {
         html += `<tr>
           <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
-          <td>${inv.customers?.name || 'N/A'}</td>
+          <td>${inv.customers?.name || inv.customer_name || 'N/A'}</td>
           <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
           <td>₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
           <td style="color:#dc2626;font-weight:600">₹${Number(inv.balance_due).toLocaleString('en-IN')}</td>
@@ -236,32 +249,33 @@
       div.innerHTML = html
     }
 
-    function renderAllInvoices(invoices) {
+    function renderAllInvoicesTable(invoices) {
       const div = document.getElementById('allInvoicesTable')
       if (invoices.length === 0) {
         div.innerHTML = '<div class="empty-msg">No invoices found</div>'
         return
       }
 
-      let html = '<table><tr><th>Date</th><th>Customer</th><th>Amount</th><th>Paid</th><th>Balance</th><th>Mode</th><th>Status</th></tr>'
+      let html = '<table><tr><th>Date</th><th>Customer</th><th>Amount</th><th>Paid</th><th>Balance</th><th>Mode</th><th>Status</th><th>Action</th></tr>'
       invoices.forEach(inv => {
         const status = inv.balance_due > 0 ? '<span class="badge badge-udhar">Udhar</span>' : '<span class="badge badge-paid">Paid</span>'
         html += `<tr>
           <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
-          <td>${inv.customers?.name || 'N/A'}</td>
+          <td>${inv.customers?.name || inv.customer_name || 'N/A'}</td>
           <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
           <td>₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
           <td>₹${Number(inv.balance_due || 0).toLocaleString('en-IN')}</td>
           <td>${inv.payment_mode || '-'}</td>
           <td>${status}</td>
+          <td><button class="btn-small" onclick="downloadInvoicePDF(${inv.id})">📄 PDF</button></td>
         </tr>`
       })
       html += '</table>'
       div.innerHTML = html
     }
 
-    // PDF Download Function
-    document.getElementById('downloadPdfBtn').onclick = () => {
+    // 1. Udhar Bills PDF
+    document.getElementById('downloadUdharPdfBtn').onclick = () => {
       const { jsPDF } = window.jspdf
       const doc = new jsPDF()
 
@@ -272,7 +286,6 @@
         'today': 'Today'
       }
 
-      // Header
       doc.setFontSize(18)
       doc.setTextColor(22, 163, 74)
       doc.text('HISAB PRO V5 - Udhar Report', 14, 20)
@@ -283,7 +296,6 @@
       doc.text(`Generated: ${new Date().toLocaleString('en-GB')}`, 14, 34)
       doc.text(`User: ${currentSession.user.email}`, 14, 40)
 
-      // Summary
       doc.setFontSize(11)
       doc.setTextColor(0)
       doc.text(`Total Sale: ₹${reportStats.sale.toLocaleString('en-IN')}`, 14, 50)
@@ -291,10 +303,9 @@
       doc.setTextColor(220, 38, 38)
       doc.text(`Total Udhar: ₹${reportStats.udhar.toLocaleString('en-IN')}`, 146, 50)
 
-      // Table
       const tableData = udharBillsData.map(inv => [
         new Date(inv.date).toLocaleDateString('en-GB'),
-        inv.customers?.name || 'N/A',
+        inv.customers?.name || inv.customer_name || 'N/A',
         `₹${Number(inv.total_amount).toLocaleString('en-IN')}`,
         `₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}`,
         `₹${Number(inv.balance_due).toLocaleString('en-IN')}`
@@ -307,12 +318,144 @@
         theme: 'grid',
         headStyles: { fillColor: [22, 163, 74], fontSize: 10 },
         bodyStyles: { fontSize: 9 },
-        columnStyles: {
-          4: { textColor: [220, 38, 38], fontStyle: 'bold' }
-        }
+        columnStyles: { 4: { textColor: [220, 38, 38], fontStyle: 'bold' } }
       })
 
       const fileName = `Udhar_Report_${filterNames[currentFilter]}_${new Date().toISOString().split('T')[0]}.pdf`
+      doc.save(fileName)
+    }
+
+    // 2. Full Report PDF - Saare invoices
+    document.getElementById('downloadFullReportBtn').onclick = () => {
+      const { jsPDF } = window.jspdf
+      const doc = new jsPDF()
+
+      const filterNames = {
+        'all': 'All Time',
+        'month': 'This Month',
+        'week': 'This Week',
+        'today': 'Today'
+      }
+
+      doc.setFontSize(18)
+      doc.setTextColor(22, 163, 74)
+      doc.text('HISAB PRO V5 - Full Report', 14, 20)
+
+      doc.setFontSize(10)
+      doc.setTextColor(100)
+      doc.text(`Filter: ${filterNames[currentFilter]}`, 14, 28)
+      doc.text(`Generated: ${new Date().toLocaleString('en-GB')}`, 14, 34)
+      doc.text(`User: ${currentSession.user.email}`, 14, 40)
+
+      doc.setFontSize(11)
+      doc.setTextColor(0)
+      doc.text(`Total Sale: ₹${reportStats.sale.toLocaleString('en-IN')}`, 14, 50)
+      doc.setTextColor(22, 163, 74)
+      doc.text(`Total Collection: ₹${reportStats.collection.toLocaleString('en-IN')}`, 80, 50)
+      doc.setTextColor(220, 38, 38)
+      doc.text(`Total Udhar: ₹${reportStats.udhar.toLocaleString('en-IN')}`, 146, 50)
+
+      const tableData = allInvoicesData.map(inv => [
+        new Date(inv.date).toLocaleDateString('en-GB'),
+        inv.customers?.name || inv.customer_name || 'N/A',
+        `₹${Number(inv.total_amount).toLocaleString('en-IN')}`,
+        `₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}`,
+        `₹${Number(inv.balance_due || 0).toLocaleString('en-IN')}`,
+        inv.payment_mode || '-',
+        inv.balance_due > 0 ? 'Udhar' : 'Paid'
+      ])
+
+      doc.autoTable({
+        startY: 58,
+        head: [['Date', 'Customer', 'Total', 'Paid', 'Balance', 'Mode', 'Status']],
+        body: tableData,
+        theme: 'grid',
+        headStyles: { fillColor: [22, 163, 74], fontSize: 9 },
+        bodyStyles: { fontSize: 8 },
+        columnStyles: {
+          4: { textColor: [220, 38, 38], fontStyle: 'bold' },
+          6: { fontStyle: 'bold' }
+        }
+      })
+
+      const fileName = `Full_Report_${filterNames[currentFilter]}_${new Date().toISOString().split('T')[0]}.pdf`
+      doc.save(fileName)
+    }
+
+    // 3. Single Invoice PDF
+    window.downloadInvoicePDF = async (invoiceId) => {
+      const { jsPDF } = window.jspdf
+      const doc = new jsPDF()
+
+      const { data: invoice, error } = await supabase
+        .from('invoices')
+        .select('*, customers(name, phone), invoice_items(*)')
+        .eq('id', invoiceId)
+        .single()
+
+      if (error) {
+        alert('Error loading invoice')
+        return
+      }
+
+      doc.setFontSize(20)
+      doc.setTextColor(22, 163, 74)
+      doc.text('HISAB PRO V5', 14, 20)
+      doc.setFontSize(12)
+      doc.setTextColor(100)
+      doc.text('Invoice', 14, 28)
+
+      doc.setFontSize(10)
+      doc.setTextColor(0)
+      doc.text(`Invoice #: ${invoice.id}`, 14, 40)
+      doc.text(`Date: ${new Date(invoice.date).toLocaleDateString('en-GB')}`, 14, 46)
+      doc.text(`Payment Mode: ${invoice.payment_mode || 'N/A'}`, 14, 52)
+
+      doc.setFontSize(11)
+      doc.setFont('helvetica', 'bold')
+      doc.text('Bill To:', 14, 62)
+      doc.setFont('helvetica', 'normal')
+      doc.text(invoice.customers?.name || invoice.customer_name, 14, 68)
+      if (invoice.customers?.phone) {
+        doc.text(`Phone: ${invoice.customers.phone}`, 14, 74)
+      }
+
+      const tableData = invoice.invoice_items.map(item => [
+        item.item_name,
+        item.quantity,
+        `₹${Number(item.price).toLocaleString('en-IN')}`,
+        `₹${Number(item.total).toLocaleString('en-IN')}`
+      ])
+
+      doc.autoTable({
+        startY: 82,
+        head: [['Item', 'Qty', 'Price', 'Total']],
+        body: tableData,
+        theme: 'grid',
+        headStyles: { fillColor: [22, 163, 74], fontSize: 10 },
+        bodyStyles: { fontSize: 9 }
+      })
+
+      const finalY = doc.lastAutoTable.finalY + 10
+
+      doc.setFontSize(11)
+      doc.text('Subtotal:', 130, finalY)
+      doc.text(`₹${Number(invoice.total_amount).toLocaleString('en-IN')}`, 180, finalY, { align: 'right' })
+
+      doc.text('Amount Paid:', 130, finalY + 6)
+      doc.text(`₹${Number(invoice.amount_paid || 0).toLocaleString('en-IN')}`, 180, finalY + 6, { align: 'right' })
+
+      doc.setFont('helvetica', 'bold')
+      doc.text('Balance Due:', 130, finalY + 14)
+      doc.setTextColor(invoice.balance_due > 0 ? 220 : 22, invoice.balance_due > 0 ? 38 : 163, invoice.balance_due > 0 ? 38 : 74)
+      doc.text(`₹${Number(invoice.balance_due || 0).toLocaleString('en-IN')}`, 180, finalY + 14, { align: 'right' })
+
+      doc.setFontSize(9)
+      doc.setTextColor(150)
+      doc.text('Thank you for your business!', 14, finalY + 30)
+      doc.text(`Generated by HISAB PRO V5 on ${new Date().toLocaleString('en-GB')}`, 14, finalY + 36)
+
+      const fileName = `Invoice_${invoice.customers?.name || invoice.customer_name}_${invoice.id}.pdf`
       doc.save(fileName)
     }
 
