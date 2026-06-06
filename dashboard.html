@@ -8,36 +8,36 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-   .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-   .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-   .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-   .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-   .nav-links::-webkit-scrollbar{display:none}
-   .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-   .nav-link:hover{background:#15803d;color:#fff}
-   .nav-link.active{background:#15803d;color:#fff}
-   .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+ .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+ .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+ .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+ .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .nav-links::-webkit-scrollbar{display:none}
+ .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+ .nav-link:hover{background:#15803d;color:#fff}
+ .nav-link.active{background:#15803d;color:#fff}
+ .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
-   .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-   .container{max-width:1200px;margin:0 auto;padding:20px 16px}
-   .welcome-card{background:#16a34a;color:#fff;padding:20px;border-radius:12px;margin-bottom:20px}
-   .welcome-card h2{font-size:20px;margin-bottom:4px}
-   .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
-   .stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-   .stat-label{font-size:13px;color:#6b7280;margin-bottom:8px}
-   .stat-value{font-size:28px;font-weight:700;color:#111827}
-   .stat-value.green{color:#16a34a}
-   .stat-value.red{color:#dc2626}
-   .chart-card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-   .chart-card h3{font-size:18px;margin-bottom:20px}
+ .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+ .container{max-width:1200px;margin:0 auto;padding:20px 16px}
+ .welcome-card{background:#16a34a;color:#fff;padding:20px;border-radius:12px;margin-bottom:20px}
+ .welcome-card h2{font-size:20px;margin-bottom:4px}
+ .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
+ .stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+ .stat-label{font-size:13px;color:#6b7280;margin-bottom:8px}
+ .stat-value{font-size:28px;font-weight:700;color:#111827}
+ .stat-value.green{color:#16a34a}
+ .stat-value.red{color:#dc2626}
+ .chart-card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+ .chart-card h3{font-size:18px;margin-bottom:20px}
     @media (max-width:768px){
-     .nav-container{padding:0 8px}
-     .nav-brand{font-size:16px;padding:10px 0}
-     .nav-links{width:100%;order:3;padding-bottom:4px}
-     .nav-link{padding:12px 10px;font-size:13px}
-     .btn-logout{padding:6px 10px;font-size:12px}
-     .stats-grid{grid-template-columns:1fr}
-     .stat-value{font-size:24px}
+   .nav-container{padding:0 8px}
+   .nav-brand{font-size:16px;padding:10px 0}
+   .nav-links{width:100%;order:3;padding-bottom:4px}
+   .nav-link{padding:12px 10px;font-size:13px}
+   .btn-logout{padding:6px 10px;font-size:12px}
+   .stats-grid{grid-template-columns:1fr}
+   .stat-value{font-size:24px}
     }
   </style>
 </head>
@@ -75,8 +75,8 @@
         <div class="stat-value green" id="todayCollection">₹0</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Today's Udhar</div>
-        <div class="stat-value red" id="todayUdhar">₹0</div>
+        <div class="stat-label">Total Udhar</div>
+        <div class="stat-value red" id="totalUdhar">₹0</div>
       </div>
     </div>
 
@@ -119,27 +119,39 @@
     async function loadDashboard() {
       const today = new Date().toISOString().split('T')[0]
 
-      // 1. Today's Stats - Ye har din automatically reset hoga
+      // 1. Today's Sale & Collection - Ye daily reset hoga
       const { data: todayInvoices } = await supabase
-       .from('invoices')
-       .select('total_amount,amount_paid,balance_due')
-       .eq('user_id', currentSession.user.id)
-       .eq('date', today)
+   .from('invoices')
+   .select('total_amount,amount_paid')
+   .eq('user_id', currentSession.user.id)
+   .eq('date', today)
 
-      let todaySale = 0, todayCollection = 0, todayUdhar = 0
+      let todaySale = 0, todayCollection = 0
       if (todayInvoices) {
         todayInvoices.forEach(inv => {
           todaySale += inv.total_amount
           todayCollection += inv.amount_paid
-          todayUdhar += inv.balance_due
+        })
+      }
+
+      // 2. Total Udhar - Ye kabhi reset nahi hoga, lifetime ka total
+      const { data: allInvoices } = await supabase
+   .from('invoices')
+   .select('balance_due')
+   .eq('user_id', currentSession.user.id)
+
+      let totalUdhar = 0
+      if (allInvoices) {
+        allInvoices.forEach(inv => {
+          totalUdhar += inv.balance_due
         })
       }
 
       document.getElementById('todaySale').innerText = `₹${todaySale.toLocaleString('en-IN')}`
       document.getElementById('todayCollection').innerText = `₹${todayCollection.toLocaleString('en-IN')}`
-      document.getElementById('todayUdhar').innerText = `₹${todayUdhar.toLocaleString('en-IN')}`
+      document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
 
-      // 2. Last 7 Days Data for Candlestick Chart
+      // 3. Last 7 Days Data for Candlestick Chart
       const chartData = []
       for (let i = 6; i >= 0; i--) {
         const date = new Date()
@@ -147,10 +159,10 @@
         const dateStr = date.toISOString().split('T')[0]
 
         const { data: dayInvoices } = await supabase
-         .from('invoices')
-         .select('total_amount,amount_paid')
-         .eq('user_id', currentSession.user.id)
-         .eq('date', dateStr)
+       .from('invoices')
+       .select('total_amount,amount_paid')
+       .eq('user_id', currentSession.user.id)
+       .eq('date', dateStr)
 
         let daySale = 0, dayCollection = 0
         if (dayInvoices) {
@@ -160,15 +172,13 @@
           })
         }
 
-        // Candlestick format: [Open, High, Low, Close]
-        // Open=0, High=Sale, Low=Collection, Close=Sale
         chartData.push({
           x: new Date(dateStr).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }),
           y: [0, daySale, dayCollection, daySale]
         })
       }
 
-      // 3. Render Candlestick Chart
+      // 4. Render Candlestick Chart
       const options = {
         series: [{
           name: 'Sale vs Collection',
