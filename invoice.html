@@ -316,7 +316,7 @@
         await supabase.from('invoice_items').insert(invoiceItems)
 
         alert('Invoice saved successfully!')
-        window.location.href = '/dashboard.html'
+        window.location.reload()
 
       } catch (error) {
         console.error(error)
