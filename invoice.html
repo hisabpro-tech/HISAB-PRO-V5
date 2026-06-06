@@ -112,7 +112,16 @@
           <div>Total</div>
           <div></div>
         </div>
-        <div id="itemsList"></div>
+        <div id="itemsList">
+          <!-- Blank row hamesha yaha rahegi -->
+          <div class="item-row" id="blankRow">
+            <input type="text" placeholder="Item name" class="item-name" value="">
+            <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
+            <input type="number" placeholder="Price" class="item-price" value="0" min="0">
+            <div class="item-total">₹0</div>
+            <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
+          </div>
+        </div>
         <button type="button" class="btn-add-item" id="addItemBtn">+ Add Item</button>
       </div>
 
@@ -154,7 +163,7 @@
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
       document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0]
-      addItemRow() // Pehla blank item
+      attachItemListeners() // Pehle se jo blank row hai uspe listeners lagao
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -162,27 +171,21 @@
       window.location.replace('/login.html')
     }
 
-    function addItemRow(item = { name: '', qty: 1, price: 0 }) {
+    function addItemRow() {
       const itemsList = document.getElementById('itemsList')
+      const blankRow = document.getElementById('blankRow')
+
       const itemHTML = `
         <div class="item-row">
-          <input type="text" placeholder="Item name" class="item-name" value="${item.name}">
-          <input type="number" placeholder="Qty" class="item-qty" value="${item.qty}" min="1">
-          <input type="number" placeholder="Price" class="item-price" value="${item.price}" min="0">
-          <div class="item-total">₹${(item.qty * item.price).toLocaleString('en-IN')}</div>
+          <input type="text" placeholder="Item name" class="item-name" value="">
+          <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
+          <input type="number" placeholder="Price" class="item-price" value="0" min="0">
+          <div class="item-total">₹0</div>
           <button type="button" class="btn-remove-item">×</button>
         </div>
       `
-
-      const firstRow = itemsList.querySelector('.item-row')
-      const firstRowName = firstRow?.querySelector('.item-name')?.value.trim()
-
-      // Agar pehli row khali hai toh uske baad add karo, warna pehli row ke baad insert karo
-      if (!firstRow || firstRowName) {
-        itemsList.insertAdjacentHTML('beforeend', itemHTML)
-      } else {
-        firstRow.insertAdjacentHTML('afterend', itemHTML)
-      }
+      // Naya item hamesha blank row ke niche add hoga
+      blankRow.insertAdjacentHTML('afterend', itemHTML)
 
       attachItemListeners()
       calculateTotal()
@@ -205,11 +208,9 @@
         qtyInput.oninput = updateRowTotal
         priceInput.oninput = updateRowTotal
         removeBtn.onclick = () => {
-          if (document.querySelectorAll('.item-row').length > 1) {
+          if (row.id!== 'blankRow') { // Blank row delete nahi hogi
             row.remove()
             calculateTotal()
-          } else {
-            alert('At least one item is required')
           }
         }
       })
