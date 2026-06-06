@@ -4,52 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Downloads - HISAB PRO V5</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-    .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-    .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-    .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-    .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .nav-links::-webkit-scrollbar{display:none}
-    .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-    .nav-link:hover{background:#15803d;color:#fff}
-    .nav-link.active{background:#15803d;color:#fff}
-    .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
+ .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+ .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+ .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+ .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .nav-links::-webkit-scrollbar{display:none}
+ .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+ .nav-link:hover{background:#15803d;color:#fff}
+ .nav-link.active{background:#15803d;color:#fff}
+ .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
-    .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-    .container{max-width:1200px;margin:0 auto;padding:20px 16px}
-    .filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-    .filter-btn{padding:10px 16px;border:2px solid #16a34a;background:#fff;color:#16a34a;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;transition:all.2s}
-    .filter-btn.active{background:#16a34a;color:#fff}
-    .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px}
-    .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-    .card h3{font-size:18px;display:flex;align-items:center;gap:8px;margin:0}
-    .btn-pdf{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
-    .btn-pdf:hover{background:#15803d}
-    .btn-pdf-blue{background:#0ea5e9}
-    .btn-pdf-blue:hover{background:#0284c7}
-    .btn-small{padding:6px 10px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;background:#0ea5e9;color:#fff}
-    .btn-small:hover{background:#0284c7}
-    .table-wrap{overflow-x:auto}
-    table{width:100%;border-collapse:collapse;margin-top:12px;min-width:700px}
-    th,td{padding:12px;text-align:left;border-bottom:1px solid #e5e7eb;font-size:14px}
-    th{background:#f9fafb;font-weight:600;position:sticky;top:0}
-    .empty-msg{text-align:center;padding:40px;color:#666}
-    .badge{padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600}
-    .badge-paid{background:#dcfce7;color:#16a34a}
-    .badge-udhar{background:#fee2e2;color:#dc2626}
-    .search-box{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px;margin-bottom:16px}
-    .search-box:focus{outline:none;border-color:#16a34a}
+ .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+ .container{max-width:1200px;margin:0 auto;padding:20px 16px}
+ .download-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:24px}
+ .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+ .card-title{font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px}
+ .header-actions{display:flex;gap:8px}
+ .btn-report{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer;font-size:14px;display:flex;align-items:center;gap:6px}
+ .btn-report.blue{background:#2563eb}
+ .filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+ .filter-btn{padding:8px 16px;border:2px solid #e5e7eb;background:#fff;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;color:#6b7280;transition:all.2s}
+ .filter-btn.active{background:#16a34a;color:#fff;border-color:#16a34a}
+ .search-box{width:100%;padding:12px 16px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;margin-bottom:16px}
+ .search-box:focus{outline:none;border-color:#16a34a}
+ .table-wrapper{overflow-x:auto}
+  table{width:100%;border-collapse:collapse}
+  th{background:#f9fafb;padding:12px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;border-bottom:2px solid #e5e7eb;white-space:nowrap}
+  td{padding:12px;border-bottom:1px solid #f3f4f6;font-size:14px}
+  tr:last-child td{border-bottom:none}
+  tr:hover{background:#f9fafb}
+ .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
+ .badge-udhar{background:#fee2e2;color:#dc2626}
+ .badge-paid{background:#dcfce7;color:#16a34a}
+ .text-right{text-align:right}
+ .amount{font-weight:600}
+ .amount.red{color:#dc2626}
+ .empty{padding:40px;text-align:center;color:#6b7280}
     @media (max-width:768px){
-      .nav-container{padding:0 8px}
-      .nav-brand{font-size:16px;padding:10px 0}
-      .nav-links{width:100%;order:3;padding-bottom:4px}
-      .nav-link{padding:12px 10px;font-size:13px}
-      .btn-logout{padding:6px 10px;font-size:12px}
-      .card{padding:16px}
-      th,td{padding:10px 6px;font-size:13px}
+   .nav-container{padding:0 8px}
+   .nav-brand{font-size:16px;padding:10px 0}
+   .nav-links{width:100%;order:3;padding-bottom:4px}
+   .nav-link{padding:12px 10px;font-size:13px}
+   .btn-logout{padding:6px 10px;font-size:12px}
+   .card-header{flex-direction:column;align-items:flex-start}
+   .header-actions{width:100%}
+   .btn-report{flex:1;justify-content:center;padding:8px 12px;font-size:13px}
+   th,td{padding:10px 8px;font-size:13px}
     }
   </style>
 </head>
@@ -72,24 +75,38 @@
   </nav>
 
   <div class="container">
-    <div class="card">
+    <div class="download-card">
       <div class="card-header">
-        <h3>📄 Download Center</h3>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn-pdf" id="downloadUdharPdfBtn">📄 Udhar Report</button>
-          <button class="btn-pdf btn-pdf-blue" id="downloadFullReportBtn">📄 Full Report</button>
+        <h2 class="card-title">📁 Download Center</h2>
+        <div class="header-actions">
+          <button class="btn-report" id="udharReportBtn">📄 Udhar Report</button>
+          <button class="btn-report blue" id="fullReportBtn">📄 Full Report</button>
         </div>
       </div>
-      
-      <div class="filter-bar">
+
+      <div class="filter-row">
         <button class="filter-btn active" data-filter="all">All Invoices</button>
         <button class="filter-btn" data-filter="paid">Paid Only</button>
         <button class="filter-btn" data-filter="udhar">Udhar Only</button>
       </div>
 
       <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search by customer name...">
-      
-      <div class="table-wrap" id="invoicesTable"></div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Customer</th>
+              <th class="text-right">Total</th>
+              <th class="text-right">Paid</th>
+              <th class="text-right">Balance</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceList"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -98,14 +115,14 @@
 
     let currentSession = null
     let allInvoices = []
-    let filteredInvoices = []
+    let currentFilter = 'all'
 
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
       if (session) {
         currentSession = session
         document.getElementById('userEmail').innerText = session.user.email
-        loadInvoices()
+        loadDownloads()
       }
     })
 
@@ -114,7 +131,7 @@
       if (!session) return window.location.replace('/login.html')
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
-      loadInvoices()
+      loadDownloads()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -122,237 +139,100 @@
       window.location.replace('/login.html')
     }
 
+    // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
         btn.classList.add('active')
-        applyFilters()
+        currentFilter = btn.dataset.filter
+        renderInvoices()
       }
     })
 
-    document.getElementById('searchBox').oninput = applyFilters
+    // Search box
+    document.getElementById('searchBox').oninput = (e) => {
+      renderInvoices(e.target.value.toLowerCase())
+    }
 
-    async function loadInvoices() {
-      const { data, error } = await supabase
-       .from('invoices')
-       .select('*, customers(name, phone), invoice_items(*)')
-       .eq('user_id', currentSession.user.id)
-       .order('date', { ascending: false })
+    // Report buttons
+    document.getElementById('udharReportBtn').onclick = () => exportReport('udhar')
+    document.getElementById('fullReportBtn').onclick = () => exportReport('full')
 
-      if (error) {
-        console.error('Error:', error)
+    function exportReport(type) {
+      const filtered = type === 'udhar' 
+        ? allInvoices.filter(inv => inv.balance_due > 0)
+        : allInvoices
+
+      if (filtered.length === 0) return alert('No data to export')
+
+      const csv = [
+        ['Date','Customer','Total','Paid','Balance','Status'].join(','),
+        ...filtered.map(inv => [
+          inv.date,
+          `"${inv.customer_name}"`,
+          inv.total_amount,
+          inv.amount_paid,
+          inv.balance_due,
+          inv.balance_due > 0 ? 'Udhar' : 'Paid'
+        ].join(','))
+      ].join('\n')
+
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${type}_report_${new Date().toISOString().split('T')[0]}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    }
+
+    async function loadDownloads() {
+      const { data: invoices, error } = await supabase
+   .from('invoices')
+   .select('*')
+   .eq('user_id', currentSession.user.id)
+   .order('date', { ascending: false })
+
+      if (error) return console.error(error)
+
+      allInvoices = invoices || []
+      renderInvoices()
+    }
+
+    function renderInvoices(searchTerm = '') {
+      let filtered = allInvoices
+
+      if (currentFilter === 'paid') {
+        filtered = filtered.filter(inv => inv.balance_due === 0)
+      } else if (currentFilter === 'udhar') {
+        filtered = filtered.filter(inv => inv.balance_due > 0)
+      }
+
+      if (searchTerm) {
+        filtered = filtered.filter(inv => 
+          inv.customer_name.toLowerCase().includes(searchTerm)
+        )
+      }
+
+      const list = document.getElementById('invoiceList')
+      if (filtered.length === 0) {
+        list.innerHTML = '<tr><td colspan="6" class="empty">No invoices found</td></tr>'
         return
       }
 
-      allInvoices = data || []
-      applyFilters()
-    }
-
-    function applyFilters() {
-      const activeFilter = document.querySelector('.filter-btn.active').dataset.filter
-      const searchTerm = document.getElementById('searchBox').value.toLowerCase()
-
-      filteredInvoices = allInvoices.filter(inv => {
-        const matchFilter = activeFilter === 'all' || 
-          (activeFilter === 'paid' && inv.balance_due <= 0) ||
-          (activeFilter === 'udhar' && inv.balance_due > 0)
-        
-        const customerName = (inv.customers?.name || inv.customer_name || '').toLowerCase()
-        const matchSearch = customerName.includes(searchTerm)
-        
-        return matchFilter && matchSearch
-      })
-
-      renderTable()
-    }
-
-    function renderTable() {
-      const div = document.getElementById('invoicesTable')
-      if (filteredInvoices.length === 0) {
-        div.innerHTML = '<div class="empty-msg">No invoices found</div>'
-        return
-      }
-
-      let html = '<table><tr><th>Date</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Action</th></tr>'
-      filteredInvoices.forEach(inv => {
-        const status = inv.balance_due > 0 ? '<span class="badge badge-udhar">Udhar</span>' : '<span class="badge badge-paid">Paid</span>'
-        html += `<tr>
-          <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
-          <td>${inv.customers?.name || inv.customer_name || 'N/A'}</td>
-          <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
-          <td>₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}</td>
-          <td style="color:${inv.balance_due > 0 ? '#dc2626' : '#16a34a'};font-weight:600">₹${Number(inv.balance_due || 0).toLocaleString('en-IN')}</td>
-          <td>${status}</td>
-          <td><button class="btn-small" onclick="downloadInvoicePDF(${inv.id})">📄 Download</button></td>
-        </tr>`
-      })
-      html += '</table>'
-      div.innerHTML = html
-    }
-
-    window.downloadInvoicePDF = async (invoiceId) => {
-      const invoice = allInvoices.find(inv => inv.id === invoiceId)
-      if (!invoice) return
-
-      const { jsPDF } = window.jspdf
-      const doc = new jsPDF()
-
-      doc.setFontSize(20)
-      doc.setTextColor(22, 163, 74)
-      doc.text('HISAB PRO V5', 14, 20)
-      doc.setFontSize(12)
-      doc.setTextColor(100)
-      doc.text('Invoice', 14, 28)
-
-      doc.setFontSize(10)
-      doc.setTextColor(0)
-      doc.text(`Invoice #: ${invoice.id}`, 14, 40)
-      doc.text(`Date: ${new Date(invoice.date).toLocaleDateString('en-GB')}`, 14, 46)
-      doc.text(`Payment Mode: ${invoice.payment_mode || 'N/A'}`, 14, 52)
-
-      doc.setFontSize(11)
-      doc.setFont('helvetica', 'bold')
-      doc.text('Bill To:', 14, 62)
-      doc.setFont('helvetica', 'normal')
-      doc.text(invoice.customers?.name || invoice.customer_name, 14, 68)
-      if (invoice.customers?.phone) {
-        doc.text(`Phone: ${invoice.customers.phone}`, 14, 74)
-      }
-
-      const tableData = invoice.invoice_items.map(item => [
-        item.item_name,
-        item.quantity,
-        `₹${Number(item.price).toLocaleString('en-IN')}`,
-        `₹${Number(item.total).toLocaleString('en-IN')}`
-      ])
-
-      doc.autoTable({
-        startY: 82,
-        head: [['Item', 'Qty', 'Price', 'Total']],
-        body: tableData,
-        theme: 'grid',
-        headStyles: { fillColor: [22, 163, 74], fontSize: 10 },
-        bodyStyles: { fontSize: 9 }
-      })
-
-      const finalY = doc.lastAutoTable.finalY + 10
-
-      doc.setFontSize(11)
-      doc.text('Subtotal:', 130, finalY)
-      doc.text(`₹${Number(invoice.total_amount).toLocaleString('en-IN')}`, 180, finalY, { align: 'right' })
-
-      doc.text('Amount Paid:', 130, finalY + 6)
-      doc.text(`₹${Number(invoice.amount_paid || 0).toLocaleString('en-IN')}`, 180, finalY + 6, { align: 'right' })
-
-      doc.setFont('helvetica', 'bold')
-      doc.text('Balance Due:', 130, finalY + 14)
-      doc.setTextColor(invoice.balance_due > 0 ? 220 : 22, invoice.balance_due > 0 ? 38 : 163, invoice.balance_due > 0 ? 38 : 74)
-      doc.text(`₹${Number(invoice.balance_due || 0).toLocaleString('en-IN')}`, 180, finalY + 14, { align: 'right' })
-
-      doc.setFontSize(9)
-      doc.setTextColor(150)
-      doc.text('Thank you for your business!', 14, finalY + 30)
-      doc.text(`Generated by HISAB PRO V5 on ${new Date().toLocaleString('en-GB')}`, 14, finalY + 36)
-
-      const fileName = `Invoice_${invoice.customers?.name || invoice.customer_name}_${invoice.id}.pdf`
-      doc.save(fileName)
-    }
-
-    document.getElementById('downloadUdharPdfBtn').onclick = () => {
-      const udharInvoices = allInvoices.filter(inv => inv.balance_due > 0)
-      if (udharInvoices.length === 0) {
-        alert('Koi udhar bacha nahi!')
-        return
-      }
-
-      const { jsPDF } = window.jspdf
-      const doc = new jsPDF()
-
-      doc.setFontSize(18)
-      doc.setTextColor(22, 163, 74)
-      doc.text('HISAB PRO V5 - Udhar Report', 14, 20)
-
-      doc.setFontSize(10)
-      doc.setTextColor(100)
-      doc.text(`Generated: ${new Date().toLocaleString('en-GB')}`, 14, 28)
-      doc.text(`User: ${currentSession.user.email}`, 14, 34)
-
-      const totalUdhar = udharInvoices.reduce((sum, inv) => sum + Number(inv.balance_due), 0)
-      doc.setFontSize(11)
-      doc.setTextColor(220, 38, 38)
-      doc.text(`Total Udhar: ₹${totalUdhar.toLocaleString('en-IN')}`, 14, 44)
-
-      const tableData = udharInvoices.map(inv => [
-        new Date(inv.date).toLocaleDateString('en-GB'),
-        inv.customers?.name || inv.customer_name || 'N/A',
-        `₹${Number(inv.total_amount).toLocaleString('en-IN')}`,
-        `₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}`,
-        `₹${Number(inv.balance_due).toLocaleString('en-IN')}`
-      ])
-
-      doc.autoTable({
-        startY: 52,
-        head: [['Date', 'Customer', 'Total', 'Paid', 'Balance']],
-        body: tableData,
-        theme: 'grid',
-        headStyles: { fillColor: [22, 163, 74], fontSize: 10 },
-        bodyStyles: { fontSize: 9 },
-        columnStyles: { 4: { textColor: [220, 38, 38], fontStyle: 'bold' } }
-      })
-
-      doc.save(`Udhar_Report_${new Date().toISOString().split('T')[0]}.pdf`)
-    }
-
-    document.getElementById('downloadFullReportBtn').onclick = () => {
-      if (allInvoices.length === 0) {
-        alert('Koi invoice nahi mili!')
-        return
-      }
-
-      const { jsPDF } = window.jspdf
-      const doc = new jsPDF()
-
-      doc.setFontSize(18)
-      doc.setTextColor(22, 163, 74)
-      doc.text('HISAB PRO V5 - Full Report', 14, 20)
-
-      doc.setFontSize(10)
-      doc.setTextColor(100)
-      doc.text(`Generated: ${new Date().toLocaleString('en-GB')}`, 14, 28)
-      doc.text(`User: ${currentSession.user.email}`, 14, 34)
-      doc.text(`Total Invoices: ${allInvoices.length}`, 14, 40)
-
-      const totalSale = allInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
-      const totalCollection = allInvoices.reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0)
-      const totalUdhar = allInvoices.reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0)
-
-      doc.setFontSize(11)
-      doc.setTextColor(0)
-      doc.text(`Total Sale: ₹${totalSale.toLocaleString('en-IN')}`, 14, 50)
-      doc.setTextColor(22, 163, 74)
-      doc.text(`Collection: ₹${totalCollection.toLocaleString('en-IN')}`, 80, 50)
-      doc.setTextColor(220, 38, 38)
-      doc.text(`Udhar: ₹${totalUdhar.toLocaleString('en-IN')}`, 146, 50)
-
-      const tableData = allInvoices.map(inv => [
-        new Date(inv.date).toLocaleDateString('en-GB'),
-        inv.customers?.name || inv.customer_name || 'N/A',
-        `₹${Number(inv.total_amount).toLocaleString('en-IN')}`,
-        `₹${Number(inv.amount_paid || 0).toLocaleString('en-IN')}`,
-        `₹${Number(inv.balance_due || 0).toLocaleString('en-IN')}`,
-        inv.balance_due > 0 ? 'Udhar' : 'Paid'
-      ])
-
-      doc.autoTable({
-        startY: 58,
-        head: [['Date', 'Customer', 'Total', 'Paid', 'Balance', 'Status']],
-        body: tableData,
-        theme: 'grid',
-        headStyles: { fillColor: [22, 163, 74], fontSize: 9 },
-        bodyStyles: { fontSize: 8 }
-      })
-
-      doc.save(`Full_Report_${new Date().toISOString().split('T')[0]}.pdf`)
+      list.innerHTML = filtered.map(inv => {
+        const isUdhar = inv.balance_due > 0
+        return `
+          <tr>
+            <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
+            <td>${inv.customer_name}</td>
+            <td class="text-right amount">₹${inv.total_amount.toLocaleString('en-IN')}</td>
+            <td class="text-right amount">₹${inv.amount_paid.toLocaleString('en-IN')}</td>
+            <td class="text-right amount ${isUdhar? 'red' : ''}">₹${inv.balance_due.toLocaleString('en-IN')}</td>
+            <td><span class="badge ${isUdhar ? 'badge-udhar' : 'badge-paid'}">${isUdhar ? 'Udhar' : 'Paid'}</span></td>
+          </tr>
+        `
+      }).join('')
     }
 
     initApp()
