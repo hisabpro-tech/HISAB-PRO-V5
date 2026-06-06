@@ -5,73 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Customers - HISAB PRO V5</title>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-.nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-.nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.nav-links::-webkit-scrollbar{display:none}
-.nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-.nav-link:hover{background:#15803d;color:#fff}
-.nav-link.active{background:#15803d;color:#fff}
-.nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
-#userEmail{color:#d1fae5;font-size:12px;display:none}
-.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-.container{max-width:1200px;margin:0 auto;padding:20px 16px}
-.search-box{margin-bottom:20px}
-.search-box input{width:100%;padding:12px 16px 12px 40px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px;background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236b7280" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 0 0 1 11 0z"/></svg>') no-repeat 12px center}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
-.stat-card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06);text-align:center}
-.stat-card h4{font-size:13px;color:#6b7280;margin-bottom:8px;font-weight:500}
-.stat-card.value{font-size:28px;font-weight:700}
-.stat-card.sale{border-left:4px solid #3b82f6}
-.stat-card.sale.value{color:#3b82f6}
-.stat-card.collection{border-left:4px solid #16a34a}
-.stat-card.collection.value{color:#16a34a}
-.stat-card.udhar{border-left:4px solid #dc2626}
-.stat-card.udhar.value{color:#dc2626}
-.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.card h3{font-size:18px;margin-bottom:20px}
-.customer-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #e5e7eb;gap:16px}
-.customer-row:last-child{border-bottom:none}
-.customer-info{min-width:140px}
-.customer-info h4{font-size:16px;margin-bottom:4px}
-.customer-info p{font-size:13px;color:#6b7280}
-.customer-stats{display:flex;gap:24px;align-items:center;flex:1;justify-content:flex-end}
-.stat-item{text-align:right;min-width:80px}
-.stat-item.label{font-size:12px;color:#6b7280;margin-bottom:2px}
-.stat-item.value{font-size:15px;font-weight:600}
-.badge-clear{color:#16a34a;font-weight:600}
-.badge-udhar{color:#dc2626;font-weight:600}
-.customer-actions{display:flex;gap:8px}
-.btn-collect{background:#16a34a;color:#fff;border:none;border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap}
-.btn-collect:hover{background:#15803d}
-.btn-collect:disabled{background:#9ca3af;cursor:not-allowed}
-.btn-delete{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap}
-.btn-delete:hover{background:#b91c1c}
-.no-data{text-align:center;padding:40px;color:#9ca3af}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:16px}
-.modal.active{display:flex}
-.modal-content{background:#fff;border-radius:12px;padding:24px;max-width:400px;width:100%}
-.modal-content h3{margin-bottom:16px}
-.modal-content input{width:100%;padding:12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px;margin-bottom:16px}
-.modal-actions{display:flex;gap:12px}
-.modal-actions button{flex:1;padding:12px;border:none;border-radius:8px;cursor:pointer;font-weight:600}
-.btn-confirm{background:#16a34a;color:#fff}
-.btn-cancel{background:#e5e7eb;color:#374151}
-@media (max-width:768px){
-.nav-container{padding:0 8px}
-.nav-brand{font-size:16px;padding:10px 0}
-.nav-links{width:100%;order:3;padding-bottom:4px}
-.nav-link{padding:12px 10px;font-size:13px}
-.btn-logout{padding:6px 10px;font-size:12px}
-.card{padding:16px}
-.customer-row{flex-direction:column;align-items:stretch;gap:12px}
-.customer-stats{justify-content:space-between;width:100%}
-.stat-item{min-width:auto}
-.customer-actions{width:100%}
-.customer-actions button{flex:1}
-}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
+  .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+  .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+  .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+  .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+  .nav-link:hover{background:#15803d;color:#fff}
+  .nav-link.active{background:#15803d;color:#fff}
+  .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+    #userEmail{color:#d1fae5;font-size:12px;display:none}
+  .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+  .container{max-width:1200px;margin:0 auto;padding:20px 16px}
+  .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+  .page-title{font-size:24px;font-weight:700}
+  .search-box{padding:10px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;width:250px}
+  .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+  .stat-mini{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+  .stat-mini-label{font-size:12px;color:#6b7280;margin-bottom:4px}
+  .stat-mini-value{font-size:20px;font-weight:700}
+  .customer-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px;padding:16px;border-left:4px solid #e5e7eb}
+  .customer-card.udhar{border-left-color:#dc2626}
+  .customer-card.clear{border-left-color:#16a34a}
+  .card-top{display:flex;justify-content:space-between;align-items:start;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+  .customer-name{font-size:18px;font-weight:700;color:#111827}
+  .customer-phone{font-size:13px;color:#6b7280;margin-top:2px}
+  .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600}
+  .badge-udhar{background:#fee2e2;color:#dc2626}
+  .badge-clear{background:#dcfce7;color:#16a34a}
+  .card-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:12px}
+  .stat-item{text-align:center}
+  .stat-label{font-size:11px;color:#6b7280;text-transform:uppercase;margin-bottom:4px}
+  .stat-number{font-size:16px;font-weight:700;color:#111827}
+  .stat-number.red{color:#dc2626}
+  .stat-number.green{color:#16a34a}
+  .card-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:12px;border-top:1px solid #f3f4f6}
+  .last-date{font-size:12px;color:#6b7280}
+  .btn-group{display:flex;gap:8px}
+  .btn{padding:8px 16px;border:none;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer}
+  .btn-collect{background:#16a34a;color:#fff}
+  .btn-delete{background:#dc2626;color:#fff}
+  .empty{padding:40px;text-align:center;color:#6b7280}
+    @media (max-width:768px){
+    .nav-container{padding:0 8px}
+    .nav-brand{font-size:16px;padding:10px 0}
+    .nav-links{width:100%;order:3;padding-bottom:4px}
+    .nav-link{padding:12px 10px;font-size:13px}
+    .btn-logout{padding:6px 10px;font-size:12px}
+    .search-box{width:100%}
+    .card-stats{grid-template-columns:repeat(2,1fr)}
+    }
   </style>
 </head>
 <body>
@@ -93,45 +78,27 @@
   </nav>
 
   <div class="container">
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search customers by name or phone...">
+    <div class="page-header">
+      <h1 class="page-title">Customers</h1>
+      <input type="text" class="search-box" id="searchInput" placeholder="Search customer...">
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card sale">
-        <h4>Today's Sale</h4>
-        <div class="value" id="todaySale">₹0</div>
+    <div class="stats-row">
+      <div class="stat-mini">
+        <div class="stat-mini-label">Today's Sale</div>
+        <div class="stat-mini-value" id="todaySale">₹0</div>
       </div>
-      <div class="stat-card collection">
-        <h4>Today's Collection</h4>
-        <div class="value" id="todayCollection">₹0</div>
+      <div class="stat-mini">
+        <div class="stat-mini-label">Today's Collection</div>
+        <div class="stat-mini-value" id="todayCollection" style="color:#16a34a">₹0</div>
       </div>
-      <div class="stat-card udhar">
-        <h4>Total Udhar</h4>
-        <div class="value" id="totalUdhar">₹0</div>
+      <div class="stat-mini">
+        <div class="stat-mini-label">Total Udhar</div>
+        <div class="stat-mini-value" id="totalUdhar" style="color:#dc2626">₹0</div>
       </div>
     </div>
 
-    <div class="card">
-      <h3>All Customers</h3>
-      <div id="customersList">
-        <div class="no-data">Loading...</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Collect Modal -->
-  <div class="modal" id="collectModal">
-    <div class="modal-content">
-      <h3>Collect Payment</h3>
-      <p style="margin-bottom:12px;color:#6b7280" id="collectCustomerName"></p>
-      <p style="margin-bottom:12px;font-weight:600">Due: <span id="collectDueAmount">₹0</span></p>
-      <input type="number" id="collectAmount" placeholder="Enter amount" min="1">
-      <div class="modal-actions">
-        <button class="btn-cancel" id="cancelCollect">Cancel</button>
-        <button class="btn-confirm" id="confirmCollect">Collect</button>
-      </div>
-    </div>
+    <div id="customersList"></div>
   </div>
 
   <script type="module">
@@ -139,13 +106,13 @@
 
     let currentSession = null
     let allCustomers = []
-    let selectedCustomer = null
 
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
       if (session) {
         currentSession = session
         document.getElementById('userEmail').innerText = session.user.email
+        loadCustomers()
       }
     })
 
@@ -154,8 +121,7 @@
       if (!session) return window.location.replace('/login.html')
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
-      await loadCustomers()
-      await loadTodayStats()
+      loadCustomers()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -163,236 +129,128 @@
       window.location.replace('/login.html')
     }
 
-    async function loadTodayStats() {
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase()
+      const filtered = allCustomers.filter(c => c.name.toLowerCase().includes(query))
+      renderCustomers(filtered)
+    })
+
+    async function loadCustomers() {
       const today = new Date().toISOString().split('T')[0]
 
+      // 1. Today's stats
       const { data: todayInvoices } = await supabase
-.from('invoices')
-.select('total_amount, amount_paid')
-.eq('user_id', currentSession.user.id)
-.eq('date', today)
+      .from('invoices')
+      .select('total_amount,amount_paid,balance_due')
+      .eq('user_id', currentSession.user.id)
+      .eq('date', today)
 
-      const todaySale = todayInvoices?.reduce((sum, inv) => sum + Number(inv.total_amount), 0) || 0
-      const todayCollection = todayInvoices?.reduce((sum, inv) => sum + Number(inv.amount_paid), 0) || 0
+      let todaySale = 0, todayCollection = 0, totalUdharAll = 0
+      if (todayInvoices) {
+        todayInvoices.forEach(inv => {
+          todaySale += inv.total_amount
+          todayCollection += inv.amount_paid
+        })
+      }
+
+      // 2. All invoices grouped by customer
+      const { data: allInvoices } = await supabase
+      .from('invoices')
+      .select('*')
+      .eq('user_id', currentSession.user.id)
+      .order('date', { ascending: false })
+
+      const customerMap = {}
+      if (allInvoices) {
+        allInvoices.forEach(inv => {
+          const key = inv.customer_name.toLowerCase()
+          if (!customerMap[key]) {
+            customerMap[key] = {
+              name: inv.customer_name,
+              phone: inv.customer_phone || 'No phone',
+              totalBusiness: 0,
+              totalPaid: 0,
+              totalUdhar: 0,
+              invoiceCount: 0,
+              lastDate: inv.date
+            }
+          }
+          customerMap[key].totalBusiness += inv.total_amount
+          customerMap[key].totalPaid += inv.amount_paid
+          customerMap[key].totalUdhar += inv.balance_due
+          customerMap[key].invoiceCount += 1
+          if (inv.date > customerMap[key].lastDate) customerMap[key].lastDate = inv.date
+        })
+      }
+
+      // 3. Convert to array + Sort: Udhar wale top pe
+      allCustomers = Object.values(customerMap).sort((a, b) => {
+        if (b.totalUdhar!== a.totalUdhar) return b.totalUdhar - a.totalUdhar
+        return b.totalBusiness - a.totalBusiness
+      })
+
+      totalUdharAll = allCustomers.reduce((sum, c) => sum + c.totalUdhar, 0)
 
       document.getElementById('todaySale').innerText = `₹${todaySale.toLocaleString('en-IN')}`
       document.getElementById('todayCollection').innerText = `₹${todayCollection.toLocaleString('en-IN')}`
-    }
-
-    async function loadCustomers() {
-      const { data: customers, error } = await supabase
-.from('customers')
-.select('*')
-.eq('user_id', currentSession.user.id)
-.order('name')
-
-      if (error) {
-        console.error(error)
-        document.getElementById('customersList').innerHTML = '<div class="no-data">Error loading customers</div>'
-        return
-      }
-
-      const customerIds = customers.map(c => c.id)
-
-      let invoices = []
-      if (customerIds.length > 0) {
-        const { data: invoiceData } = await supabase
-.from('invoices')
-.select('customer_id, total_amount, balance_due')
-.eq('user_id', currentSession.user.id)
-.in('customer_id', customerIds)
-        invoices = invoiceData || []
-      }
-
-      allCustomers = customers.map(customer => {
-        const customerInvoices = invoices.filter(inv => inv.customer_id === customer.id)
-        const totalBusiness = customerInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
-        const totalDue = customerInvoices.reduce((sum, inv) => sum + Number(inv.balance_due), 0)
-        return {
-      ...customer,
-          invoiceCount: customerInvoices.length,
-          totalBusiness,
-          totalDue
-        }
-      })
-
-      const totalUdhar = allCustomers.reduce((sum, c) => sum + c.totalDue, 0)
-      document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
+      document.getElementById('totalUdhar').innerText = `₹${totalUdharAll.toLocaleString('en-IN')}`
 
       renderCustomers(allCustomers)
     }
 
     function renderCustomers(customers) {
-      const container = document.getElementById('customersList')
-
+      const list = document.getElementById('customersList')
       if (customers.length === 0) {
-        container.innerHTML = '<div class="no-data">No customers found</div>'
+        list.innerHTML = '<div class="empty">No customers found</div>'
         return
       }
 
-      container.innerHTML = customers.map(customer => `
-        <div class="customer-row">
-          <div class="customer-info">
-            <h4>${customer.name}</h4>
-            <p>${customer.phone || 'No phone'}</p>
-          </div>
-          <div class="customer-stats">
-            <div class="stat-item">
-              <div class="label">Invoices</div>
-              <div class="value">${customer.invoiceCount}</div>
+      list.innerHTML = customers.map(c => {
+        const hasUdhar = c.totalUdhar > 0
+        const cardClass = hasUdhar? 'customer-card udhar' : 'customer-card clear'
+        const badge = hasUdhar
+         ? `<span class="badge badge-udhar">₹${c.totalUdhar.toLocaleString('en-IN')} Udhar</span>`
+          : `<span class="badge badge-clear">Clear</span>`
+
+        return `
+          <div class="${cardClass}">
+            <div class="card-top">
+              <div>
+                <div class="customer-name">${c.name}</div>
+                <div class="customer-phone">${c.phone}</div>
+              </div>
+              ${badge}
             </div>
-            <div class="stat-item">
-              <div class="label">Total Business</div>
-              <div class="value">₹${customer.totalBusiness.toLocaleString('en-IN')}</div>
+
+            <div class="card-stats">
+              <div class="stat-item">
+                <div class="stat-label">Invoices</div>
+                <div class="stat-number">${c.invoiceCount}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Total Business</div>
+                <div class="stat-number">₹${c.totalBusiness.toLocaleString('en-IN')}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Paid</div>
+                <div class="stat-number green">₹${c.totalPaid.toLocaleString('en-IN')}</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Balance</div>
+                <div class="stat-number ${hasUdhar? 'red' : ''}">₹${c.totalUdhar.toLocaleString('en-IN')}</div>
+              </div>
             </div>
-            <div class="stat-item">
-              <div class="label">Status</div>
-              <div class="value ${customer.totalDue > 0? 'badge-udhar' : 'badge-clear'}">
-                ${customer.totalDue > 0? `₹${customer.totalDue.toLocaleString('en-IN')} Udhar` : 'Clear'}
+
+            <div class="card-footer">
+              <div class="last-date">Last Invoice: ${new Date(c.lastDate).toLocaleDateString('en-IN')}</div>
+              <div class="btn-group">
+                ${hasUdhar? '<button class="btn btn-collect">Collect</button>' : ''}
+                <button class="btn btn-delete">Delete</button>
               </div>
             </div>
           </div>
-          <div class="customer-actions">
-            <button class="btn-collect" data-id="${customer.id}" data-name="${customer.name}" data-due="${customer.totalDue}" ${customer.totalDue <= 0? 'disabled' : ''}>
-              Collect
-            </button>
-            <button class="btn-delete" data-id="${customer.id}" data-name="${customer.name}">
-              Delete
-            </button>
-          </div>
-        </div>
-      `).join('')
-
-      container.querySelectorAll('.btn-collect').forEach(btn => {
-        btn.onclick = (e) => {
-          const id = e.target.dataset.id
-          const name = e.target.dataset.name
-          const due = Number(e.target.dataset.due)
-          openCollectModal(id, name, due)
-        }
-      })
-
-      container.querySelectorAll('.btn-delete').forEach(btn => {
-        btn.onclick = (e) => {
-          const id = e.target.dataset.id
-          const name = e.target.dataset.name
-          deleteCustomer(id, name)
-        }
-      })
-    }
-
-    function openCollectModal(customerId, customerName, dueAmount) {
-      selectedCustomer = { id: customerId, due: dueAmount }
-      document.getElementById('collectCustomerName').innerText = customerName
-      document.getElementById('collectDueAmount').innerText = `₹${dueAmount.toLocaleString('en-IN')}`
-      document.getElementById('collectAmount').value = dueAmount
-      document.getElementById('collectAmount').max = dueAmount
-      document.getElementById('collectModal').classList.add('active')
-    }
-
-    document.getElementById('cancelCollect').onclick = () => {
-      document.getElementById('collectModal').classList.remove('active')
-      selectedCustomer = null
-    }
-
-    document.getElementById('confirmCollect').onclick = async () => {
-      const amount = Number(document.getElementById('collectAmount').value)
-
-      if (!amount || amount <= 0) {
-        alert('Enter valid amount')
-        return
-      }
-
-      if (amount > selectedCustomer.due) {
-        alert('Amount cannot be more than due amount')
-        return
-      }
-
-      try {
-        const { data: invoices } = await supabase
-.from('invoices')
-.select('id, balance_due, amount_paid')
-.eq('customer_id', selectedCustomer.id)
-.eq('user_id', currentSession.user.id)
-.gt('balance_due', 0)
-.order('date', { ascending: true })
-
-        let remainingAmount = amount
-
-        for (const invoice of invoices) {
-          if (remainingAmount <= 0) break
-
-          const payAmount = Math.min(remainingAmount, Number(invoice.balance_due))
-          const newPaid = Number(invoice.amount_paid) + payAmount
-          const newDue = Number(invoice.balance_due) - payAmount
-
-          await supabase
- .from('invoices')
- .update({
-              amount_paid: newPaid,
-              balance_due: newDue
-            })
- .eq('id', invoice.id)
-
-          remainingAmount -= payAmount
-        }
-
-        document.getElementById('collectModal').classList.remove('active')
-        alert('Payment collected successfully!')
-        await loadCustomers()
-        await loadTodayStats()
-      } catch (error) {
-        console.error(error)
-        alert('Error collecting payment: ' + error.message)
-      }
-    }
-
-    async function deleteCustomer(customerId, customerName) {
-      if (!confirm(`Delete ${customerName}? This will also delete all invoices.`)) return
-
-      try {
-        const { data: invoiceList } = await supabase
-.from('invoices')
-.select('id')
-.eq('customer_id', customerId)
-.eq('user_id', currentSession.user.id)
-
-        if (invoiceList && invoiceList.length > 0) {
-          const invoiceIds = invoiceList.map(i => i.id)
-          await supabase
-.from('invoice_items')
-.delete()
-.in('invoice_id', invoiceIds)
-        }
-
-        await supabase
-.from('invoices')
-.delete()
-.eq('customer_id', customerId)
-.eq('user_id', currentSession.user.id)
-
-        await supabase
-.from('customers')
-.delete()
-.eq('id', customerId)
-.eq('user_id', currentSession.user.id)
-
-        alert('Customer deleted successfully!')
-        await loadCustomers()
-        await loadTodayStats()
-      } catch (error) {
-        console.error(error)
-        alert('Error deleting customer: ' + error.message)
-      }
-    }
-
-    document.getElementById('searchInput').oninput = (e) => {
-      const search = e.target.value.toLowerCase()
-      const filtered = allCustomers.filter(c =>
-        c.name.toLowerCase().includes(search) ||
-        (c.phone && c.phone.includes(search))
-      )
-      renderCustomers(filtered)
+        `
+      }).join('')
     }
 
     initApp()
