@@ -25,6 +25,7 @@
 .form-group label{display:block;font-size:14px;font-weight:500;margin-bottom:6px;color:#374151}
 .form-group input,.form-group select{width:100%;padding:10px 12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
 .form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
+.form-group input:read-only{background:#f9fafb;color:#6b7280;cursor:not-allowed}
 .items-header{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;padding:0 4px;font-size:13px;font-weight:600;color:#6b7280}
 .item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;align-items:center}
 .item-row input{padding:10px 12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
@@ -90,7 +91,7 @@
       <div class="form-row">
         <div class="form-group">
           <label>Invoice Date *</label>
-          <input type="date" id="invoiceDate" required>
+          <input type="date" id="invoiceDate" readonly required>
         </div>
         <div class="form-group">
           <label>Payment Mode</label>
@@ -172,7 +173,7 @@
           <button type="button" class="btn-remove-item">×</button>
         </div>
       `
-      itemsList.insertAdjacentHTML('beforeend', itemHTML) // ← Ab niche add hoga
+      itemsList.insertAdjacentHTML('beforeend', itemHTML)
       attachItemListeners()
       calculateTotal()
     }
