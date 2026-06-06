@@ -154,7 +154,7 @@
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
       document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0]
-      addItemRow()
+      addItemRow(true) // ← Pehla blank item upar
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -162,7 +162,7 @@
       window.location.replace('/login.html')
     }
 
-    function addItemRow(item = { name: '', qty: 1, price: 0 }) {
+    function addItemRow(isFirst = false, item = { name: '', qty: 1, price: 0 }) {
       const itemsList = document.getElementById('itemsList')
       const itemHTML = `
         <div class="item-row">
@@ -173,7 +173,13 @@
           <button type="button" class="btn-remove-item">×</button>
         </div>
       `
-      itemsList.insertAdjacentHTML('beforeend', itemHTML)
+
+      if (isFirst) {
+        itemsList.insertAdjacentHTML('afterbegin', itemHTML) // Pehla item upar
+      } else {
+        itemsList.insertAdjacentHTML('beforeend', itemHTML) // Baaki niche
+      }
+
       attachItemListeners()
       calculateTotal()
     }
@@ -195,8 +201,12 @@
         qtyInput.oninput = updateRowTotal
         priceInput.oninput = updateRowTotal
         removeBtn.onclick = () => {
-          row.remove()
-          calculateTotal()
+          if (document.querySelectorAll('.item-row').length > 1) {
+            row.remove()
+            calculateTotal()
+          } else {
+            alert('At least one item is required')
+          }
         }
       })
     }
@@ -216,7 +226,7 @@
       document.getElementById('balanceDue').innerText = `₹${balanceDue.toLocaleString('en-IN')}`
     }
 
-    document.getElementById('addItemBtn').onclick = () => addItemRow()
+    document.getElementById('addItemBtn').onclick = () => addItemRow(false)
     document.getElementById('amountPaid').oninput = calculateTotal
     document.getElementById('paymentMode').onchange = (e) => {
       if (e.target.value === 'Udhar') {
