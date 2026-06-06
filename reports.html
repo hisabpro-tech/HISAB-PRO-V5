@@ -182,7 +182,7 @@
           inv.total_amount,
           inv.amount_paid,
           inv.balance_due,
-          inv.payment_method
+          inv.payment_method || 'Udhar'
         ].join(','))
       ].join('\n')
 
@@ -197,10 +197,10 @@
 
     async function loadReports() {
       const { data: invoices, error } = await supabase
-    .from('invoices')
-    .select('*')
-    .eq('user_id', currentSession.user.id)
-    .order('date', { ascending: false })
+   .from('invoices')
+   .select('*')
+   .eq('user_id', currentSession.user.id)
+   .order('date', { ascending: false })
 
       if (error) return console.error(error)
 
@@ -267,8 +267,9 @@
 
       list.innerHTML = filtered.map(inv => {
         const hasDue = inv.balance_due > 0
-        const paymentClass = inv.payment_method === 'Cash' ? 'badge-cash' : 
-                           inv.payment_method === 'UPI' ? 'badge-upi' : 'badge-udhar'
+        const paymentMethod = inv.payment_method || (hasDue ? 'Udhar' : 'Cash')
+        const paymentClass = paymentMethod === 'Cash' ? 'badge-cash' : 
+                           paymentMethod === 'UPI' ? 'badge-upi' : 'badge-udhar'
         
         return `
           <tr>
@@ -277,7 +278,7 @@
             <td class="text-right amount">₹${inv.total_amount.toLocaleString('en-IN')}</td>
             <td class="text-right amount green">₹${inv.amount_paid.toLocaleString('en-IN')}</td>
             <td class="text-right amount ${hasDue? 'red' : ''}">₹${inv.balance_due.toLocaleString('en-IN')}</td>
-            <td><span class="badge ${paymentClass}">${inv.payment_method}</span></td>
+            <td><span class="badge ${paymentClass}">${paymentMethod}</span></td>
           </tr>
         `
       }).join('')
