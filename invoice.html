@@ -113,7 +113,6 @@
           <div></div>
         </div>
         <div id="itemsList">
-          <!-- Blank row hamesha yaha rahegi -->
           <div class="item-row" id="blankRow">
             <input type="text" placeholder="Item name" class="item-name" value="">
             <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
@@ -163,7 +162,7 @@
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
       document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0]
-      attachItemListeners() // Pehle se jo blank row hai uspe listeners lagao
+      attachItemListeners()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -172,9 +171,7 @@
     }
 
     function addItemRow() {
-      const itemsList = document.getElementById('itemsList')
       const blankRow = document.getElementById('blankRow')
-
       const itemHTML = `
         <div class="item-row">
           <input type="text" placeholder="Item name" class="item-name" value="">
@@ -184,9 +181,7 @@
           <button type="button" class="btn-remove-item">×</button>
         </div>
       `
-      // Naya item hamesha blank row ke niche add hoga
       blankRow.insertAdjacentHTML('afterend', itemHTML)
-
       attachItemListeners()
       calculateTotal()
     }
@@ -208,7 +203,7 @@
         qtyInput.oninput = updateRowTotal
         priceInput.oninput = updateRowTotal
         removeBtn.onclick = () => {
-          if (row.id!== 'blankRow') { // Blank row delete nahi hogi
+          if (row.id!== 'blankRow') {
             row.remove()
             calculateTotal()
           }
