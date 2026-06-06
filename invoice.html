@@ -172,16 +172,40 @@
 
     function addItemRow() {
       const blankRow = document.getElementById('blankRow')
-      const itemHTML = `
-        <div class="item-row">
-          <input type="text" placeholder="Item name" class="item-name" value="">
-          <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
-          <input type="number" placeholder="Price" class="item-price" value="0" min="0">
-          <div class="item-total">₹0</div>
-          <button type="button" class="btn-remove-item">×</button>
-        </div>
-      `
-      blankRow.insertAdjacentHTML('afterend', itemHTML)
+      const blankName = blankRow.querySelector('.item-name').value.trim()
+      const blankQty = Number(blankRow.querySelector('.item-qty').value) || 0
+      const blankPrice = Number(blankRow.querySelector('.item-price').value) || 0
+
+      // Agar blank row me kuch likha hai to usko normal row bana do
+      if (blankName || blankQty > 1 || blankPrice > 0) {
+        blankRow.querySelector('.btn-remove-item').style.visibility = 'visible'
+        blankRow.removeAttribute('id')
+
+        // Upar naya blank row add karo
+        const newBlankHTML = `
+          <div class="item-row" id="blankRow">
+            <input type="text" placeholder="Item name" class="item-name" value="">
+            <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
+            <input type="number" placeholder="Price" class="item-price" value="0" min="0">
+            <div class="item-total">₹0</div>
+            <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
+          </div>
+        `
+        document.getElementById('itemsList').insertAdjacentHTML('afterbegin', newBlankHTML)
+      } else {
+        // Agar blank row khali hai to uske niche normal row add karo
+        const itemHTML = `
+          <div class="item-row">
+            <input type="text" placeholder="Item name" class="item-name" value="">
+            <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
+            <input type="number" placeholder="Price" class="item-price" value="0" min="0">
+            <div class="item-total">₹0</div>
+            <button type="button" class="btn-remove-item">×</button>
+          </div>
+        `
+        blankRow.insertAdjacentHTML('afterend', itemHTML)
+      }
+
       attachItemListeners()
       calculateTotal()
     }
