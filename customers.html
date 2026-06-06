@@ -7,26 +7,26 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
- .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
- .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
- .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
- .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
- .nav-links::-webkit-scrollbar{display:none}
- .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
- .nav-link:hover{background:#15803d;color:#fff}
- .nav-link.active{background:#15803d;color:#fff}
- .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+.nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+.nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+.nav-link:hover{background:#15803d;color:#fff}
+.nav-link.active{background:#15803d;color:#fff}
+.nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
- .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
- .container{max-width:1200px;margin:0 auto;padding:20px 16px}
- .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
- .page-title{font-size:24px;font-weight:700}
- .search-box{padding:10px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;width:250px}
- .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
- .stat-mini{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
- .stat-mini-label{font-size:12px;color:#6b7280;margin-bottom:4px}
- .stat-mini-value{font-size:20px;font-weight:700}
- .table-wrapper{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto}
+.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+.container{max-width:1200px;margin:0 auto;padding:20px 16px}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.page-title{font-size:24px;font-weight:700}
+.search-box{padding:10px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;width:250px}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.stat-mini{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.stat-mini-label{font-size:12px;color:#6b7280;margin-bottom:4px}
+.stat-mini-value{font-size:20px;font-weight:700}
+.table-wrapper{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto}
   table{width:100%;border-collapse:collapse}
   th{background:#f9fafb;padding:14px 12px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;border-bottom:2px solid #e5e7eb;white-space:nowrap}
   td{padding:16px 12px;border-bottom:1px solid #f3f4f6;font-size:14px}
@@ -34,30 +34,30 @@
   tr:hover{background:#f9fafb}
   tr.udhar-row{background:#fef2f2}
   tr.udhar-row:hover{background:#fee2e2}
- .customer-name{font-weight:600;color:#111827}
- .customer-phone{font-size:12px;color:#6b7280;margin-top:2px}
- .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
- .badge-udhar{background:#fee2e2;color:#dc2626}
- .badge-clear{background:#dcfce7;color:#16a34a}
- .text-right{text-align:right}
- .text-center{text-align:center}
- .amount{font-weight:600}
- .amount.red{color:#dc2626}
- .amount.green{color:#16a34a}
- .btn-group{display:flex;gap:6px;justify-content:flex-end}
- .btn{padding:6px 12px;border:none;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer}
- .btn-collect{background:#16a34a;color:#fff}
- .btn-delete{background:#dc2626;color:#fff}
- .empty{padding:40px;text-align:center;color:#6b7280}
+.customer-name{font-weight:600;color:#111827}
+.customer-phone{font-size:12px;color:#6b7280;margin-top:2px}
+.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
+.badge-udhar{background:#fee2e2;color:#dc2626}
+.badge-clear{background:#dcfce7;color:#16a34a}
+.text-right{text-align:right}
+.text-center{text-align:center}
+.amount{font-weight:600}
+.amount.red{color:#dc2626}
+.amount.green{color:#16a34a}
+.btn-group{display:flex;gap:6px;justify-content:flex-end}
+.btn{padding:6px 12px;border:none;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer}
+.btn-collect{background:#16a34a;color:#fff}
+.btn-delete{background:#dc2626;color:#fff}
+.empty{padding:40px;text-align:center;color:#6b7280}
     @media (max-width:768px){
-   .nav-container{padding:0 8px}
-   .nav-brand{font-size:16px;padding:10px 0}
-   .nav-links{width:100%;order:3;padding-bottom:4px}
-   .nav-link{padding:12px 10px;font-size:13px}
-   .btn-logout{padding:6px 10px;font-size:12px}
-   .search-box{width:100%}
+  .nav-container{padding:0 8px}
+  .nav-brand{font-size:16px;padding:10px 0}
+  .nav-links{width:100%;order:3;padding-bottom:4px}
+  .nav-link{padding:12px 10px;font-size:13px}
+  .btn-logout{padding:6px 10px;font-size:12px}
+  .search-box{width:100%}
     th,td{padding:10px 8px;font-size:13px}
-   .btn{padding:5px 10px;font-size:11px}
+  .btn{padding:5px 10px;font-size:11px}
     }
   </style>
 </head>
@@ -158,10 +158,10 @@
 
       // 1. Today's stats
       const { data: todayInvoices } = await supabase
-     .from('invoices')
-     .select('total_amount,amount_paid,balance_due')
-     .eq('user_id', currentSession.user.id)
-     .eq('date', today)
+    .from('invoices')
+    .select('total_amount,amount_paid,balance_due')
+    .eq('user_id', currentSession.user.id)
+    .eq('date', today)
 
       let todaySale = 0, todayCollection = 0, totalUdharAll = 0
       if (todayInvoices) {
@@ -173,10 +173,10 @@
 
       // 2. All invoices grouped by customer
       const { data: allInvoices } = await supabase
-     .from('invoices')
-     .select('*')
-     .eq('user_id', currentSession.user.id)
-     .order('date', { ascending: false })
+    .from('invoices')
+    .select('*')
+    .eq('user_id', currentSession.user.id)
+    .order('date', { ascending: false })
 
       const customerMap = {}
       if (allInvoices) {
@@ -190,13 +190,15 @@
               totalPaid: 0,
               totalUdhar: 0,
               invoiceCount: 0,
-              lastDate: inv.date
+              lastDate: inv.date,
+              invoiceIds: []
             }
           }
           customerMap[key].totalBusiness += inv.total_amount
           customerMap[key].totalPaid += inv.amount_paid
           customerMap[key].totalUdhar += inv.balance_due
           customerMap[key].invoiceCount += 1
+          customerMap[key].invoiceIds.push(inv.id)
           if (inv.date > customerMap[key].lastDate) customerMap[key].lastDate = inv.date
         })
       }
@@ -223,11 +225,11 @@
         return
       }
 
-      list.innerHTML = customers.map(c => {
+      list.innerHTML = customers.map((c, idx) => {
         const hasUdhar = c.totalUdhar > 0
         const rowClass = hasUdhar? 'udhar-row' : ''
         const badge = hasUdhar
-        ? `<span class="badge badge-udhar">₹${c.totalUdhar.toLocaleString('en-IN')} Udhar</span>`
+       ? `<span class="badge badge-udhar">₹${c.totalUdhar.toLocaleString('en-IN')} Udhar</span>`
           : `<span class="badge badge-clear">Clear</span>`
 
         return `
@@ -244,13 +246,69 @@
             <td class="text-center">${badge}</td>
             <td>
               <div class="btn-group">
-                ${hasUdhar? '<button class="btn btn-collect">Collect</button>' : ''}
-                <button class="btn btn-delete">Delete</button>
+                ${hasUdhar? `<button class="btn btn-collect" onclick="collectPayment('${c.name}', ${c.totalUdhar})">Collect</button>` : ''}
+                <button class="btn btn-delete" onclick="deleteCustomer('${c.name}')">Delete</button>
               </div>
             </td>
           </tr>
         `
       }).join('')
+    }
+
+    // Global functions for buttons
+    window.collectPayment = async (customerName, amount) => {
+      const paid = prompt(`Collect payment from ${customerName}\nPending: ₹${amount.toLocaleString('en-IN')}\n\nEnter amount:`, amount)
+      if (!paid || isNaN(paid) || paid <= 0) return
+
+      const collectAmount = parseFloat(paid)
+      if (collectAmount > amount) {
+        alert('Amount cannot be more than pending balance')
+        return
+      }
+
+      // Get all pending invoices for this customer
+      const { data: invoices } = await supabase
+      .from('invoices')
+      .select('*')
+      .eq('user_id', currentSession.user.id)
+      .eq('customer_name', customerName)
+      .gt('balance_due', 0)
+      .order('date', { ascending: true })
+
+      let remaining = collectAmount
+      for (const inv of invoices) {
+        if (remaining <= 0) break
+        const payThis = Math.min(remaining, inv.balance_due)
+        const newPaid = inv.amount_paid + payThis
+        const newBalance = inv.total_amount - newPaid
+
+        await supabase
+        .from('invoices')
+        .update({ amount_paid: newPaid, balance_due: newBalance })
+        .eq('id', inv.id)
+
+        remaining -= payThis
+      }
+
+      alert(`₹${collectAmount.toLocaleString('en-IN')} collected from ${customerName}`)
+      loadCustomers()
+    }
+
+    window.deleteCustomer = async (customerName) => {
+      if (!confirm(`Delete all invoices for ${customerName}?\nThis cannot be undone!`)) return
+
+      const { error } = await supabase
+      .from('invoices')
+      .delete()
+      .eq('user_id', currentSession.user.id)
+      .eq('customer_name', customerName)
+
+      if (error) {
+        alert('Error deleting: ' + error.message)
+      } else {
+        alert(`${customerName} deleted successfully`)
+        loadCustomers()
+      }
     }
 
     initApp()
