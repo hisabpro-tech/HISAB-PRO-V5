@@ -154,7 +154,7 @@
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
       document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0]
-      addItemRow(true) // ← Pehla blank item upar
+      addItemRow() // Pehla blank item
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -162,7 +162,7 @@
       window.location.replace('/login.html')
     }
 
-    function addItemRow(isFirst = false, item = { name: '', qty: 1, price: 0 }) {
+    function addItemRow(item = { name: '', qty: 1, price: 0 }) {
       const itemsList = document.getElementById('itemsList')
       const itemHTML = `
         <div class="item-row">
@@ -174,10 +174,14 @@
         </div>
       `
 
-      if (isFirst) {
-        itemsList.insertAdjacentHTML('afterbegin', itemHTML) // Pehla item upar
+      const firstRow = itemsList.querySelector('.item-row')
+      const firstRowName = firstRow?.querySelector('.item-name')?.value.trim()
+
+      // Agar pehli row khali hai toh uske baad add karo, warna pehli row ke baad insert karo
+      if (!firstRow || firstRowName) {
+        itemsList.insertAdjacentHTML('beforeend', itemHTML)
       } else {
-        itemsList.insertAdjacentHTML('beforeend', itemHTML) // Baaki niche
+        firstRow.insertAdjacentHTML('afterend', itemHTML)
       }
 
       attachItemListeners()
@@ -226,7 +230,7 @@
       document.getElementById('balanceDue').innerText = `₹${balanceDue.toLocaleString('en-IN')}`
     }
 
-    document.getElementById('addItemBtn').onclick = () => addItemRow(false)
+    document.getElementById('addItemBtn').onclick = () => addItemRow()
     document.getElementById('amountPaid').oninput = calculateTotal
     document.getElementById('paymentMode').onchange = (e) => {
       if (e.target.value === 'Udhar') {
