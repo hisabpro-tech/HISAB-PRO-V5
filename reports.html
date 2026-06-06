@@ -122,7 +122,7 @@
             <th>Customer</th>
             <th class="text-right">Total</th>
             <th class="text-right">Paid</th>
-            <th class="text-right">Due</th>
+            <th class="text-right">Balance</th>
             <th>Payment</th>
           </tr>
         </thead>
@@ -175,7 +175,7 @@
       if (filtered.length === 0) return alert('No data to export')
       
       const csv = [
-        ['Date','Customer','Total','Paid','Due','Payment'].join(','),
+        ['Date','Customer','Total','Paid','Balance','Payment'].join(','),
         ...filtered.map(inv => [
           inv.date,
           `"${inv.customer_name}"`,
