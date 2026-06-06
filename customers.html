@@ -7,55 +7,57 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-  .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-  .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-  .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-  .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .nav-links::-webkit-scrollbar{display:none}
-  .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-  .nav-link:hover{background:#15803d;color:#fff}
-  .nav-link.active{background:#15803d;color:#fff}
-  .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+ .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+ .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+ .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+ .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .nav-links::-webkit-scrollbar{display:none}
+ .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+ .nav-link:hover{background:#15803d;color:#fff}
+ .nav-link.active{background:#15803d;color:#fff}
+ .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
-  .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-  .container{max-width:1200px;margin:0 auto;padding:20px 16px}
-  .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-  .page-title{font-size:24px;font-weight:700}
-  .search-box{padding:10px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;width:250px}
-  .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
-  .stat-mini{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
-  .stat-mini-label{font-size:12px;color:#6b7280;margin-bottom:4px}
-  .stat-mini-value{font-size:20px;font-weight:700}
-  .customer-card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:12px;padding:16px;border-left:4px solid #e5e7eb}
-  .customer-card.udhar{border-left-color:#dc2626}
-  .customer-card.clear{border-left-color:#16a34a}
-  .card-top{display:flex;justify-content:space-between;align-items:start;margin-bottom:12px;flex-wrap:wrap;gap:8px}
-  .customer-name{font-size:18px;font-weight:700;color:#111827}
-  .customer-phone{font-size:13px;color:#6b7280;margin-top:2px}
-  .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600}
-  .badge-udhar{background:#fee2e2;color:#dc2626}
-  .badge-clear{background:#dcfce7;color:#16a34a}
-  .card-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:12px}
-  .stat-item{text-align:center}
-  .stat-label{font-size:11px;color:#6b7280;text-transform:uppercase;margin-bottom:4px}
-  .stat-number{font-size:16px;font-weight:700;color:#111827}
-  .stat-number.red{color:#dc2626}
-  .stat-number.green{color:#16a34a}
-  .card-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:12px;border-top:1px solid #f3f4f6}
-  .last-date{font-size:12px;color:#6b7280}
-  .btn-group{display:flex;gap:8px}
-  .btn{padding:8px 16px;border:none;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer}
-  .btn-collect{background:#16a34a;color:#fff}
-  .btn-delete{background:#dc2626;color:#fff}
-  .empty{padding:40px;text-align:center;color:#6b7280}
+ .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+ .container{max-width:1200px;margin:0 auto;padding:20px 16px}
+ .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+ .page-title{font-size:24px;font-weight:700}
+ .search-box{padding:10px 14px;border:2px solid #e5e7eb;border-radius:8px;font-size:14px;width:250px}
+ .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+ .stat-mini{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+ .stat-mini-label{font-size:12px;color:#6b7280;margin-bottom:4px}
+ .stat-mini-value{font-size:20px;font-weight:700}
+ .table-wrapper{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto}
+  table{width:100%;border-collapse:collapse}
+  th{background:#f9fafb;padding:14px 12px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;border-bottom:2px solid #e5e7eb;white-space:nowrap}
+  td{padding:16px 12px;border-bottom:1px solid #f3f4f6;font-size:14px}
+  tr:last-child td{border-bottom:none}
+  tr:hover{background:#f9fafb}
+  tr.udhar-row{background:#fef2f2}
+  tr.udhar-row:hover{background:#fee2e2}
+ .customer-name{font-weight:600;color:#111827}
+ .customer-phone{font-size:12px;color:#6b7280;margin-top:2px}
+ .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
+ .badge-udhar{background:#fee2e2;color:#dc2626}
+ .badge-clear{background:#dcfce7;color:#16a34a}
+ .text-right{text-align:right}
+ .text-center{text-align:center}
+ .amount{font-weight:600}
+ .amount.red{color:#dc2626}
+ .amount.green{color:#16a34a}
+ .btn-group{display:flex;gap:6px;justify-content:flex-end}
+ .btn{padding:6px 12px;border:none;border-radius:6px;font-weight:600;font-size:12px;cursor:pointer}
+ .btn-collect{background:#16a34a;color:#fff}
+ .btn-delete{background:#dc2626;color:#fff}
+ .empty{padding:40px;text-align:center;color:#6b7280}
     @media (max-width:768px){
-    .nav-container{padding:0 8px}
-    .nav-brand{font-size:16px;padding:10px 0}
-    .nav-links{width:100%;order:3;padding-bottom:4px}
-    .nav-link{padding:12px 10px;font-size:13px}
-    .btn-logout{padding:6px 10px;font-size:12px}
-    .search-box{width:100%}
-    .card-stats{grid-template-columns:repeat(2,1fr)}
+   .nav-container{padding:0 8px}
+   .nav-brand{font-size:16px;padding:10px 0}
+   .nav-links{width:100%;order:3;padding-bottom:4px}
+   .nav-link{padding:12px 10px;font-size:13px}
+   .btn-logout{padding:6px 10px;font-size:12px}
+   .search-box{width:100%}
+    th,td{padding:10px 8px;font-size:13px}
+   .btn{padding:5px 10px;font-size:11px}
     }
   </style>
 </head>
@@ -98,7 +100,23 @@
       </div>
     </div>
 
-    <div id="customersList"></div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th class="text-center">Invoices</th>
+            <th class="text-right">Total Business</th>
+            <th class="text-right">Paid</th>
+            <th class="text-right">Balance</th>
+            <th>Last Invoice</th>
+            <th class="text-center">Status</th>
+            <th class="text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody id="customersList"></tbody>
+      </table>
+    </div>
   </div>
 
   <script type="module">
@@ -140,10 +158,10 @@
 
       // 1. Today's stats
       const { data: todayInvoices } = await supabase
-      .from('invoices')
-      .select('total_amount,amount_paid,balance_due')
-      .eq('user_id', currentSession.user.id)
-      .eq('date', today)
+     .from('invoices')
+     .select('total_amount,amount_paid,balance_due')
+     .eq('user_id', currentSession.user.id)
+     .eq('date', today)
 
       let todaySale = 0, todayCollection = 0, totalUdharAll = 0
       if (todayInvoices) {
@@ -155,10 +173,10 @@
 
       // 2. All invoices grouped by customer
       const { data: allInvoices } = await supabase
-      .from('invoices')
-      .select('*')
-      .eq('user_id', currentSession.user.id)
-      .order('date', { ascending: false })
+     .from('invoices')
+     .select('*')
+     .eq('user_id', currentSession.user.id)
+     .order('date', { ascending: false })
 
       const customerMap = {}
       if (allInvoices) {
@@ -201,54 +219,36 @@
     function renderCustomers(customers) {
       const list = document.getElementById('customersList')
       if (customers.length === 0) {
-        list.innerHTML = '<div class="empty">No customers found</div>'
+        list.innerHTML = '<tr><td colspan="8" class="empty">No customers found</td></tr>'
         return
       }
 
       list.innerHTML = customers.map(c => {
         const hasUdhar = c.totalUdhar > 0
-        const cardClass = hasUdhar? 'customer-card udhar' : 'customer-card clear'
+        const rowClass = hasUdhar? 'udhar-row' : ''
         const badge = hasUdhar
-         ? `<span class="badge badge-udhar">₹${c.totalUdhar.toLocaleString('en-IN')} Udhar</span>`
+        ? `<span class="badge badge-udhar">₹${c.totalUdhar.toLocaleString('en-IN')} Udhar</span>`
           : `<span class="badge badge-clear">Clear</span>`
 
         return `
-          <div class="${cardClass}">
-            <div class="card-top">
-              <div>
-                <div class="customer-name">${c.name}</div>
-                <div class="customer-phone">${c.phone}</div>
-              </div>
-              ${badge}
-            </div>
-
-            <div class="card-stats">
-              <div class="stat-item">
-                <div class="stat-label">Invoices</div>
-                <div class="stat-number">${c.invoiceCount}</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Total Business</div>
-                <div class="stat-number">₹${c.totalBusiness.toLocaleString('en-IN')}</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Paid</div>
-                <div class="stat-number green">₹${c.totalPaid.toLocaleString('en-IN')}</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-label">Balance</div>
-                <div class="stat-number ${hasUdhar? 'red' : ''}">₹${c.totalUdhar.toLocaleString('en-IN')}</div>
-              </div>
-            </div>
-
-            <div class="card-footer">
-              <div class="last-date">Last Invoice: ${new Date(c.lastDate).toLocaleDateString('en-IN')}</div>
+          <tr class="${rowClass}">
+            <td>
+              <div class="customer-name">${c.name}</div>
+              <div class="customer-phone">${c.phone}</div>
+            </td>
+            <td class="text-center">${c.invoiceCount}</td>
+            <td class="text-right amount">₹${c.totalBusiness.toLocaleString('en-IN')}</td>
+            <td class="text-right amount green">₹${c.totalPaid.toLocaleString('en-IN')}</td>
+            <td class="text-right amount ${hasUdhar? 'red' : ''}">₹${c.totalUdhar.toLocaleString('en-IN')}</td>
+            <td>${new Date(c.lastDate).toLocaleDateString('en-IN')}</td>
+            <td class="text-center">${badge}</td>
+            <td>
               <div class="btn-group">
                 ${hasUdhar? '<button class="btn btn-collect">Collect</button>' : ''}
                 <button class="btn btn-delete">Delete</button>
               </div>
-            </div>
-          </div>
+            </td>
+          </tr>
         `
       }).join('')
     }
