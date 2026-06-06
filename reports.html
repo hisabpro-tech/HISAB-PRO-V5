@@ -5,47 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reports - HISAB PRO V5</title>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-.nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-.nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.nav-links::-webkit-scrollbar{display:none}
-.nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-.nav-link:hover{background:#15803d;color:#fff}
-.nav-link.active{background:#15803d;color:#fff}
-.nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
-#userEmail{color:#d1fae5;font-size:12px;display:none}
-.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-.container{max-width:1200px;margin:0 auto;padding:20px 16px}
-.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:20px}
-.card h3{font-size:18px;margin-bottom:20px}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
-.stat-card{background:#f9fafb;padding:20px;border-radius:8px;border-left:4px solid #16a34a}
-.stat-card h4{font-size:13px;color:#6b7280;margin-bottom:8px;font-weight:500}
-.stat-card.value{font-size:24px;font-weight:700;color:#111827}
-.table-wrapper{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th{background:#f9fafb;padding:12px;text-align:left;font-weight:600;color:#374151;border-bottom:2px solid #e5e7eb;white-space:nowrap}
-td{padding:12px;border-bottom:1px solid #e5e7eb}
-tr:hover{background:#f9fafb}
-.badge-cash,.badge-upi,.badge-udhar{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600}
-.badge-cash{background:#d1fae5;color:#065f46}
-.badge-upi{background:#dbeafe;color:#1e40af}
-.badge-udhar{background:#fee2e2;color:#991b1b}
-.btn-export{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px}
-.btn-export:hover{background:#15803d}
-.no-data{text-align:center;padding:40px;color:#9ca3af}
-@media (max-width:768px){
-.nav-container{padding:0 8px}
-.nav-brand{font-size:16px;padding:10px 0}
-.nav-links{width:100%;order:3;padding-bottom:4px}
-.nav-link{padding:12px 10px;font-size:13px}
-.btn-logout{padding:6px 10px;font-size:12px}
-.card{padding:16px}
-table{font-size:13px}
-th,td{padding:10px 8px}
-}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
+ .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+ .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+ .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+ .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .nav-links::-webkit-scrollbar{display:none}
+ .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+ .nav-link:hover{background:#15803d;color:#fff}
+ .nav-link.active{background:#15803d;color:#fff}
+ .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+    #userEmail{color:#d1fae5;font-size:12px;display:none}
+ .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+ .container{max-width:1200px;margin:0 auto;padding:20px 16px}
+ .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+ .page-title{font-size:24px;font-weight:700}
+ .header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+ .filter-group{display:flex;gap:4px;background:#fff;padding:4px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+ .filter-btn{padding:8px 14px;border:none;background:transparent;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;color:#6b7280;transition:all.2s}
+ .filter-btn.active{background:#16a34a;color:#fff}
+ .btn-export{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-weight:600;cursor:pointer}
+ .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
+ .stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #16a34a}
+ .stat-card.udhar{border-left-color:#dc2626}
+ .stat-label{font-size:13px;color:#6b7280;margin-bottom:8px}
+ .stat-value{font-size:28px;font-weight:700;color:#111827}
+ .stat-value.green{color:#16a34a}
+ .stat-value.red{color:#dc2626}
+ .table-wrapper{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto}
+  table{width:100%;border-collapse:collapse}
+  th{background:#f9fafb;padding:14px 12px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;border-bottom:2px solid #e5e7eb;white-space:nowrap}
+  td{padding:14px 12px;border-bottom:1px solid #f3f4f6;font-size:14px}
+  tr:last-child td{border-bottom:none}
+  tr:hover{background:#f9fafb}
+ .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
+ .badge-udhar{background:#fee2e2;color:#dc2626}
+ .badge-cash{background:#dcfce7;color:#16a34a}
+ .badge-upi{background:#dbeafe;color:#2563eb}
+ .text-right{text-align:right}
+ .amount{font-weight:600}
+ .amount.red{color:#dc2626}
+ .amount.green{color:#16a34a}
+ .empty{padding:40px;text-align:center;color:#6b7280}
+    @media (max-width:768px){
+   .nav-container{padding:0 8px}
+   .nav-brand{font-size:16px;padding:10px 0}
+   .nav-links{width:100%;order:3;padding-bottom:4px}
+   .nav-link{padding:12px 10px;font-size:13px}
+   .btn-logout{padding:6px 10px;font-size:12px}
+   .stats-grid{grid-template-columns:1fr 1fr}
+   .stat-value{font-size:22px}
+   .header-actions{width:100%}
+   .filter-group{flex:1;overflow-x:auto}
+   .filter-btn{padding:6px 10px;font-size:12px}
+   th,td{padding:10px 8px;font-size:13px}
+    }
   </style>
 </head>
 <body>
@@ -67,48 +82,52 @@ th,td{padding:10px 8px}
   </nav>
 
   <div class="container">
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-        <h3>All Invoices</h3>
+    <div class="page-header">
+      <h1 class="page-title">All Invoices</h1>
+      <div class="header-actions">
+        <div class="filter-group">
+          <button class="filter-btn" data-filter="today">Today</button>
+          <button class="filter-btn" data-filter="week">This Week</button>
+          <button class="filter-btn" data-filter="month">This Month</button>
+          <button class="filter-btn active" data-filter="all">All Time</button>
+        </div>
         <button class="btn-export" id="exportBtn">Export CSV</button>
       </div>
+    </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <h4>Total Sales</h4>
-          <div class="value" id="totalSales">₹0</div>
-        </div>
-        <div class="stat-card">
-          <h4>Total Paid</h4>
-          <div class="value" id="totalPaid">₹0</div>
-        </div>
-        <div class="stat-card">
-          <h4>Total Due</h4>
-          <div class="value" id="totalDue">₹0</div>
-        </div>
-        <div class="stat-card">
-          <h4>Total Invoices</h4>
-          <div class="value" id="totalInvoices">0</div>
-        </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Sales</div>
+        <div class="stat-value" id="totalSales">₹0</div>
       </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Paid</div>
+        <div class="stat-value green" id="totalPaid">₹0</div>
+      </div>
+      <div class="stat-card udhar">
+        <div class="stat-label">Total Udhar</div>
+        <div class="stat-value red" id="totalUdhar">₹0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Udhar Customers</div>
+        <div class="stat-value" id="udharCount">0</div>
+      </div>
+    </div>
 
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Total</th>
-              <th>Paid</th>
-              <th>Due</th>
-              <th>Payment</th>
-            </tr>
-          </thead>
-          <tbody id="reportsTableBody">
-            <tr><td colspan="6" class="no-data">Loading...</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th class="text-right">Total</th>
+            <th class="text-right">Paid</th>
+            <th class="text-right">Due</th>
+            <th>Payment</th>
+          </tr>
+        </thead>
+        <tbody id="invoiceList"></tbody>
+      </table>
     </div>
   </div>
 
@@ -117,12 +136,14 @@ th,td{padding:10px 8px}
 
     let currentSession = null
     let allInvoices = []
+    let currentFilter = 'all'
 
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
       if (session) {
         currentSession = session
         document.getElementById('userEmail').innerText = session.user.email
+        loadReports()
       }
     })
 
@@ -131,7 +152,7 @@ th,td{padding:10px 8px}
       if (!session) return window.location.replace('/login.html')
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
-      await loadReports()
+      loadReports()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
@@ -139,78 +160,127 @@ th,td{padding:10px 8px}
       window.location.replace('/login.html')
     }
 
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
+        currentFilter = btn.dataset.filter
+        applyFilter()
+      }
+    })
+
+    document.getElementById('exportBtn').onclick = () => {
+      const filtered = getFilteredInvoices()
+      if (filtered.length === 0) return alert('No data to export')
+      
+      const csv = [
+        ['Date','Customer','Total','Paid','Due','Payment'].join(','),
+        ...filtered.map(inv => [
+          inv.date,
+          `"${inv.customer_name}"`,
+          inv.total_amount,
+          inv.amount_paid,
+          inv.balance_due,
+          inv.payment_method
+        ].join(','))
+      ].join('\n')
+
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `invoices_${currentFilter}_${new Date().toISOString().split('T')[0]}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    }
+
     async function loadReports() {
       const { data: invoices, error } = await supabase
- .from('invoices')
- .select('id, customer_name, date, total_amount, amount_paid, balance_due, payment_type')
- .eq('user_id', currentSession.user.id)
- .order('date', { ascending: false })
+    .from('invoices')
+    .select('*')
+    .eq('user_id', currentSession.user.id)
+    .order('date', { ascending: false })
 
-      if (error) {
-        console.error(error)
-        document.getElementById('reportsTableBody').innerHTML = '<tr><td colspan="6" class="no-data">Error loading data</td></tr>'
-        return
-      }
+      if (error) return console.error(error)
 
       allInvoices = invoices || []
-      renderTable()
-      updateStats()
+      applyFilter()
     }
 
-    function renderTable() {
-      const tbody = document.getElementById('reportsTableBody')
+    function getFilteredInvoices() {
+      const today = new Date()
+      today.setHours(0,0,0,0)
 
-      if (allInvoices.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data">No invoices found</td></tr>'
-        return
-      }
+      if (currentFilter === 'all') return allInvoices
 
-      tbody.innerHTML = allInvoices.map(inv => `
-        <tr>
-          <td>${new Date(inv.date).toLocaleDateString('en-GB')}</td>
-          <td>${inv.customer_name}</td>
-          <td>₹${Number(inv.total_amount).toLocaleString('en-IN')}</td>
-          <td>₹${Number(inv.amount_paid).toLocaleString('en-IN')}</td>
-          <td>₹${Number(inv.balance_due).toLocaleString('en-IN')}</td>
-          <td><span class="badge-${inv.payment_type.toLowerCase()}">${inv.payment_type}</span></td>
-        </tr>
-      `).join('')
+      return allInvoices.filter(inv => {
+        const invDate = new Date(inv.date)
+        invDate.setHours(0,0,0,0)
+
+        if (currentFilter === 'today') {
+          return invDate.getTime() === today.getTime()
+        }
+
+        if (currentFilter === 'week') {
+          const weekStart = new Date(today)
+          weekStart.setDate(today.getDate() - today.getDay())
+          return invDate >= weekStart
+        }
+
+        if (currentFilter === 'month') {
+          return invDate.getMonth() === today.getMonth() && 
+                 invDate.getFullYear() === today.getFullYear()
+        }
+
+        return true
+      })
     }
 
-    function updateStats() {
-      const totalSales = allInvoices.reduce((sum, inv) => sum + Number(inv.total_amount), 0)
-      const totalPaid = allInvoices.reduce((sum, inv) => sum + Number(inv.amount_paid), 0)
-      const totalDue = allInvoices.reduce((sum, inv) => sum + Number(inv.balance_due), 0)
+    function applyFilter() {
+      const filtered = getFilteredInvoices()
+      
+      // Calculate stats for filtered data
+      let totalSales = 0, totalPaid = 0, totalUdhar = 0
+      const udharCustomers = new Set()
+
+      filtered.forEach(inv => {
+        totalSales += inv.total_amount
+        totalPaid += inv.amount_paid
+        totalUdhar += inv.balance_due
+        if (inv.balance_due > 0) {
+          udharCustomers.add(inv.customer_name.toLowerCase())
+        }
+      })
 
       document.getElementById('totalSales').innerText = `₹${totalSales.toLocaleString('en-IN')}`
       document.getElementById('totalPaid').innerText = `₹${totalPaid.toLocaleString('en-IN')}`
-      document.getElementById('totalDue').innerText = `₹${totalDue.toLocaleString('en-IN')}`
-      document.getElementById('totalInvoices').innerText = allInvoices.length
-    }
+      document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
+      document.getElementById('udharCount').innerText = udharCustomers.size
 
-    document.getElementById('exportBtn').onclick = () => {
-      if (allInvoices.length === 0) {
-        alert('No data to export')
+      // Render table
+      const list = document.getElementById('invoiceList')
+      if (filtered.length === 0) {
+        list.innerHTML = '<tr><td colspan="6" class="empty">No invoices found</td></tr>'
         return
       }
 
-      const headers = ['Date', 'Customer', 'Total', 'Paid', 'Due', 'Payment Type']
-      const rows = allInvoices.map(inv => [
-        inv.date,
-        inv.customer_name,
-        inv.total_amount,
-        inv.amount_paid,
-        inv.balance_due,
-        inv.payment_type
-      ])
-
-      const csv = [headers,...rows].map(row => row.join(',')).join('\n')
-      const blob = new Blob([csv], { type: 'text/csv' })
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `reports_${new Date().toISOString().split('T')[0]}.csv`
-      a.click()
+      list.innerHTML = filtered.map(inv => {
+        const hasDue = inv.balance_due > 0
+        const paymentClass = inv.payment_method === 'Cash' ? 'badge-cash' : 
+                           inv.payment_method === 'UPI' ? 'badge-upi' : 'badge-udhar'
+        
+        return `
+          <tr>
+            <td>${new Date(inv.date).toLocaleDateString('en-IN')}</td>
+            <td>${inv.customer_name}</td>
+            <td class="text-right amount">₹${inv.total_amount.toLocaleString('en-IN')}</td>
+            <td class="text-right amount green">₹${inv.amount_paid.toLocaleString('en-IN')}</td>
+            <td class="text-right amount ${hasDue? 'red' : ''}">₹${inv.balance_due.toLocaleString('en-IN')}</td>
+            <td><span class="badge ${paymentClass}">${inv.payment_method}</span></td>
+          </tr>
+        `
+      }).join('')
     }
 
     initApp()
