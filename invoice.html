@@ -29,6 +29,7 @@
 .items-header{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;padding:0 4px;font-size:13px;font-weight:600;color:#6b7280}
 .item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;align-items:center}
 .item-row input{padding:10px 12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
+.item-row input::placeholder{color:#9ca3af}
 .item-total{font-weight:600;text-align:right;padding:10px 0}
 .btn-remove-item{background:#dc2626;color:#fff;border:none;border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
 .btn-remove-item:hover{background:#b91c1c}
@@ -115,12 +116,11 @@
         <div id="itemsList">
           <div class="item-row" id="blankRow">
             <input type="text" placeholder="Item name" class="item-name" value="">
-            <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
-            <input type="number" placeholder="Price" class="item-price" value="0" min="0">
+            <input type="number" placeholder="Qty" class="item-qty" min="1">
+            <input type="number" placeholder="Price" class="item-price" min="0">
             <div class="item-total">₹0</div>
             <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
           </div>
-        </div>
         <button type="button" class="btn-add-item" id="addItemBtn">+ Add Item</button>
       </div>
 
@@ -131,7 +131,7 @@
         </div>
         <div class="total-row">
           <span>Amount Paid:</span>
-          <input type="number" id="amountPaid" value="0" min="0" style="width:120px;text-align:right;padding:6px 10px;border:2px solid #e5e7eb;border-radius:6px">
+          <input type="number" id="amountPaid" placeholder="0" min="0" style="width:120px;text-align:right;padding:6px 10px;border:2px solid #e5e7eb;border-radius:6px">
         </div>
         <div class="total-row final">
           <span>Balance Due:</span>
@@ -176,29 +176,26 @@
       const blankQty = Number(blankRow.querySelector('.item-qty').value) || 0
       const blankPrice = Number(blankRow.querySelector('.item-price').value) || 0
 
-      // Agar blank row me kuch likha hai to usko normal row bana do
-      if (blankName || blankQty > 1 || blankPrice > 0) {
+      if (blankName || blankQty > 0 || blankPrice > 0) {
         blankRow.querySelector('.btn-remove-item').style.visibility = 'visible'
         blankRow.removeAttribute('id')
 
-        // Upar naya blank row add karo
         const newBlankHTML = `
           <div class="item-row" id="blankRow">
             <input type="text" placeholder="Item name" class="item-name" value="">
-            <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
-            <input type="number" placeholder="Price" class="item-price" value="0" min="0">
+            <input type="number" placeholder="Qty" class="item-qty" min="1">
+            <input type="number" placeholder="Price" class="item-price" min="0">
             <div class="item-total">₹0</div>
             <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
           </div>
         `
         document.getElementById('itemsList').insertAdjacentHTML('afterbegin', newBlankHTML)
       } else {
-        // Agar blank row khali hai to uske niche normal row add karo
         const itemHTML = `
           <div class="item-row">
             <input type="text" placeholder="Item name" class="item-name" value="">
-            <input type="number" placeholder="Qty" class="item-qty" value="1" min="1">
-            <input type="number" placeholder="Price" class="item-price" value="0" min="0">
+            <input type="number" placeholder="Qty" class="item-qty" min="1">
+            <input type="number" placeholder="Price" class="item-price" min="0">
             <div class="item-total">₹0</div>
             <button type="button" class="btn-remove-item">×</button>
           </div>
@@ -218,14 +215,29 @@
         const removeBtn = row.querySelector('.btn-remove-item')
 
         const updateRowTotal = () => {
-          const qty = Number(qtyInput.value) || 0
+          const qty = Number(qtyInput.value) || 1
           const price = Number(priceInput.value) || 0
           totalDiv.innerText = `₹${(qty * price).toLocaleString('en-IN')}`
           calculateTotal()
         }
 
+        qtyInput.onfocus = (e) => {
+          if (e.target.value === '0' || e.target.value === '') {
+            e.target.value = ''
+          }
+          e.target.select()
+        }
+
+        priceInput.onfocus = (e) => {
+          if (e.target.value === '0' || e.target.value === '') {
+            e.target.value = ''
+          }
+          e.target.select()
+        }
+
         qtyInput.oninput = updateRowTotal
         priceInput.oninput = updateRowTotal
+
         removeBtn.onclick = () => {
           if (row.id!== 'blankRow') {
             row.remove()
@@ -238,7 +250,7 @@
     function calculateTotal() {
       let subtotal = 0
       document.querySelectorAll('.item-row').forEach(row => {
-        const qty = Number(row.querySelector('.item-qty').value) || 0
+        const qty = Number(row.querySelector('.item-qty').value) || 1
         const price = Number(row.querySelector('.item-price').value) || 0
         subtotal += qty * price
       })
@@ -251,10 +263,17 @@
     }
 
     document.getElementById('addItemBtn').onclick = () => addItemRow()
+
+    document.getElementById('amountPaid').onfocus = (e) => {
+      if (e.target.value === '0') e.target.value = ''
+      e.target.select()
+    }
+
     document.getElementById('amountPaid').oninput = calculateTotal
+
     document.getElementById('paymentMode').onchange = (e) => {
       if (e.target.value === 'Udhar') {
-        document.getElementById('amountPaid').value = 0
+        document.getElementById('amountPaid').value = ''
         calculateTotal()
       }
     }
@@ -275,7 +294,7 @@
       let subtotal = 0
       document.querySelectorAll('.item-row').forEach(row => {
         const name = row.querySelector('.item-name').value.trim()
-        const qty = Number(row.querySelector('.item-qty').value) || 0
+        const qty = Number(row.querySelector('.item-qty').value) || 1
         const price = Number(row.querySelector('.item-price').value) || 0
         if (name && qty > 0) {
           items.push({ name, qty, price })
