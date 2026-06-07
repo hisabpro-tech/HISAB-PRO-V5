@@ -53,10 +53,12 @@
 .card{padding:16px;margin-bottom:8px}
 .form-row{grid-template-columns:1fr;gap:12px}
 .items-header{display:none}
-.item-row{grid-template-columns:1fr;gap:6px;padding:10px;background:#f9fafb;border-radius:8px;margin-bottom:8px}
-.item-row input{width:100%}
-.item-total{padding:4px 0;text-align:right;font-size:14px}
-.btn-remove-item{width:100%;height:36px;margin-top:4px}
+.item-row{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:#f9fafb;border-radius:8px;margin-bottom:8px}
+.item-row.item-name{flex:1 1 100%}
+.item-row.item-qty{flex:0 0 70px}
+.item-row.item-price{flex:1 1 auto}
+.item-total{flex:0 0 auto;align-self:center;font-weight:600;padding:10px 0;min-width:60px;text-align:right}
+.btn-remove-item{flex:0 0 32px;height:32px;margin-left:auto;align-self:center}
 .btn-add-item{margin-top:4px}
 .totals-section{margin-top:12px;padding-top:12px}
 .total-row{margin-bottom:8px}
