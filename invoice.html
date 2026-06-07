@@ -26,6 +26,7 @@
 .form-group input,.form-group select{width:100%;padding:10px 12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
 .form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
 .form-group input:read-only{background:#f9fafb;color:#6b7280;cursor:not-allowed}
+.form-group input::placeholder{color:#9ca3af}
 .items-header{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;padding:0 4px;font-size:13px;font-weight:600;color:#6b7280}
 .item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;align-items:center}
 .item-row input{padding:10px 12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
@@ -41,18 +42,25 @@
 .btn-save{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:14px;width:100%;cursor:pointer;font-weight:700;font-size:16px;margin-top:20px}
 .btn-save:hover{background:#15803d}
 .btn-save:disabled{background:#9ca3af;cursor:not-allowed}
+
 @media (max-width:768px){
 .nav-container{padding:0 8px}
 .nav-brand{font-size:16px;padding:10px 0}
 .nav-links{width:100%;order:3;padding-bottom:4px}
 .nav-link{padding:12px 10px;font-size:13px}
 .btn-logout{padding:6px 10px;font-size:12px}
-.form-row{grid-template-columns:1fr}
+.container{padding:12px 12px 8px 12px}
+.card{padding:16px;margin-bottom:8px}
+.form-row{grid-template-columns:1fr;gap:12px}
 .items-header{display:none}
-.item-row{grid-template-columns:1fr;gap:8px;padding:12px;background:#f9fafb;border-radius:8px}
+.item-row{grid-template-columns:1fr;gap:6px;padding:10px;background:#f9fafb;border-radius:8px;margin-bottom:8px}
 .item-row input{width:100%}
-.item-total{text-align:left}
-.btn-remove-item{width:100%;height:40px}
+.item-total{padding:4px 0;text-align:right;font-size:14px}
+.btn-remove-item{width:100%;height:36px;margin-top:4px}
+.btn-add-item{margin-top:4px}
+.totals-section{margin-top:12px;padding-top:12px}
+.total-row{margin-bottom:8px}
+.btn-save{margin-top:16px}
 }
   </style>
 </head>
@@ -121,6 +129,7 @@
             <div class="item-total">₹0</div>
             <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
           </div>
+        </div>
         <button type="button" class="btn-add-item" id="addItemBtn">+ Add Item</button>
       </div>
 
