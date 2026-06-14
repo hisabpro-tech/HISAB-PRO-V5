@@ -1,152 +1,282 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Invoice - HISAB PRO V5</title>
+  <link rel="stylesheet" href="css/style.css">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
-.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
-.nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
-.nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.nav-links::-webkit-scrollbar{display:none}
-.nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
-.nav-link:hover{background:#15803d;color:#fff}
-.nav-link.active{background:#15803d;color:#fff}
-.nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
-#userEmail{color:#d1fae5;font-size:12px;display:none}
-.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
-.container{max-width:800px;margin:0 auto;padding:20px 16px}
-.card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:20px}
-.card h3{font-size:18px;margin-bottom:20px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:14px;font-weight:500;margin-bottom:6px;color:#374151}
-.form-group input,.form-group select{width:100%;padding:10px 12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
-.form-group input:focus,.form-group select:focus{outline:none;border-color:#16a34a}
-.form-group input:read-only{background:#f9fafb;color:#6b7280;cursor:not-allowed}
-.form-group input::placeholder{color:#9ca3af}
-.items-header{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;padding:0 4px;font-size:13px;font-weight:600;color:#6b7280}
-.item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;align-items:center;position:relative}
-.item-row input{padding:10px 12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
-.item-row input::placeholder{color:#9ca3af}
-.item-total{font-weight:600;text-align:right;padding:10px 0}
-.btn-remove-item{background:#dc2626;color:#fff;border:none;border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
-.btn-remove-item:hover{background:#b91c1c}
-.btn-add-item{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-weight:600;font-size:14px;margin-top:8px}
-.btn-add-item:hover{background:#15803d}
-.totals-section{border-top:2px solid #e5e7eb;padding-top:16px;margin-top:20px}
-.total-row{display:flex;justify-content:space-between;margin-bottom:12px;font-size:15px}
-.total-row.final{font-size:18px;font-weight:700;color:#16a34a;border-top:2px solid #e5e7eb;padding-top:12px}
-.btn-save{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:14px;width:100%;cursor:pointer;font-weight:700;font-size:16px;margin-top:20px}
-.btn-save:hover{background:#15803d}
-.btn-save:disabled{background:#9ca3af;cursor:not-allowed}
-.stock-dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:2px solid #16a34a;border-radius:8px;margin-top:4px;max-height:200px;overflow-y:auto;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,.1);display:none}
-.stock-dropdown.show{display:block}
-.stock-item{padding:10px 12px;cursor:pointer;border-bottom:1px solid #f3f4f6}
-.stock-item:hover{background:#f0fdf4}
-.stock-item:last-child{border-bottom:none}
-.stock-item-name{font-weight:600;color:#111827}
-.stock-item-details{font-size:12px;color:#6b7280;margin-top:2px}
-.stock-badge{font-size:11px;padding:2px 6px;border-radius:4px;font-weight:600}
-.stock-badge.low{background:#fee2e2;color:#dc2626}
-.stock-badge.ok{background:#dcfce7;color:#16a34a}
-@media (max-width:768px){
-.nav-container{padding:0 8px}
-.nav-brand{font-size:16px;padding:10px 0}
-.nav-links{width:100%;order:3;padding-bottom:4px}
-.nav-link{padding:12px 10px;font-size:13px}
-.btn-logout{padding:6px 10px;font-size:12px}
-.container{padding:12px 12px 8px 12px}
-.card{padding:16px;margin-bottom:8px}
-.form-row{grid-template-columns:1fr;gap:12px}
-.items-header{display:none}
-.item-row{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:#f9fafb;border-radius:8px;margin-bottom:8px}
-.item-row.item-name{flex:1 1 100%}
-.item-row.item-qty{flex:0 0 70px}
-.item-row.item-price{flex:1 1 auto}
-.item-row.item-total{flex:0 0 auto;align-self:center;font-weight:600;padding:10px 0;min-width:60px;text-align:right}
-.item-row.btn-remove-item{flex:0 0 32px;height:32px;margin-left:auto;align-self:center}
-.btn-add-item{margin-top:4px}
-.totals-section{margin-top:12px;padding-top:12px}
-.total-row{margin-bottom:8px}
-.btn-save{margin-top:16px}
-}
+   .invoice-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+   .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #eee;
+    }
+   .header h1 {
+      margin: 0;
+      color: #333;
+    }
+   .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+   .btn-back {
+      padding: 8px 16px;
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #333;
+    }
+   .btn-logout {
+      padding: 8px 16px;
+      background: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+   .card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+   .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+   .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+   .form-group label {
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #555;
+    }
+   .form-group input,.form-group select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+   .items-section {
+      margin: 20px 0;
+    }
+   .items-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 50px;
+      gap: 10px;
+      padding: 10px 0;
+      font-weight: 600;
+      border-bottom: 2px solid #eee;
+      margin-bottom: 10px;
+    }
+   .item-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 50px;
+      gap: 10px;
+      margin-bottom: 10px;
+      align-items: center;
+      position: relative;
+    }
+   .item-row input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+   .item-total {
+      text-align: right;
+      font-weight: 500;
+      padding: 8px;
+    }
+   .btn-remove-item {
+      background: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+   .stock-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+   .stock-dropdown.show {
+      display: block;
+    }
+   .stock-item {
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+    }
+   .stock-item:hover {
+      background: #f5f5f5;
+    }
+   .stock-item-name {
+      font-weight: 500;
+      color: #333;
+    }
+   .stock-item-details {
+      font-size: 12px;
+      color: #666;
+      margin-top: 3px;
+    }
+   .stock-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+    }
+   .stock-badge.ok {
+      background: #d4edda;
+      color: #155724;
+    }
+   .stock-badge.low {
+      background: #fff3cd;
+      color: #856404;
+    }
+   .btn-add-item {
+      width: 100%;
+      padding: 10px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+   .totals-section {
+      border-top: 2px solid #eee;
+      padding-top: 15px;
+      margin-top: 20px;
+    }
+   .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 16px;
+    }
+   .total-row.grand {
+      font-size: 20px;
+      font-weight: 600;
+      color: #4CAF50;
+      border-top: 2px solid #eee;
+      margin-top: 10px;
+      padding-top: 15px;
+    }
+   .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+   .btn-save {
+      flex: 1;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+   .btn-save:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-brand">HISAB PRO V5</div>
-      <div class="nav-links">
-        <a href="/dashboard.html" class="nav-link">Dashboard</a>
-        <a href="/invoice.html" class="nav-link active">New Invoice</a>
-        <a href="/stock.html" class="nav-link">Stock</a>
-        <a href="/customers.html" class="nav-link">Customers</a>
-        <a href="/reports.html" class="nav-link">Reports</a>
-        <a href="/downloads.html" class="nav-link">Downloads</a>
-      </div>
-      <div class="nav-user">
+  <div class="invoice-container">
+    <div class="header">
+      <h1>New Invoice</h1>
+      <div class="user-info">
         <span id="userEmail"></span>
-        <button class="btn-logout" id="logoutBtn">Logout</button>
+        <a href="index.html" class="btn-back">← Dashboard</a>
+        <button id="logoutBtn" class="btn-logout">Logout</button>
       </div>
     </div>
-  </nav>
 
-  <div class="container">
     <div class="card">
-      <h3>Create New Invoice</h3>
-
       <div class="form-row">
         <div class="form-group">
           <label>Customer Name *</label>
           <input type="text" id="customerName" placeholder="Enter customer name" required>
         </div>
         <div class="form-group">
-          <label>Phone Number</label>
+          <label>Customer Phone</label>
           <input type="tel" id="customerPhone" placeholder="Enter phone number">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label>Invoice Date *</label>
-          <input type="date" id="invoiceDate" readonly required>
+          <label>Invoice Date</label>
+          <input type="date" id="invoiceDate" required>
         </div>
         <div class="form-group">
           <label>Payment Mode</label>
           <select id="paymentMode">
             <option value="Cash">Cash</option>
             <option value="UPI">UPI</option>
-            <option value="Udhar">Udhar</option>
+            <option value="Card">Card</option>
+            <option value="Udhar">Udhar (Credit)</option>
           </select>
         </div>
       </div>
+    </div>
 
-      <div style="margin-top:24px">
-        <label style="display:block;font-size:14px;font-weight:600;margin-bottom:12px">Items</label>
-        <div class="items-header">
-          <div>Item Name</div>
-          <div>Qty</div>
-          <div>Price</div>
-          <div>Total</div>
-          <div></div>
-        </div>
-        <div id="itemsList">
-          <div class="item-row" id="blankRow">
-            <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
-            <input type="number" placeholder="Qty" class="item-qty" min="1">
-            <input type="number" placeholder="Price" class="item-price" min="0">
-            <div class="item-total">₹0</div>
-            <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
-            <div class="stock-dropdown"></div>
-          </div>
-        </div>
-        <button type="button" class="btn-add-item" id="addItemBtn">+ Add Item</button>
+    <div class="card items-section">
+      <h3>Items</h3>
+      <div class="items-header">
+        <div>Item Name</div>
+        <div>Qty</div>
+        <div>Price</div>
+        <div>Total</div>
+        <div></div>
       </div>
 
+      <div id="itemsList">
+        <div class="item-row" id="blankRow">
+          <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
+          <input type="number" placeholder="Qty" class="item-qty" min="1">
+          <input type="number" placeholder="Price" class="item-price" min="0">
+          <div class="item-total">₹0</div>
+          <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
+          <div class="stock-dropdown"></div>
+        </div>
+      </div>
+
+      <button type="button" id="addItemBtn" class="btn-add-item">+ Add Item</button>
+    </div>
+
+    <div class="card">
       <div class="totals-section">
         <div class="total-row">
           <span>Subtotal:</span>
@@ -154,365 +284,377 @@
         </div>
         <div class="total-row">
           <span>Amount Paid:</span>
-          <input type="number" id="amountPaid" placeholder="0" min="0" style="width:120px;text-align:right;padding:6px 10px;border:2px solid #e5e7eb;border-radius:6px">
+          <input type="number" id="amountPaid" value="0" min="0" style="width: 150px; text-align: right; padding: 5px;">
         </div>
-        <div class="total-row final">
+        <div class="total-row grand">
           <span>Balance Due:</span>
           <span id="balanceDue">₹0</span>
         </div>
       </div>
 
-      <button class="btn-save" id="saveBtn">Save Invoice</button>
+      <div class="action-buttons">
+        <button type="button" id="saveBtn" class="btn-save">Save Invoice</button>
+      </div>
     </div>
   </div>
 
-  <script type="module">
-    import { supabase } from './js/supabaseClient.js'
+<script type="module">
+  import { supabase } from './js/supabaseClient.js'
 
-    let currentSession = null
-    let stockItems = []
+  let currentSession = null
+  let stockItems = []
 
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
-      if (session) {
-        currentSession = session
-        document.getElementById('userEmail').innerText = session.user.email
-        loadStock()
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
+    if (session) {
+      currentSession = session
+      document.getElementById('userEmail').innerText = session.user.email
+      loadStock()
+    }
+  })
+
+  async function initApp() {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return window.location.replace('/login.html')
+    currentSession = session
+    document.getElementById('userEmail').innerText = session.user.email
+    document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0]
+    await loadStock()
+  }
+
+  document.getElementById('logoutBtn').onclick = async () => {
+    await supabase.auth.signOut()
+    window.location.replace('/login.html')
+  }
+
+  async function loadStock() {
+    console.log('Loading stock...')
+    const { data, error } = await supabase
+   .from('stock')
+   .select('*')
+   .eq('user_id', currentSession.user.id)
+   .order('item_name')
+
+    if (error) {
+      console.error('Stock load error:', error)
+      alert('Stock load failed: ' + error.message)
+      return
+    }
+
+    stockItems = data || []
+    console.log('Stock loaded:', stockItems.length, 'items', stockItems)
+    window.stockItems = stockItems
+
+    attachItemListeners()
+  }
+
+  function attachItemListeners() {
+    console.log('Attaching listeners with', stockItems.length, 'stock items')
+
+    document.querySelectorAll('.item-row').forEach((row) => {
+      const nameInput = row.querySelector('.item-name')
+      const qtyInput = row.querySelector('.item-qty')
+      const priceInput = row.querySelector('.item-price')
+      const totalDiv = row.querySelector('.item-total')
+      const removeBtn = row.querySelector('.btn-remove-item')
+      const dropdown = row.querySelector('.stock-dropdown')
+
+      const newNameInput = nameInput.cloneNode(true)
+      nameInput.parentNode.replaceChild(newNameInput, nameInput)
+
+      const updateRowTotal = () => {
+        const qty = Number(qtyInput.value) || 1
+        const price = Number(priceInput.value) || 0
+        totalDiv.innerText = `₹${(qty * price).toLocaleString('en-IN')}`
+        calculateTotal()
+      }
+
+      newNameInput.oninput = (e) => {
+        const query = e.target.value.trim().toLowerCase()
+        console.log('Typing:', query, 'Stock count:', stockItems.length)
+
+        if (query.length < 1) {
+          dropdown.classList.remove('show')
+          return
+        }
+
+        const matches = stockItems.filter(item =>
+          item.item_name.toLowerCase().includes(query)
+        )
+
+        console.log('Found matches:', matches)
+
+        if (matches.length === 0) {
+          dropdown.classList.remove('show')
+          return
+        }
+
+        dropdown.innerHTML = matches.map(item => {
+          const badge = item.quantity < 5? 'low' : 'ok'
+          return `
+            <div class="stock-item" data-name="${item.item_name}" data-price="${item.selling_price}" data-qty="${item.quantity}">
+              <div class="stock-item-name">${item.item_name}</div>
+              <div class="stock-item-details">
+                Price: ₹${item.selling_price} |
+                <span class="stock-badge ${badge}">Stock: ${item.quantity}</span>
+              </div>
+            </div>
+          `
+        }).join('')
+
+        dropdown.classList.add('show')
+
+        dropdown.querySelectorAll('.stock-item').forEach(item => {
+          item.onclick = () => {
+            console.log('Selected:', item.dataset.name, 'Price:', item.dataset.price)
+            newNameInput.value = item.dataset.name
+            priceInput.value = item.dataset.price
+            qtyInput.value = 1
+            dropdown.classList.remove('show')
+            updateRowTotal()
+            qtyInput.focus()
+          }
+        })
+      }
+
+      newNameInput.onblur = () => {
+        setTimeout(() => dropdown.classList.remove('show'), 200)
+      }
+
+      qtyInput.onfocus = (e) => {
+        if (e.target.value === '0' || e.target.value === '') e.target.value = ''
+        e.target.select()
+      }
+
+      priceInput.onfocus = (e) => {
+        if (e.target.value === '0' || e.target.value === '') e.target.value = ''
+        e.target.select()
+      }
+
+      qtyInput.oninput = updateRowTotal
+      priceInput.oninput = updateRowTotal
+
+      removeBtn.onclick = () => {
+        if (row.id!== 'blankRow') {
+          row.remove()
+          calculateTotal()
+        }
+      }
+    })
+  }
+
+  function addItemRow() {
+    const blankRow = document.getElementById('blankRow')
+    const blankName = blankRow.querySelector('.item-name').value.trim()
+    const blankQty = Number(blankRow.querySelector('.item-qty').value) || 0
+    const blankPrice = Number(blankRow.querySelector('.item-price').value) || 0
+
+    if (blankName || blankQty > 0 || blankPrice > 0) {
+      blankRow.querySelector('.btn-remove-item').style.visibility = 'visible'
+      blankRow.removeAttribute('id')
+
+      const newBlankHTML = `
+        <div class="item-row" id="blankRow">
+          <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
+          <input type="number" placeholder="Qty" class="item-qty" min="1">
+          <input type="number" placeholder="Price" class="item-price" min="0">
+          <div class="item-total">₹0</div>
+          <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
+          <div class="stock-dropdown"></div>
+        </div>
+      `
+      document.getElementById('itemsList').insertAdjacentHTML('afterbegin', newBlankHTML)
+    } else {
+      const itemHTML = `
+        <div class="item-row">
+          <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
+          <input type="number" placeholder="Qty" class="item-qty" min="1">
+          <input type="number" placeholder="Price" class="item-price" min="0">
+          <div class="item-total">₹0</div>
+          <button type="button" class="btn-remove-item">×</button>
+          <div class="stock-dropdown"></div>
+        </div>
+      `
+      blankRow.insertAdjacentHTML('afterend', itemHTML)
+    }
+
+    attachItemListeners()
+    calculateTotal()
+  }
+
+  function calculateTotal() {
+    let subtotal = 0
+    document.querySelectorAll('.item-row').forEach(row => {
+      const qty = Number(row.querySelector('.item-qty').value) || 1
+      const price = Number(row.querySelector('.item-price').value) || 0
+      subtotal += qty * price
+    })
+
+    const amountPaid = Number(document.getElementById('amountPaid').value) || 0
+    const balanceDue = subtotal - amountPaid
+
+    document.getElementById('subtotal').innerText = `₹${subtotal.toLocaleString('en-IN')}`
+    document.getElementById('balanceDue').innerText = `₹${balanceDue.toLocaleString('en-IN')}`
+  }
+
+  document.getElementById('addItemBtn').onclick = () => addItemRow()
+
+  document.getElementById('amountPaid').onfocus = (e) => {
+    if (e.target.value === '0') e.target.value = ''
+    e.target.select()
+  }
+
+  document.getElementById('amountPaid').oninput = calculateTotal
+
+  document.getElementById('paymentMode').onchange = (e) => {
+    if (e.target.value === 'Udhar') {
+      document.getElementById('amountPaid').value = ''
+      calculateTotal()
+    }
+  }
+
+  document.getElementById('saveBtn').onclick = async () => {
+    const customerName = document.getElementById('customerName').value.trim()
+    const customerPhone = document.getElementById('customerPhone').value.trim()
+    const invoiceDate = document.getElementById('invoiceDate').value
+    const paymentMode = document.getElementById('paymentMode').value
+    const amountPaid = Number(document.getElementById('amountPaid').value) || 0
+
+    if (!customerName) {
+      alert('Please enter customer name')
+      return
+    }
+
+    const items = []
+    let subtotal = 0
+    const stockUpdates = []
+
+    document.querySelectorAll('.item-row').forEach(row => {
+      const name = row.querySelector('.item-name').value.trim()
+      const qty = Number(row.querySelector('.item-qty').value) || 1
+      const price = Number(row.querySelector('.item-price').value) || 0
+      if (name && qty > 0) {
+        items.push({ name, qty, price })
+        subtotal += qty * price
+
+        const stockItem = stockItems.find(s =>
+          s.item_name.trim().toLowerCase() === name.toLowerCase()
+        )
+
+        if (stockItem) {
+          console.log(`Found in stock: ${stockItem.item_name}, Available: ${stockItem.quantity}, Selling: ${qty}`)
+          if (stockItem.quantity < qty) {
+            alert(`Insufficient stock for ${name}. Available: ${stockItem.quantity}, Required: ${qty}`)
+            throw new Error('Insufficient stock')
+          }
+          stockUpdates.push({
+            id: stockItem.id,
+            name: stockItem.item_name,
+            oldQty: stockItem.quantity,
+            newQty: stockItem.quantity - qty
+          })
+        } else {
+          console.warn(`Item "${name}" not found in stock - skipping stock update`)
+        }
       }
     })
 
-    async function initApp() {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) return window.location.replace('/login.html')
-      currentSession = session
-      document.getElementById('userEmail').innerText = session.user.email
-      document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0]
-      await loadStock()
-      attachItemListeners()
+    if (items.length === 0) {
+      alert('Please add at least one item')
+      return
     }
 
-    document.getElementById('logoutBtn').onclick = async () => {
-      await supabase.auth.signOut()
-      window.location.replace('/login.html')
-    }
+    const balanceDue = subtotal - amountPaid
 
-    async function loadStock() {
-      const { data, error } = await supabase
-     .from('stock')
-     .select('*')
+    document.getElementById('saveBtn').disabled = true
+    document.getElementById('saveBtn').innerText = 'Saving...'
+
+    try {
+      console.log('Stock updates to apply:', stockUpdates)
+
+      let { data: customer } = await supabase
+     .from('customers')
+     .select('id')
      .eq('user_id', currentSession.user.id)
-     .order('item_name')
+     .eq('name', customerName)
+     .single()
 
-      if (error) {
-        console.error('Stock load error:', error)
-        return
-      }
-
-      stockItems = data || []
-      console.log('Stock loaded:', stockItems.length, 'items')
-    }
-
-    function addItemRow() {
-      const blankRow = document.getElementById('blankRow')
-      const blankName = blankRow.querySelector('.item-name').value.trim()
-      const blankQty = Number(blankRow.querySelector('.item-qty').value) || 0
-      const blankPrice = Number(blankRow.querySelector('.item-price').value) || 0
-
-      if (blankName || blankQty > 0 || blankPrice > 0) {
-        blankRow.querySelector('.btn-remove-item').style.visibility = 'visible'
-        blankRow.removeAttribute('id')
-
-        const newBlankHTML = `
-          <div class="item-row" id="blankRow">
-            <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
-            <input type="number" placeholder="Qty" class="item-qty" min="1">
-            <input type="number" placeholder="Price" class="item-price" min="0">
-            <div class="item-total">₹0</div>
-            <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
-            <div class="stock-dropdown"></div>
-          </div>
-        `
-        document.getElementById('itemsList').insertAdjacentHTML('afterbegin', newBlankHTML)
-      } else {
-        const itemHTML = `
-          <div class="item-row">
-            <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
-            <input type="number" placeholder="Qty" class="item-qty" min="1">
-            <input type="number" placeholder="Price" class="item-price" min="0">
-            <div class="item-total">₹0</div>
-            <button type="button" class="btn-remove-item">×</button>
-            <div class="stock-dropdown"></div>
-          </div>
-        `
-        blankRow.insertAdjacentHTML('afterend', itemHTML)
-      }
-
-      attachItemListeners()
-      calculateTotal()
-    }
-
-    function attachItemListeners() {
-      document.querySelectorAll('.item-row').forEach(row => {
-        const nameInput = row.querySelector('.item-name')
-        const qtyInput = row.querySelector('.item-qty')
-        const priceInput = row.querySelector('.item-price')
-        const totalDiv = row.querySelector('.item-total')
-        const removeBtn = row.querySelector('.btn-remove-item')
-        const dropdown = row.querySelector('.stock-dropdown')
-
-        const updateRowTotal = () => {
-          const qty = Number(qtyInput.value) || 1
-          const price = Number(priceInput.value) || 0
-          totalDiv.innerText = `₹${(qty * price).toLocaleString('en-IN')}`
-          calculateTotal()
-        }
-
-        nameInput.oninput = (e) => {
-          const query = e.target.value.toLowerCase()
-          if (query.length < 1) {
-            dropdown.classList.remove('show')
-            return
-          }
-
-          const matches = stockItems.filter(item =>
-            item.item_name.toLowerCase().includes(query)
-          )
-
-          if (matches.length === 0) {
-            dropdown.classList.remove('show')
-            return
-          }
-
-          dropdown.innerHTML = matches.map(item => {
-            const badge = item.quantity < 5? 'low' : 'ok'
-            return `
-              <div class="stock-item" data-name="${item.item_name}" data-price="${item.selling_price}" data-qty="${item.quantity}">
-                <div class="stock-item-name">${item.item_name}</div>
-                <div class="stock-item-details">
-                  Price: ₹${item.selling_price} |
-                  <span class="stock-badge ${badge}">Stock: ${item.quantity}</span>
-                </div>
-              </div>
-            `
-          }).join('')
-
-          dropdown.classList.add('show')
-
-          dropdown.querySelectorAll('.stock-item').forEach(item => {
-            item.onclick = () => {
-              nameInput.value = item.dataset.name
-              priceInput.value = item.dataset.price
-              qtyInput.value = 1
-              dropdown.classList.remove('show')
-              updateRowTotal()
-              qtyInput.focus()
-              qtyInput.select()
-            }
-          })
-        }
-
-        nameInput.onblur = () => {
-          setTimeout(() => dropdown.classList.remove('show'), 200)
-        }
-
-        qtyInput.onfocus = (e) => {
-          if (e.target.value === '0' || e.target.value === '') e.target.value = ''
-          e.target.select()
-        }
-
-        priceInput.onfocus = (e) => {
-          if (e.target.value === '0' || e.target.value === '') e.target.value = ''
-          e.target.select()
-        }
-
-        qtyInput.oninput = updateRowTotal
-        priceInput.oninput = updateRowTotal
-
-        removeBtn.onclick = () => {
-          if (row.id!== 'blankRow') {
-            row.remove()
-            calculateTotal()
-          }
-        }
-      })
-    }
-
-    function calculateTotal() {
-      let subtotal = 0
-      document.querySelectorAll('.item-row').forEach(row => {
-        const qty = Number(row.querySelector('.item-qty').value) || 1
-        const price = Number(row.querySelector('.item-price').value) || 0
-        subtotal += qty * price
-      })
-
-      const amountPaid = Number(document.getElementById('amountPaid').value) || 0
-      const balanceDue = subtotal - amountPaid
-
-      document.getElementById('subtotal').innerText = `₹${subtotal.toLocaleString('en-IN')}`
-      document.getElementById('balanceDue').innerText = `₹${balanceDue.toLocaleString('en-IN')}`
-    }
-
-    document.getElementById('addItemBtn').onclick = () => addItemRow()
-
-    document.getElementById('amountPaid').onfocus = (e) => {
-      if (e.target.value === '0') e.target.value = ''
-      e.target.select()
-    }
-
-    document.getElementById('amountPaid').oninput = calculateTotal
-
-    document.getElementById('paymentMode').onchange = (e) => {
-      if (e.target.value === 'Udhar') {
-        document.getElementById('amountPaid').value = ''
-        calculateTotal()
-      }
-    }
-
-    document.getElementById('saveBtn').onclick = async () => {
-      const customerName = document.getElementById('customerName').value.trim()
-      const customerPhone = document.getElementById('customerPhone').value.trim()
-      const invoiceDate = document.getElementById('invoiceDate').value
-      const paymentMode = document.getElementById('paymentMode').value
-      const amountPaid = Number(document.getElementById('amountPaid').value) || 0
-
-      if (!customerName) {
-        alert('Please enter customer name')
-        return
-      }
-
-      const items = []
-      let subtotal = 0
-      const stockUpdates = []
-
-      document.querySelectorAll('.item-row').forEach(row => {
-        const name = row.querySelector('.item-name').value.trim()
-        const qty = Number(row.querySelector('.item-qty').value) || 1
-        const price = Number(row.querySelector('.item-price').value) || 0
-        if (name && qty > 0) {
-          items.push({ name, qty, price })
-          subtotal += qty * price
-
-          // Case insensitive + trim search
-          const stockItem = stockItems.find(s =>
-            s.item_name.trim().toLowerCase() === name.toLowerCase()
-          )
-
-          if (stockItem) {
-            console.log(`Found in stock: ${stockItem.item_name}, Available: ${stockItem.quantity}, Selling: ${qty}`)
-            if (stockItem.quantity < qty) {
-              alert(`Insufficient stock for ${name}. Available: ${stockItem.quantity}, Required: ${qty}`)
-              throw new Error('Insufficient stock')
-            }
-            stockUpdates.push({
-              id: stockItem.id,
-              name: stockItem.item_name,
-              oldQty: stockItem.quantity,
-              newQty: stockItem.quantity - qty,
-              soldQty: qty
-            })
-          } else {
-            console.warn(`Item "${name}" not found in stock - skipping stock update`)
-          }
-        }
-      })
-
-      if (items.length === 0) {
-        alert('Please add at least one item')
-        return
-      }
-
-      const balanceDue = subtotal - amountPaid
-
-      document.getElementById('saveBtn').disabled = true
-      document.getElementById('saveBtn').innerText = 'Saving...'
-
-      try {
-        console.log('Stock updates to apply:', stockUpdates)
-
-        let { data: customer } = await supabase
+      if (!customer) {
+        const { data: newCustomer, error: custError } = await supabase
        .from('customers')
-       .select('id')
-       .eq('user_id', currentSession.user.id)
-       .eq('name', customerName)
-       .single()
-
-        if (!customer) {
-          const { data: newCustomer, error: custError } = await supabase
-         .from('customers')
-         .insert({
-              user_id: currentSession.user.id,
-              name: customerName,
-              phone: customerPhone || null
-            })
-         .select()
-         .single()
-
-          if (custError) throw custError
-          customer = newCustomer
-        }
-
-        const { data: invoice, error: invError } = await supabase
-       .from('invoices')
        .insert({
             user_id: currentSession.user.id,
-            customer_id: customer.id,
-            customer_name: customerName,
-            date: invoiceDate,
-            payment_type: paymentMode,
-            total_amount: subtotal,
-            amount_paid: amountPaid,
-            balance_due: balanceDue
+            name: customerName,
+            phone: customerPhone || null
           })
        .select()
        .single()
 
-        if (invError) throw invError
-        console.log('Invoice created:', invoice.id)
-
-        const invoiceItems = items.map(item => ({
-          invoice_id: invoice.id,
-          item_name: item.name,
-          quantity: item.qty,
-          price: item.price,
-          total: item.qty * item.price
-        }))
-
-        const { error: itemsError } = await supabase.from('invoice_items').insert(invoiceItems)
-        if (itemsError) throw itemsError
-        console.log('Invoice items saved')
-
-        // Update stock quantities
-        for (const update of stockUpdates) {
-          console.log(`Updating ${update.name}: ${update.oldQty} -> ${update.newQty}`)
-
-          const { data, error: stockError } = await supabase
-         .from('stock')
-         .update({ quantity: update.newQty })
-         .eq('id', update.id)
-         .select()
-
-          if (stockError) {
-            console.error(`Stock update failed for ${update.name}:`, stockError)
-            alert(`Stock update failed: ${stockError.message}`)
-            throw stockError
-          }
-          console.log(`Stock updated successfully for ${update.name}:`, data)
-        }
-
-        alert('Invoice saved successfully! Stock updated.')
-        window.location.reload()
-
-      } catch (error) {
-        console.error('Save error:', error)
-        if (error.message!== 'Insufficient stock') {
-          alert('Error saving invoice: ' + error.message)
-        }
-        document.getElementById('saveBtn').disabled = false
-        document.getElementById('saveBtn').innerText = 'Save Invoice'
+        if (custError) throw custError
+        customer = newCustomer
       }
-    }
 
-    initApp()
-  </script>
+      const { data: invoice, error: invError } = await supabase
+     .from('invoices')
+     .insert({
+          user_id: currentSession.user.id,
+          customer_id: customer.id,
+          customer_name: customerName,
+          date: invoiceDate,
+          payment_type: paymentMode,
+          total_amount: subtotal,
+          amount_paid: amountPaid,
+          balance_due: balanceDue
+        })
+     .select()
+     .single()
+
+      if (invError) throw invError
+      console.log('Invoice created:', invoice.id)
+
+      const invoiceItems = items.map(item => ({
+        invoice_id: invoice.id,
+        item_name: item.name,
+        quantity: item.qty,
+        price: item.price,
+        total: item.qty * item.price
+      }))
+
+      const { error: itemsError } = await supabase.from('invoice_items').insert(invoiceItems)
+      if (itemsError) throw itemsError
+      console.log('Invoice items saved')
+
+      for (const update of stockUpdates) {
+        console.log(`Updating ${update.name}: ${update.oldQty} -> ${update.newQty}`)
+
+        const { data, error: stockError } = await supabase
+       .from('stock')
+       .update({ quantity: update.newQty })
+       .eq('id', update.id)
+       .select()
+
+        if (stockError) {
+          console.error(`Stock update failed for ${update.name}:`, stockError)
+          alert(`Stock update failed: ${stockError.message}`)
+          throw stockError
+        }
+        console.log(`Stock updated successfully for ${update.name}:`, data)
+      }
+
+      alert('Invoice saved successfully! Stock updated.')
+      window.location.reload()
+
+    } catch (error) {
+      console.error('Save error:', error)
+      if (error.message!== 'Insufficient stock') {
+        alert('Error saving invoice: ' + error.message)
+      }
+      document.getElementById('saveBtn').disabled = false
+      document.getElementById('saveBtn').innerText = 'Save Invoice'
+    }
+  }
+
+  initApp()
+</script>
 </body>
 </html>
