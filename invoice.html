@@ -6,12 +6,12 @@
   <title>New Invoice - HISAB PRO V5</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-   .invoice-container {
+  .invoice-container {
       max-width: 900px;
       margin: 0 auto;
       padding: 20px;
     }
-   .header {
+  .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -19,16 +19,16 @@
       padding-bottom: 15px;
       border-bottom: 2px solid #eee;
     }
-   .header h1 {
+  .header h1 {
       margin: 0;
       color: #333;
     }
-   .user-info {
+  .user-info {
       display: flex;
       align-items: center;
       gap: 15px;
     }
-   .btn-back {
+  .btn-back {
       padding: 8px 16px;
       background: #f0f0f0;
       border: 1px solid #ddd;
@@ -36,7 +36,7 @@
       text-decoration: none;
       color: #333;
     }
-   .btn-logout {
+  .btn-logout {
       padding: 8px 16px;
       background: #ff4444;
       color: white;
@@ -44,38 +44,38 @@
       border-radius: 4px;
       cursor: pointer;
     }
-   .card {
+  .card {
       background: white;
       border-radius: 8px;
       padding: 20px;
       margin-bottom: 20px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-   .form-row {
+  .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
       margin-bottom: 15px;
     }
-   .form-group {
+  .form-group {
       display: flex;
       flex-direction: column;
     }
-   .form-group label {
+  .form-group label {
       margin-bottom: 5px;
       font-weight: 500;
       color: #555;
     }
-   .form-group input,.form-group select {
+  .form-group input,.form-group select {
       padding: 10px;
       border: 1px solid #ddd;
       border-radius: 4px;
       font-size: 14px;
     }
-   .items-section {
+  .items-section {
       margin: 20px 0;
     }
-   .items-header {
+  .items-header {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr 50px;
       gap: 10px;
@@ -84,7 +84,7 @@
       border-bottom: 2px solid #eee;
       margin-bottom: 10px;
     }
-   .item-row {
+  .item-row {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr 50px;
       gap: 10px;
@@ -92,17 +92,17 @@
       align-items: center;
       position: relative;
     }
-   .item-row input {
+  .item-row input {
       padding: 8px;
       border: 1px solid #ddd;
       border-radius: 4px;
     }
-   .item-total {
+  .item-total {
       text-align: right;
       font-weight: 500;
       padding: 8px;
     }
-   .btn-remove-item {
+  .btn-remove-item {
       background: #ff4444;
       color: white;
       border: none;
@@ -112,7 +112,7 @@
       cursor: pointer;
       font-size: 18px;
     }
-   .stock-dropdown {
+  .stock-dropdown {
       position: absolute;
       top: 100%;
       left: 0;
@@ -122,45 +122,45 @@
       border-radius: 4px;
       max-height: 200px;
       overflow-y: auto;
-      z-index: 100;
+      z-index: 9999;
       display: none;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-   .stock-dropdown.show {
+  .stock-dropdown.show {
       display: block;
     }
-   .stock-item {
+  .stock-item {
       padding: 10px;
       cursor: pointer;
       border-bottom: 1px solid #f0f0f0;
     }
-   .stock-item:hover {
+  .stock-item:hover {
       background: #f5f5f5;
     }
-   .stock-item-name {
+  .stock-item-name {
       font-weight: 500;
       color: #333;
     }
-   .stock-item-details {
+  .stock-item-details {
       font-size: 12px;
       color: #666;
       margin-top: 3px;
     }
-   .stock-badge {
+  .stock-badge {
       display: inline-block;
       padding: 2px 8px;
       border-radius: 3px;
       font-size: 11px;
     }
-   .stock-badge.ok {
+  .stock-badge.ok {
       background: #d4edda;
       color: #155724;
     }
-   .stock-badge.low {
+  .stock-badge.low {
       background: #fff3cd;
       color: #856404;
     }
-   .btn-add-item {
+  .btn-add-item {
       width: 100%;
       padding: 10px;
       background: #4CAF50;
@@ -171,18 +171,18 @@
       font-size: 14px;
       margin-top: 10px;
     }
-   .totals-section {
+  .totals-section {
       border-top: 2px solid #eee;
       padding-top: 15px;
       margin-top: 20px;
     }
-   .total-row {
+  .total-row {
       display: flex;
       justify-content: space-between;
       padding: 8px 0;
       font-size: 16px;
     }
-   .total-row.grand {
+  .total-row.grand {
       font-size: 20px;
       font-weight: 600;
       color: #4CAF50;
@@ -190,12 +190,12 @@
       margin-top: 10px;
       padding-top: 15px;
     }
-   .action-buttons {
+  .action-buttons {
       display: flex;
       gap: 10px;
       margin-top: 20px;
     }
-   .btn-save {
+  .btn-save {
       flex: 1;
       padding: 12px;
       background: #4CAF50;
@@ -206,7 +206,7 @@
       font-weight: 500;
       cursor: pointer;
     }
-   .btn-save:disabled {
+  .btn-save:disabled {
       background: #ccc;
       cursor: not-allowed;
     }
@@ -330,10 +330,10 @@
   async function loadStock() {
     console.log('Loading stock...')
     const { data, error } = await supabase
-   .from('stock')
-   .select('*')
-   .eq('user_id', currentSession.user.id)
-   .order('item_name')
+  .from('stock')
+  .select('*')
+  .eq('user_id', currentSession.user.id)
+  .order('item_name')
 
     if (error) {
       console.error('Stock load error:', error)
@@ -382,7 +382,7 @@
           item.item_name.toLowerCase().includes(query)
         )
 
-        console.log('Found matches:', matches)
+        console.log('Found matches:', matches.length)
 
         if (matches.length === 0) {
           dropdown.classList.remove('show')
@@ -573,30 +573,30 @@
       console.log('Stock updates to apply:', stockUpdates)
 
       let { data: customer } = await supabase
-     .from('customers')
-     .select('id')
-     .eq('user_id', currentSession.user.id)
-     .eq('name', customerName)
-     .single()
+    .from('customers')
+    .select('id')
+    .eq('user_id', currentSession.user.id)
+    .eq('name', customerName)
+    .single()
 
       if (!customer) {
         const { data: newCustomer, error: custError } = await supabase
-       .from('customers')
-       .insert({
+      .from('customers')
+      .insert({
             user_id: currentSession.user.id,
             name: customerName,
             phone: customerPhone || null
           })
-       .select()
-       .single()
+      .select()
+      .single()
 
         if (custError) throw custError
         customer = newCustomer
       }
 
       const { data: invoice, error: invError } = await supabase
-     .from('invoices')
-     .insert({
+    .from('invoices')
+    .insert({
           user_id: currentSession.user.id,
           customer_id: customer.id,
           customer_name: customerName,
@@ -606,8 +606,8 @@
           amount_paid: amountPaid,
           balance_due: balanceDue
         })
-     .select()
-     .single()
+    .select()
+    .single()
 
       if (invError) throw invError
       console.log('Invoice created:', invoice.id)
@@ -628,10 +628,10 @@
         console.log(`Updating ${update.name}: ${update.oldQty} -> ${update.newQty}`)
 
         const { data, error: stockError } = await supabase
-       .from('stock')
-       .update({ quantity: update.newQty })
-       .eq('id', update.id)
-       .select()
+      .from('stock')
+      .update({ quantity: update.newQty })
+      .eq('id', update.id)
+      .select()
 
         if (stockError) {
           console.error(`Stock update failed for ${update.name}:`, stockError)
