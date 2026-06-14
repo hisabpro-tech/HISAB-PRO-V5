@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Management - HISAB PRO V5</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+    body{background:#f5f7fb;color:#1a1a1a}
+    .nav{background:#1a1a1a;color:#fff;padding:0 20px;position:sticky;top:0;z-index:100}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+    .nav-brand{display:flex;align-items:center;padding:8px 0}
+    .nav-logo{height:32px;width:auto}
+    .nav-menu{display:flex;gap:24px;list-style:none}
+    .nav-menu a{color:#a0a0a0;text-decoration:none;font-size:14px;padding:16px 0;display:block}
+    .nav-menu a.active{color:#fff;border-bottom:2px solid #fff}
+    .container{max-width:1200px;margin:30px auto;padding:0 20px}
+    .card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:20px}
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
+    .form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+    .form-group input{width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:14px}
+    .btn{background:#1a1a1a;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer}
+    .btn:hover{background:#333}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px;text-align:left;border-bottom:1px solid #f0f0f0;font-size:14px}
+    th{background:#fafafa;font-weight:600;color:#666}
+    .low-stock{color:#ef4444;font-weight:600}
+    @media(max-width:768px){.nav-menu{gap:12px}.nav-logo{height:28px}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand"><img src="/logo.png" alt="HISAB PRO V5" class="nav-logo"></div>
+      <ul class="nav-menu">
+        <li><a href="/dashboard.html">Dashboard</a></li>
+        <li><a href="/invoice.html">Invoice</a></li>
+        <li><a href="/stock.html" class="active">Stock</a></li>
+        <li><a href="/customers.html">Customers</a></li>
+        <li><a href="/reports.html">Reports</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 style="margin-bottom:20px">Stock Management</h1>
+    
+    <div class="card">
+      <h3 style="margin-bottom:16px">Add / Update Stock</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Item Name</label>
+          <input type="text" id="itemName" placeholder="Parle-G">
+        </div>
+        <div class="form-group">
+          <label>Add Quantity</label>
+          <input type="number" id="quantity" placeholder="100">
+        </div>
+        <div class="form-group">
+          <label>Purchase Price ₹</label>
+          <input type="number" id="purchasePrice" placeholder="8">
+        </div>
+        <div class="form-group">
+          <label>Selling Price ₹</label>
+          <input type="number" id="sellingPrice" placeholder="10">
+        </div>
+      </div>
+      <button class="btn" onclick="addStock()">Save Stock</button>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:16px">Current Stock</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Quantity</th>
+            <th>Purchase Price</th>
+            <th>Selling Price</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody id="stockTable">
+          <tr><td colspan="5" style="text-align:center;color:#999">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<script>
+const SUPABASE_URL = 'https://kczpfgpfnkopdsdfkgde.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjenBmZ3BmbmtvcGRzZGZrZ2RlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3MDQ1MTMsImV4cCI6MjA5NTI4MDUxM30.yz6SAi7LA2XfRcJN1ssCN0tCzkcP5pWKo8tN0OV_QAc';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let currentUser = null;
+
+async function init() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return window.location.href = '/login.html';
+  currentUser = user;
+  loadStock();
+}
+
+async function loadStock() {
+  const { data, error } = await supabase.from('stock').select('*').eq('user_id', currentUser.id).order('item_name');
+  const tbody = document.getElementById('stockTable');
+  if (!data || data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#999">No stock added yet</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(item => `
+    <tr>
+      <td><strong>${item.item_name}</strong></td>
+      <td class="${item.quantity < 10 ? 'low-stock' : ''}">${item.quantity} ${item.quantity < 10 ? '⚠️' : ''}</td>
+      <td>₹${item.purchase_price}</td>
+      <td>₹${item.selling_price}</td>
+      <td>₹${(item.quantity * item.purchase_price).toFixed(2)}</td>
+    </tr>
+  `).join('');
+}
+
+async function addStock() {
+  const itemName = document.getElementById('itemName').value.trim();
+  const qty = parseInt(document.getElementById('quantity').value);
+  const purchase = parseFloat(document.getElementById('purchasePrice').value);
+  const selling = parseFloat(document.getElementById('sellingPrice').value);
+  
+  if (!itemName || !qty || !purchase || !selling) return alert('Sab fields bharo bhai');
+  
+  // Check if item exists
+  const { data: existing } = await supabase.from('stock').select('*').eq('user_id', currentUser.id).eq('item_name', itemName).single();
+  
+  if (existing) {
+    // Update: add quantity
+    await supabase.from('stock').update({
+      quantity: existing.quantity + qty,
+      purchase_price: purchase,
+      selling_price: selling
+    }).eq('id', existing.id);
+  } else {
+    // Insert new
+    await supabase.from('stock').insert({
+      user_id: currentUser.id,
+      item_name: itemName,
+      quantity: qty,
+      purchase_price: purchase,
+      selling_price: selling
+    });
+  }
+  
+  alert('Stock saved!');
+  document.getElementById('itemName').value = '';
+  document.getElementById('quantity').value = '';
+  document.getElementById('purchasePrice').value = '';
+  document.getElementById('sellingPrice').value = '';
+  loadStock();
+}
+
+init();
+</script>
+</body>
+</html>
