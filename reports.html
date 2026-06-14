@@ -7,59 +7,59 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:system-ui,-apple-system,sans-serif;background:#f0f2f5}
- .navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
- .nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
- .nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
- .nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
- .nav-links::-webkit-scrollbar{display:none}
- .nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
- .nav-link:hover{background:#15803d;color:#fff}
- .nav-link.active{background:#15803d;color:#fff}
- .nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
+.navbar{background:#16a34a;box-shadow:0 2px 8px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+.nav-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 12px;flex-wrap:wrap}
+.nav-brand{color:#fff;font-size:18px;font-weight:700;padding:12px 0;white-space:nowrap}
+.nav-links{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{color:#d1fae5;text-decoration:none;padding:14px 12px;display:block;font-weight:500;font-size:14px;transition:all.2s;white-space:nowrap}
+.nav-link:hover{background:#15803d;color:#fff}
+.nav-link.active{background:#15803d;color:#fff}
+.nav-user{display:flex;align-items:center;gap:8px;padding:8px 0}
     #userEmail{color:#d1fae5;font-size:12px;display:none}
- .btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
- .container{max-width:1200px;margin:0 auto;padding:20px 16px}
- .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
- .page-title{font-size:24px;font-weight:700}
- .header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
- .filter-group{display:flex;gap:4px;background:#fff;padding:4px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
- .filter-btn{padding:8px 14px;border:none;background:transparent;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;color:#6b7280;transition:all.2s}
- .filter-btn.active{background:#16a34a;color:#fff}
- .btn-export{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-weight:600;cursor:pointer}
- .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
- .stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #16a34a}
- .stat-card.udhar{border-left-color:#dc2626}
- .stat-label{font-size:13px;color:#6b7280;margin-bottom:8px}
- .stat-value{font-size:28px;font-weight:700;color:#111827}
- .stat-value.green{color:#16a34a}
- .stat-value.red{color:#dc2626}
- .table-wrapper{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto}
+.btn-logout{background:#dc2626;color:#fff;border:none;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+.container{max-width:1200px;margin:0 auto;padding:20px 16px}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.page-title{font-size:24px;font-weight:700}
+.header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filter-group{display:flex;gap:4px;background:#fff;padding:4px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.filter-btn{padding:8px 14px;border:none;background:transparent;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;color:#6b7280;transition:all.2s}
+.filter-btn.active{background:#16a34a;color:#fff}
+.btn-export{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-weight:600;cursor:pointer}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #16a34a}
+.stat-card.udhar{border-left-color:#dc2626}
+.stat-label{font-size:13px;color:#6b7280;margin-bottom:8px}
+.stat-value{font-size:28px;font-weight:700;color:#111827}
+.stat-value.green{color:#16a34a}
+.stat-value.red{color:#dc2626}
+.table-wrapper{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow-x:auto}
   table{width:100%;border-collapse:collapse}
   th{background:#f9fafb;padding:14px 12px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;border-bottom:2px solid #e5e7eb;white-space:nowrap}
   td{padding:14px 12px;border-bottom:1px solid #f3f4f6;font-size:14px}
   tr:last-child td{border-bottom:none}
   tr:hover{background:#f9fafb}
- .badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
- .badge-udhar{background:#fee2e2;color:#dc2626}
- .badge-cash{background:#dcfce7;color:#16a34a}
- .badge-upi{background:#dbeafe;color:#2563eb}
- .text-right{text-align:right}
- .amount{font-weight:600}
- .amount.red{color:#dc2626}
- .amount.green{color:#16a34a}
- .empty{padding:40px;text-align:center;color:#6b7280}
+.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block}
+.badge-udhar{background:#fee2e2;color:#dc2626}
+.badge-cash{background:#dcfce7;color:#16a34a}
+.badge-upi{background:#dbeafe;color:#2563eb}
+.text-right{text-align:right}
+.amount{font-weight:600}
+.amount.red{color:#dc2626}
+.amount.green{color:#16a34a}
+.empty{padding:40px;text-align:center;color:#6b7280}
     @media (max-width:768px){
-   .nav-container{padding:0 8px}
-   .nav-brand{font-size:16px;padding:10px 0}
-   .nav-links{width:100%;order:3;padding-bottom:4px}
-   .nav-link{padding:12px 10px;font-size:13px}
-   .btn-logout{padding:6px 10px;font-size:12px}
-   .stats-grid{grid-template-columns:1fr 1fr}
-   .stat-value{font-size:22px}
-   .header-actions{width:100%}
-   .filter-group{flex:1;overflow-x:auto}
-   .filter-btn{padding:6px 10px;font-size:12px}
-   th,td{padding:10px 8px;font-size:13px}
+  .nav-container{padding:0 8px}
+  .nav-brand{font-size:16px;padding:10px 0}
+  .nav-links{width:100%;order:3;padding-bottom:4px}
+  .nav-link{padding:12px 10px;font-size:13px}
+  .btn-logout{padding:6px 10px;font-size:12px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-value{font-size:22px}
+  .header-actions{width:100%}
+  .filter-group{flex:1;overflow-x:auto}
+  .filter-btn{padding:6px 10px;font-size:12px}
+  th,td{padding:10px 8px;font-size:13px}
     }
   </style>
 </head>
@@ -70,6 +70,7 @@
       <div class="nav-links">
         <a href="/dashboard.html" class="nav-link">Dashboard</a>
         <a href="/invoice.html" class="nav-link">New Invoice</a>
+        <a href="/stock.html" class="nav-link">Stock</a>
         <a href="/customers.html" class="nav-link">Customers</a>
         <a href="/reports.html" class="nav-link active">Reports</a>
         <a href="/downloads.html" class="nav-link">Downloads</a>
@@ -160,7 +161,6 @@
       window.location.replace('/login.html')
     }
 
-    // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
@@ -197,10 +197,10 @@
 
     async function loadReports() {
       const { data: invoices, error } = await supabase
-   .from('invoices')
-   .select('*')
-   .eq('user_id', currentSession.user.id)
-   .order('date', { ascending: false })
+  .from('invoices')
+  .select('*')
+  .eq('user_id', currentSession.user.id)
+  .order('date', { ascending: false })
 
       if (error) return console.error(error)
 
@@ -240,7 +240,6 @@
     function applyFilter() {
       const filtered = getFilteredInvoices()
       
-      // Calculate stats for filtered data
       let totalSales = 0, totalPaid = 0, totalUdhar = 0
       const udharCustomers = new Set()
 
@@ -258,7 +257,6 @@
       document.getElementById('totalUdhar').innerText = `₹${totalUdhar.toLocaleString('en-IN')}`
       document.getElementById('udharCount').innerText = udharCustomers.size
 
-      // Render table
       const list = document.getElementById('invoiceList')
       if (filtered.length === 0) {
         list.innerHTML = '<tr><td colspan="6" class="empty">No invoices found</td></tr>'

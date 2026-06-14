@@ -28,7 +28,7 @@
 .form-group input:read-only{background:#f9fafb;color:#6b7280;cursor:not-allowed}
 .form-group input::placeholder{color:#9ca3af}
 .items-header{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;padding:0 4px;font-size:13px;font-weight:600;color:#6b7280}
-.item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;align-items:center}
+.item-row{display:grid;grid-template-columns:2fr 80px 100px 100px 40px;gap:12px;margin-bottom:12px;align-items:center;position:relative}
 .item-row input{padding:10px 12px;border:2px solid #e5e7eb;border-radius:8px;font-size:15px}
 .item-row input::placeholder{color:#9ca3af}
 .item-total{font-weight:600;text-align:right;padding:10px 0}
@@ -42,7 +42,16 @@
 .btn-save{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:14px;width:100%;cursor:pointer;font-weight:700;font-size:16px;margin-top:20px}
 .btn-save:hover{background:#15803d}
 .btn-save:disabled{background:#9ca3af;cursor:not-allowed}
-
+.stock-dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:2px solid #16a34a;border-radius:8px;margin-top:4px;max-height:200px;overflow-y:auto;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,.1);display:none}
+.stock-dropdown.show{display:block}
+.stock-item{padding:10px 12px;cursor:pointer;border-bottom:1px solid #f3f4f6}
+.stock-item:hover{background:#f0fdf4}
+.stock-item:last-child{border-bottom:none}
+.stock-item-name{font-weight:600;color:#111827}
+.stock-item-details{font-size:12px;color:#6b7280;margin-top:2px}
+.stock-badge{font-size:11px;padding:2px 6px;border-radius:4px;font-weight:600}
+.stock-badge.low{background:#fee2e2;color:#dc2626}
+.stock-badge.ok{background:#dcfce7;color:#16a34a}
 @media (max-width:768px){
 .nav-container{padding:0 8px}
 .nav-brand{font-size:16px;padding:10px 0}
@@ -73,6 +82,7 @@
       <div class="nav-links">
         <a href="/dashboard.html" class="nav-link">Dashboard</a>
         <a href="/invoice.html" class="nav-link active">New Invoice</a>
+        <a href="/stock.html" class="nav-link">Stock</a>
         <a href="/customers.html" class="nav-link">Customers</a>
         <a href="/reports.html" class="nav-link">Reports</a>
         <a href="/downloads.html" class="nav-link">Downloads</a>
@@ -125,11 +135,12 @@
         </div>
         <div id="itemsList">
           <div class="item-row" id="blankRow">
-            <input type="text" placeholder="Item name" class="item-name" value="">
+            <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
             <input type="number" placeholder="Qty" class="item-qty" min="1">
             <input type="number" placeholder="Price" class="item-price" min="0">
             <div class="item-total">₹0</div>
             <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
+            <div class="stock-dropdown"></div>
           </div>
         </div>
         <button type="button" class="btn-add-item" id="addItemBtn">+ Add Item</button>
@@ -158,12 +169,14 @@
     import { supabase } from './js/supabaseClient.js'
 
     let currentSession = null
+    let stockItems = []
 
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') return window.location.replace('/login.html')
       if (session) {
         currentSession = session
         document.getElementById('userEmail').innerText = session.user.email
+        loadStock()
       }
     })
 
@@ -173,12 +186,22 @@
       currentSession = session
       document.getElementById('userEmail').innerText = session.user.email
       document.getElementById('invoiceDate').value = new Date().toISOString().split('T')[0]
+      await loadStock()
       attachItemListeners()
     }
 
     document.getElementById('logoutBtn').onclick = async () => {
       await supabase.auth.signOut()
       window.location.replace('/login.html')
+    }
+
+    async function loadStock() {
+      const { data } = await supabase
+       .from('stock')
+       .select('*')
+       .eq('user_id', currentSession.user.id)
+       .order('item_name')
+      stockItems = data || []
     }
 
     function addItemRow() {
@@ -193,22 +216,24 @@
 
         const newBlankHTML = `
           <div class="item-row" id="blankRow">
-            <input type="text" placeholder="Item name" class="item-name" value="">
+            <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
             <input type="number" placeholder="Qty" class="item-qty" min="1">
             <input type="number" placeholder="Price" class="item-price" min="0">
             <div class="item-total">₹0</div>
             <button type="button" class="btn-remove-item" style="visibility:hidden">×</button>
+            <div class="stock-dropdown"></div>
           </div>
         `
         document.getElementById('itemsList').insertAdjacentHTML('afterbegin', newBlankHTML)
       } else {
         const itemHTML = `
           <div class="item-row">
-            <input type="text" placeholder="Item name" class="item-name" value="">
+            <input type="text" placeholder="Item name" class="item-name" value="" autocomplete="off">
             <input type="number" placeholder="Qty" class="item-qty" min="1">
             <input type="number" placeholder="Price" class="item-price" min="0">
             <div class="item-total">₹0</div>
             <button type="button" class="btn-remove-item">×</button>
+            <div class="stock-dropdown"></div>
           </div>
         `
         blankRow.insertAdjacentHTML('afterend', itemHTML)
@@ -220,10 +245,12 @@
 
     function attachItemListeners() {
       document.querySelectorAll('.item-row').forEach(row => {
+        const nameInput = row.querySelector('.item-name')
         const qtyInput = row.querySelector('.item-qty')
         const priceInput = row.querySelector('.item-price')
         const totalDiv = row.querySelector('.item-total')
         const removeBtn = row.querySelector('.btn-remove-item')
+        const dropdown = row.querySelector('.stock-dropdown')
 
         const updateRowTotal = () => {
           const qty = Number(qtyInput.value) || 1
@@ -232,17 +259,62 @@
           calculateTotal()
         }
 
-        qtyInput.onfocus = (e) => {
-          if (e.target.value === '0' || e.target.value === '') {
-            e.target.value = ''
+        // Stock autocomplete
+        nameInput.oninput = (e) => {
+          const query = e.target.value.toLowerCase()
+          if (query.length < 1) {
+            dropdown.classList.remove('show')
+            return
           }
+
+          const matches = stockItems.filter(item =>
+            item.item_name.toLowerCase().includes(query)
+          )
+
+          if (matches.length === 0) {
+            dropdown.classList.remove('show')
+            return
+          }
+
+          dropdown.innerHTML = matches.map(item => {
+            const badge = item.quantity < 5? 'low' : 'ok'
+            return `
+              <div class="stock-item" data-name="${item.item_name}" data-price="${item.selling_price}" data-qty="${item.quantity}">
+                <div class="stock-item-name">${item.item_name}</div>
+                <div class="stock-item-details">
+                  Price: ₹${item.selling_price} |
+                  <span class="stock-badge ${badge}">Stock: ${item.quantity}</span>
+                </div>
+              </div>
+            `
+          }).join('')
+
+          dropdown.classList.add('show')
+
+          dropdown.querySelectorAll('.stock-item').forEach(item => {
+            item.onclick = () => {
+              nameInput.value = item.dataset.name
+              priceInput.value = item.dataset.price
+              qtyInput.value = 1
+              dropdown.classList.remove('show')
+              updateRowTotal()
+              qtyInput.focus()
+              qtyInput.select()
+            }
+          })
+        }
+
+        nameInput.onblur = () => {
+          setTimeout(() => dropdown.classList.remove('show'), 200)
+        }
+
+        qtyInput.onfocus = (e) => {
+          if (e.target.value === '0' || e.target.value === '') e.target.value = ''
           e.target.select()
         }
 
         priceInput.onfocus = (e) => {
-          if (e.target.value === '0' || e.target.value === '') {
-            e.target.value = ''
-          }
+          if (e.target.value === '0' || e.target.value === '') e.target.value = ''
           e.target.select()
         }
 
@@ -303,6 +375,8 @@
 
       const items = []
       let subtotal = 0
+      const stockUpdates = []
+
       document.querySelectorAll('.item-row').forEach(row => {
         const name = row.querySelector('.item-name').value.trim()
         const qty = Number(row.querySelector('.item-qty').value) || 1
@@ -310,6 +384,16 @@
         if (name && qty > 0) {
           items.push({ name, qty, price })
           subtotal += qty * price
+
+          // Check if item exists in stock
+          const stockItem = stockItems.find(s => s.item_name.toLowerCase() === name.toLowerCase())
+          if (stockItem) {
+            if (stockItem.quantity < qty) {
+              alert(`Insufficient stock for ${name}. Available: ${stockItem.quantity}, Required: ${qty}`)
+              throw new Error('Insufficient stock')
+            }
+            stockUpdates.push({ id: stockItem.id, newQty: stockItem.quantity - qty })
+          }
         }
       })
 
@@ -325,28 +409,28 @@
 
       try {
         let { data: customer } = await supabase
-.from('customers')
-.select('id')
-.eq('user_id', currentSession.user.id)
-.eq('name', customerName)
-.single()
+         .from('customers')
+         .select('id')
+         .eq('user_id', currentSession.user.id)
+         .eq('name', customerName)
+         .single()
 
         if (!customer) {
           const { data: newCustomer } = await supabase
-.from('customers')
-.insert({
+           .from('customers')
+           .insert({
               user_id: currentSession.user.id,
               name: customerName,
               phone: customerPhone || null
             })
-.select()
-.single()
+           .select()
+           .single()
           customer = newCustomer
         }
 
         const { data: invoice } = await supabase
-.from('invoices')
-.insert({
+         .from('invoices')
+         .insert({
             user_id: currentSession.user.id,
             customer_id: customer.id,
             customer_name: customerName,
@@ -356,8 +440,8 @@
             amount_paid: amountPaid,
             balance_due: balanceDue
           })
-.select()
-.single()
+         .select()
+         .single()
 
         const invoiceItems = items.map(item => ({
           invoice_id: invoice.id,
@@ -369,12 +453,22 @@
 
         await supabase.from('invoice_items').insert(invoiceItems)
 
-        alert('Invoice saved successfully!')
+        // Update stock quantities
+        for (const update of stockUpdates) {
+          await supabase
+           .from('stock')
+           .update({ quantity: update.newQty })
+           .eq('id', update.id)
+        }
+
+        alert('Invoice saved successfully! Stock updated.')
         window.location.reload()
 
       } catch (error) {
-        console.error(error)
-        alert('Error saving invoice: ' + error.message)
+        if (error.message!== 'Insufficient stock') {
+          console.error(error)
+          alert('Error saving invoice: ' + error.message)
+        }
         document.getElementById('saveBtn').disabled = false
         document.getElementById('saveBtn').innerText = 'Save Invoice'
       }

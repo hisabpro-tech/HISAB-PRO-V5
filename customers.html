@@ -50,14 +50,14 @@
 .btn-delete{background:#dc2626;color:#fff}
 .empty{padding:40px;text-align:center;color:#6b7280}
     @media (max-width:768px){
-  .nav-container{padding:0 8px}
-  .nav-brand{font-size:16px;padding:10px 0}
-  .nav-links{width:100%;order:3;padding-bottom:4px}
-  .nav-link{padding:12px 10px;font-size:13px}
-  .btn-logout{padding:6px 10px;font-size:12px}
-  .search-box{width:100%}
+ .nav-container{padding:0 8px}
+ .nav-brand{font-size:16px;padding:10px 0}
+ .nav-links{width:100%;order:3;padding-bottom:4px}
+ .nav-link{padding:12px 10px;font-size:13px}
+ .btn-logout{padding:6px 10px;font-size:12px}
+ .search-box{width:100%}
     th,td{padding:10px 8px;font-size:13px}
-  .btn{padding:5px 10px;font-size:11px}
+ .btn{padding:5px 10px;font-size:11px}
     }
   </style>
 </head>
@@ -68,6 +68,7 @@
       <div class="nav-links">
         <a href="/dashboard.html" class="nav-link">Dashboard</a>
         <a href="/invoice.html" class="nav-link">New Invoice</a>
+        <a href="/stock.html" class="nav-link">Stock</a>
         <a href="/customers.html" class="nav-link active">Customers</a>
         <a href="/reports.html" class="nav-link">Reports</a>
         <a href="/downloads.html" class="nav-link">Downloads</a>
@@ -156,12 +157,11 @@
     async function loadCustomers() {
       const today = new Date().toISOString().split('T')[0]
 
-      // 1. Today's stats
       const { data: todayInvoices } = await supabase
-    .from('invoices')
-    .select('total_amount,amount_paid,balance_due')
-    .eq('user_id', currentSession.user.id)
-    .eq('date', today)
+   .from('invoices')
+   .select('total_amount,amount_paid,balance_due')
+   .eq('user_id', currentSession.user.id)
+   .eq('date', today)
 
       let todaySale = 0, todayCollection = 0, totalUdharAll = 0
       if (todayInvoices) {
@@ -171,12 +171,11 @@
         })
       }
 
-      // 2. All invoices grouped by customer
       const { data: allInvoices } = await supabase
-    .from('invoices')
-    .select('*')
-    .eq('user_id', currentSession.user.id)
-    .order('date', { ascending: false })
+   .from('invoices')
+   .select('*')
+   .eq('user_id', currentSession.user.id)
+   .order('date', { ascending: false })
 
       const customerMap = {}
       if (allInvoices) {
@@ -203,7 +202,6 @@
         })
       }
 
-      // 3. Convert to array + Sort: Udhar wale top pe
       allCustomers = Object.values(customerMap).sort((a, b) => {
         if (b.totalUdhar!== a.totalUdhar) return b.totalUdhar - a.totalUdhar
         return b.totalBusiness - a.totalBusiness
@@ -229,7 +227,7 @@
         const hasUdhar = c.totalUdhar > 0
         const rowClass = hasUdhar? 'udhar-row' : ''
         const badge = hasUdhar
-       ? `<span class="badge badge-udhar">₹${c.totalUdhar.toLocaleString('en-IN')} Udhar</span>`
+      ? `<span class="badge badge-udhar">₹${c.totalUdhar.toLocaleString('en-IN')} Udhar</span>`
           : `<span class="badge badge-clear">Clear</span>`
 
         return `
@@ -255,7 +253,6 @@
       }).join('')
     }
 
-    // Global functions for buttons
     window.collectPayment = async (customerName, amount) => {
       const paid = prompt(`Collect payment from ${customerName}\nPending: ₹${amount.toLocaleString('en-IN')}\n\nEnter amount:`, amount)
       if (!paid || isNaN(paid) || paid <= 0) return
@@ -266,14 +263,13 @@
         return
       }
 
-      // Get all pending invoices for this customer
       const { data: invoices } = await supabase
-      .from('invoices')
-      .select('*')
-      .eq('user_id', currentSession.user.id)
-      .eq('customer_name', customerName)
-      .gt('balance_due', 0)
-      .order('date', { ascending: true })
+     .from('invoices')
+     .select('*')
+     .eq('user_id', currentSession.user.id)
+     .eq('customer_name', customerName)
+     .gt('balance_due', 0)
+     .order('date', { ascending: true })
 
       let remaining = collectAmount
       for (const inv of invoices) {
@@ -283,9 +279,9 @@
         const newBalance = inv.total_amount - newPaid
 
         await supabase
-        .from('invoices')
-        .update({ amount_paid: newPaid, balance_due: newBalance })
-        .eq('id', inv.id)
+       .from('invoices')
+       .update({ amount_paid: newPaid, balance_due: newBalance })
+       .eq('id', inv.id)
 
         remaining -= payThis
       }
@@ -298,10 +294,10 @@
       if (!confirm(`Delete all invoices for ${customerName}?\nThis cannot be undone!`)) return
 
       const { error } = await supabase
-      .from('invoices')
-      .delete()
-      .eq('user_id', currentSession.user.id)
-      .eq('customer_name', customerName)
+     .from('invoices')
+     .delete()
+     .eq('user_id', currentSession.user.id)
+     .eq('customer_name', customerName)
 
       if (error) {
         alert('Error deleting: ' + error.message)
