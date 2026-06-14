@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -197,10 +198,10 @@
 
     async function loadStock() {
       const { data, error } = await supabase
-      .from('stock')
-      .select('*')
-      .eq('user_id', currentSession.user.id)
-      .order('item_name')
+     .from('stock')
+     .select('*')
+     .eq('user_id', currentSession.user.id)
+     .order('item_name')
 
       if (error) {
         console.error('Stock load error:', error)
@@ -391,9 +392,13 @@
           items.push({ name, qty, price })
           subtotal += qty * price
 
-          const stockItem = stockItems.find(s => s.item_name.toLowerCase() === name.toLowerCase())
+          // Case insensitive + trim search
+          const stockItem = stockItems.find(s =>
+            s.item_name.trim().toLowerCase() === name.toLowerCase()
+          )
+
           if (stockItem) {
-            console.log(`Stock check: ${name} - Available: ${stockItem.quantity}, Required: ${qty}`)
+            console.log(`Found in stock: ${stockItem.item_name}, Available: ${stockItem.quantity}, Selling: ${qty}`)
             if (stockItem.quantity < qty) {
               alert(`Insufficient stock for ${name}. Available: ${stockItem.quantity}, Required: ${qty}`)
               throw new Error('Insufficient stock')
@@ -406,7 +411,7 @@
               soldQty: qty
             })
           } else {
-            console.log(`Item ${name} not found in stock - skipping stock update`)
+            console.warn(`Item "${name}" not found in stock - skipping stock update`)
           }
         }
       })
@@ -425,30 +430,30 @@
         console.log('Stock updates to apply:', stockUpdates)
 
         let { data: customer } = await supabase
-        .from('customers')
-        .select('id')
-        .eq('user_id', currentSession.user.id)
-        .eq('name', customerName)
-        .single()
+       .from('customers')
+       .select('id')
+       .eq('user_id', currentSession.user.id)
+       .eq('name', customerName)
+       .single()
 
         if (!customer) {
           const { data: newCustomer, error: custError } = await supabase
-          .from('customers')
-          .insert({
+         .from('customers')
+         .insert({
               user_id: currentSession.user.id,
               name: customerName,
               phone: customerPhone || null
             })
-          .select()
-          .single()
+         .select()
+         .single()
 
           if (custError) throw custError
           customer = newCustomer
         }
 
         const { data: invoice, error: invError } = await supabase
-        .from('invoices')
-        .insert({
+       .from('invoices')
+       .insert({
             user_id: currentSession.user.id,
             customer_id: customer.id,
             customer_name: customerName,
@@ -458,8 +463,8 @@
             amount_paid: amountPaid,
             balance_due: balanceDue
           })
-        .select()
-        .single()
+       .select()
+       .single()
 
         if (invError) throw invError
         console.log('Invoice created:', invoice.id)
@@ -480,16 +485,18 @@
         for (const update of stockUpdates) {
           console.log(`Updating ${update.name}: ${update.oldQty} -> ${update.newQty}`)
 
-          const { error: stockError } = await supabase
-          .from('stock')
-          .update({ quantity: update.newQty })
-          .eq('id', update.id)
+          const { data, error: stockError } = await supabase
+         .from('stock')
+         .update({ quantity: update.newQty })
+         .eq('id', update.id)
+         .select()
 
           if (stockError) {
             console.error(`Stock update failed for ${update.name}:`, stockError)
+            alert(`Stock update failed: ${stockError.message}`)
             throw stockError
           }
-          console.log(`Stock updated successfully for ${update.name}`)
+          console.log(`Stock updated successfully for ${update.name}:`, data)
         }
 
         alert('Invoice saved successfully! Stock updated.')
